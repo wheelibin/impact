@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-
-using UIKit;
-
 using CocosSharp;
-using Impact.Shared;
-
+using UIKit;
+using Impact.Game;
 
 namespace Impact.iOS
 {
@@ -23,7 +19,7 @@ namespace Impact.iOS
             if (GameView != null)
             {
                 // Set loading event to be called once game view is fully initialised
-                GameView.ViewCreated += GameDelegate.LoadGame;
+                GameView.ViewCreated += LoadGame;
             }
         }
 
@@ -49,6 +45,15 @@ namespace Impact.iOS
             // Release any cached data, images, etc that aren't in use.
         }
 
+        private void LoadGame(object sender, EventArgs e)
+        {
+            CCGameView gameView = sender as CCGameView;
+
+            if (gameView != null)
+            {
+                GameController.Initialize(gameView);
+            }
+        }
     }    
 }
 

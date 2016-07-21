@@ -3,20 +3,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Impact.Shared", "Impact\Impact.Shared\Impact.Shared.shproj", "{7A1A9E7F-D955-4CFE-95BE-A722906E8B77}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Impact.Game", "Impact\Impact.Game\Impact.Game.shproj", "{7A1A9E7F-D955-4CFE-95BE-A722906E8B77}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Impact.WP81", "Impact\Impact.WP81\Impact.WP81.csproj", "{ABAF1F1A-214B-46DC-9291-E1D5CFA9F3D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Impact.Droid", "Impact\Impact.Droid\Impact.Droid.csproj", "{AC595BA6-99A1-4251-98C6-FA130872BDCD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Impact.Android", "Impact\Impact.Droid\Impact.Android.csproj", "{AC595BA6-99A1-4251-98C6-FA130872BDCD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Impact.iOS", "Impact\Impact.iOS\Impact.iOS.csproj", "{EA9D3B87-D779-4CE2-801E-17106B95720D}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Impact\Impact.Shared\EmptyProject.Shared.projitems*{ac595ba6-99a1-4251-98c6-fa130872bdcd}*SharedItemsImports = 4
-		Impact\Impact.Shared\EmptyProject.Shared.projitems*{7a1a9e7f-d955-4cfe-95be-a722906e8b77}*SharedItemsImports = 13
-		Impact\Impact.Shared\EmptyProject.Shared.projitems*{ea9d3b87-d779-4ce2-801e-17106b95720d}*SharedItemsImports = 4
-		Impact\Impact.Shared\EmptyProject.Shared.projitems*{abaf1f1a-214b-46dc-9291-e1d5cfa9f3d8}*SharedItemsImports = 4
+		Impact\Impact.Game\EmptyProject.Shared.projitems*{ac595ba6-99a1-4251-98c6-fa130872bdcd}*SharedItemsImports = 4
+		Impact\Impact.Game\EmptyProject.Shared.projitems*{7a1a9e7f-d955-4cfe-95be-a722906e8b77}*SharedItemsImports = 13
+		Impact\Impact.Game\EmptyProject.Shared.projitems*{ea9d3b87-d779-4ce2-801e-17106b95720d}*SharedItemsImports = 4
+		Impact\Impact.Game\EmptyProject.Shared.projitems*{abaf1f1a-214b-46dc-9291-e1d5cfa9f3d8}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

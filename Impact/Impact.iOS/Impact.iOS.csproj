@@ -21,8 +21,19 @@
     <ConsolePause>false</ConsolePause>
     <MtouchArch>i386</MtouchArch>
     <MtouchLink>None</MtouchLink>
-    <MtouchDebug>true</MtouchDebug>
-    <MtouchProfiling>true</MtouchProfiling>
+    <MtouchDebug>True</MtouchDebug>
+    <MtouchProfiling>False</MtouchProfiling>
+    <MtouchSdkVersion>9.3</MtouchSdkVersion>
+    <MtouchFastDev>True</MtouchFastDev>
+    <MtouchUseLlvm>False</MtouchUseLlvm>
+    <MtouchUseThumb>False</MtouchUseThumb>
+    <MtouchEnableBitcode>False</MtouchEnableBitcode>
+    <MtouchUseSGen>False</MtouchUseSGen>
+    <MtouchUseRefCounting>False</MtouchUseRefCounting>
+    <OptimizePNGs>True</OptimizePNGs>
+    <MtouchTlsProvider>Default</MtouchTlsProvider>
+    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <MtouchFloat32>False</MtouchFloat32>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -71,11 +82,24 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <BundleResource Include="Content\Levels\level001.tmx" />
+    <BundleResource Include="Content\Levels\level002.tmx" />
+    <BundleResource Include="Content\Levels\level003.tmx" />
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Images\Ld\Spritesheets\GameEntities.plist" />
+    <BundleResource Include="Content\Images\Ld\Spritesheets\GameEntities.png" />
+    <BundleResource Include="Content\Sounds\massive-banzai23\As3.mp3" />
+    <BundleResource Include="Content\Sounds\massive-banzai23\A3.mp3" />
+    <BundleResource Include="Content\Sounds\massive-banzai23\C3.mp3" />
+    <BundleResource Include="Content\Sounds\massive-banzai23\D3.mp3" />
+    <BundleResource Include="Content\Sounds\massive-banzai23\D4.mp3" />
+    <BundleResource Include="Content\Sounds\massive-banzai23\E3.mp3" />
+    <BundleResource Include="Content\Sounds\massive-banzai23\F3.mp3" />
+    <BundleResource Include="Content\Sounds\massive-banzai23\G3.mp3" />
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
@@ -85,38 +109,39 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Images\Hd\" />
-    <Folder Include="Content\Images\Ld\" />
-    <Folder Include="Content\Sounds\" />
-  </ItemGroup>
-  <ItemGroup>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="box2d, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\CocosSharp.1.7.0.0-pre1\lib\Xamarin.iOS10\box2d.dll</HintPath>
+      <HintPath>..\..\packages\CocosSharp.1.7.1.0\lib\Xamarin.iOS10\box2d.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="CocosSharp, Version=1.7.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\CocosSharp.1.7.0.0-pre1\lib\Xamarin.iOS10\CocosSharp.dll</HintPath>
+    <Reference Include="CocosSharp, Version=1.7.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CocosSharp.1.7.1.0\lib\Xamarin.iOS10\CocosSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Lidgren.Network, Version=2012.1.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\CocosSharp.1.7.0.0-pre1\lib\Xamarin.iOS10\Lidgren.Network.dll</HintPath>
+      <HintPath>..\..\packages\CocosSharp.1.7.1.0\lib\Xamarin.iOS10\Lidgren.Network.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="MonoGame.Framework, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\CocosSharp.1.7.0.0-pre1\lib\Xamarin.iOS10\MonoGame.Framework.dll</HintPath>
+      <HintPath>..\..\packages\CocosSharp.1.7.1.0\lib\Xamarin.iOS10\MonoGame.Framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MonoGame.Framework.Net, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\CocosSharp.1.7.0.0-pre1\lib\Xamarin.iOS10\MonoGame.Framework.Net.dll</HintPath>
+      <HintPath>..\..\packages\CocosSharp.1.7.1.0\lib\Xamarin.iOS10\MonoGame.Framework.Net.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="OpenTK-1.0" />
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
+    <Reference Include="TiledSharp, Version=0.15.5889.20321, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\TiledSharp.0.15\lib\TiledSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
-  <Import Project="..\Impact.Shared\EmptyProject.Shared.projitems" Label="Shared" />
+  <Import Project="..\Impact.Game\EmptyProject.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

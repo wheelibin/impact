@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("Impact.Droid.Resource", IsApplication=true)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("Impact.Android.Resource", IsApplication=true)]
 
-namespace Impact.Droid
+namespace Impact.Android
 {
 	
 	

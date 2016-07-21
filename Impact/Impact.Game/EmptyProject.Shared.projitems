@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>7a1a9e7f-d955-4cfe-95be-a722906e8b77</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Impact</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)CollisionDetection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\GameConstants.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\Ball.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\Brick.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\Bullet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\MenuButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\Paddle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\Powerups\FireballPowerup.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\Powerups\IPowerup.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\Powerups\LargerPaddlePowerup.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\Powerups\MultiBallPowerup.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\Powerups\Powerup.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\Rocket.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\BrickTypeEnum.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\PowerUpTypeEnum.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Factories\BallFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Factories\BrickFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Factories\PowerupFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LevelManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Brick.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\LevelProperties.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Scenes\GameScene.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Scenes\LevelSelectScene.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Scenes\TitleScene.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Content\Fonts\visitor1.ttf" />
+  </ItemGroup>
+</Project>

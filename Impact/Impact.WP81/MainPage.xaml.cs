@@ -17,7 +17,7 @@ using MonoGame.Framework;
 
 using CocosSharp;
 
-using Impact.Shared;
+using Impact.Game;
 
 namespace Impact.WP81
 {
@@ -32,7 +32,7 @@ namespace Impact.WP81
 
             this.NavigationCacheMode = NavigationCacheMode.Required;
 
-            GameView.ViewCreated += GameDelegate.LoadGame;
+            GameView.ViewCreated += LoadGame;
         }
 
         /// <summary>
@@ -51,5 +51,14 @@ namespace Impact.WP81
             // this event is handled for you.
         }
 
+        private void LoadGame(object sender, EventArgs e)
+        {
+            CCGameView gameView = sender as CCGameView;
+
+            if (gameView != null)
+            {
+                GameController.Initialize(gameView);
+            }
+        }
     }
 }
