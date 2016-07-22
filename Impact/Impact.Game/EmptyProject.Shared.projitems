@@ -9,7 +9,6 @@
     <Import_RootNamespace>Impact</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)CollisionDetection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\GameConstants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\Ball.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\Brick.cs" />
@@ -28,9 +27,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Factories\BrickFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Factories\PowerupFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)GameManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)LevelManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\Brick.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Managers\CollisionManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Managers\GameManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Managers\LevelManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\LevelProperties.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Scenes\GameScene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Scenes\LevelSelectScene.cs" />

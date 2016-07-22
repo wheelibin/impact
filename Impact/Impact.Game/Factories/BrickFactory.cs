@@ -22,13 +22,7 @@ namespace Impact.Game.Factories
             BrickCreated?.Invoke(newBrick);
             return newBrick;
         }
-
-        public Brick CreateNew(CCSprite sprite, CCPoint position)
-        {
-            Brick newBrick = new Brick(sprite, position);
-            BrickCreated?.Invoke(newBrick);
-            return newBrick;
-        }
+        
         public void DestroyBrick(Brick brick)
         {
             BrickDestroyed?.Invoke(brick);

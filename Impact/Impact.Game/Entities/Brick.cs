@@ -1,4 +1,5 @@
 ﻿using CocosSharp;
+using Impact.Game.Config;
 using Impact.Game.Entities.Powerups;
 using Impact.Game.Enums;
 using Impact.Game.Factories;
@@ -16,6 +17,9 @@ namespace Impact.Game.Entities
 
         public Brick(string spriteImageFilename, CCPoint position, float scale, int hitsToDestroy, Powerup powerup)
         {
+
+            BrickType = hitsToDestroy == -1 ? BrickType.Indistructible : BrickType.Normal;
+
             var frame = GameManager.Instance.SpriteSheet.Frames.Find(item => item.TextureFilename == spriteImageFilename);
             _sprite = new CCSprite(frame)
             {
@@ -23,7 +27,18 @@ namespace Impact.Game.Entities
             };
             AddChild(_sprite);
 
-            ContentSize = _sprite.ContentSize;
+            if (BrickType == BrickType.Indistructible)
+            {
+                //hack to prevent balls from squeezing through indestructable brick gaps
+                var size = _sprite.ContentSize;
+                size.Width += GameConstants.BrickGap;
+                ContentSize = size;
+            }
+            else
+            {
+                ContentSize = _sprite.ContentSize;
+            }
+            
             AnchorPoint = CCPoint.AnchorLowerLeft;
             PositionX = position.X;
             PositionY = position.Y;
@@ -31,20 +46,8 @@ namespace Impact.Game.Entities
             ScaleY = scale;
 
             HitsToDestroy = hitsToDestroy;
-            BrickType = hitsToDestroy == -1 ? BrickType.Indistructible : BrickType.Normal;
             Powerup = powerup;
             HitsTaken = 0;
-        }
-
-        public Brick(CCSprite sprite, CCPoint position)
-        {
-            _sprite = sprite;
-            AddChild(_sprite);
-
-            ContentSize = _sprite.ContentSize;
-            AnchorPoint = CCPoint.AnchorLowerLeft;
-            PositionX = position.X;
-            PositionY = position.Y;
         }
 
         public bool Hit()

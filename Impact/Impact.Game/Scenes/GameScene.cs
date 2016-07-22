@@ -207,6 +207,8 @@ namespace Impact.Scenes
 
         private void LoadLevel(int level)
         {
+            _bricks.ForEach(b => b.RemoveFromParent());
+            _bricks.Clear();
             LevelManager.Instance.LoadLevel(level, _paddle, _balls);
             GameManager.Instance.StartStopLevel(false);
         }

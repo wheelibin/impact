@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using CocosSharp;
+using Impact.Game.Config;
 using Impact.Scenes;
 
 namespace Impact
@@ -17,20 +18,17 @@ namespace Impact
 
             GameView = gameView;
 
-            var contentSearchPaths = new List<string>() { "Fonts", "Sounds" };
+            var contentSearchPaths = new List<string> { "Fonts", "Sounds" };
             CCSizeI viewSize = gameView.ViewSize;
 
-            int width = 833;
-            int height = 1481;
-
             // Set world dimensions
-            gameView.DesignResolution = new CCSizeI(width, height);
+            gameView.DesignResolution = new CCSizeI(GameConstants.WorldWidth, GameConstants.WorldHeight);
             gameView.ResolutionPolicy = CCViewResolutionPolicy.ExactFit;
 
             // Determine whether to use the high or low def versions of our images
             // Make sure the default texel to content size ratio is set correctly
             // Of course you're free to have a finer set of image resolutions e.g (ld, hd, super-hd)
-            if (width < viewSize.Width)
+            if (GameConstants.WorldWidth < viewSize.Width)
             {
                 contentSearchPaths.Add("Images/Hd");
                 CCSprite.DefaultTexelToContentSizeRatio = 2.0f;
@@ -46,11 +44,6 @@ namespace Impact
             gameView.RunWithScene(new LevelSelectScene(gameView));
 
         }
-
-        //private static void InitializeAudio()
-        //{
-        //    CCAudioEngine.SharedEngine.PlayBackgroundMusic("FruityFallsSong");
-        //}
 
         public static void GoToScene(CCScene scene)
         {

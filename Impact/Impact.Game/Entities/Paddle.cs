@@ -33,7 +33,20 @@ namespace Impact.Game.Entities
             if (touches.Count > 0)
             {
                 CCTouch firstTouch = touches[0];
+              
                 PositionX = firstTouch.Location.X;
+
+                //Don't allow paddle to go off the left side of the screen
+                if (PositionX - (ContentSize.Width/2) <= 0)
+                {
+                    PositionX = ContentSize.Width/2;
+                }
+                //or the right
+                if (PositionX + (ContentSize.Width / 2) >= GameConstants.WorldWidth)
+                {
+                    PositionX = GameConstants.WorldWidth - ContentSize.Width / 2;
+                }
+
             }
         }
     }

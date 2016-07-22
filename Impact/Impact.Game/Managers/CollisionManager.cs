@@ -7,7 +7,7 @@ using Impact.Game.Entities;
 using Impact.Game.Entities.Powerups;
 using Impact.Game.Enums;
 
-namespace Impact.Game
+namespace Impact.Game.Managers
 {
     public class CollisionManager
     {
@@ -77,6 +77,7 @@ namespace Impact.Game
 
                 if (shouldReflectXVelocity)
                 {
+                    ball.VelocityX = ApplySlightVariation((int)ball.VelocityX);
                     ball.VelocityX *= -1;
                     return;
                 }
@@ -101,6 +102,7 @@ namespace Impact.Game
 
                 if (shouldReflectYVelocity)
                 {
+                    ball.VelocityY = ApplySlightVariation((int)ball.VelocityY);
                     ball.VelocityY *= -1;
                     return;
                 }
@@ -185,11 +187,28 @@ namespace Impact.Game
 
         }
 
+        private float ApplySlightVariation(int input)
+        {
+            const int variationPercentage = 5;
 
+            int variationAmount = (input/100)*variationPercentage;
 
-        // Returns the vector that the 'first' should be moved by
-        // to separate the objects. 
-        private CCVector2 GetSeparatingVector(CCRect first, CCRect second)
+            var rnd = new Random();
+
+            if (input < 0)
+            {
+                return rnd.Next(input + variationAmount, input - variationAmount); 
+            }
+            return rnd.Next(input - variationAmount, input + variationAmount);
+        }
+
+        /// <summary>
+        /// Returns the vector that the 'first' should be moved by to separate the objects. 
+        /// </summary>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
+        /// <returns></returns>
+        public CCVector2 GetSeparatingVector(CCRect first, CCRect second)
         {
             // Default to no separation
             CCVector2 separation = CCVector2.Zero;

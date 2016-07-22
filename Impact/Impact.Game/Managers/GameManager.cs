@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using CocosSharp;
 using Impact.Scenes;
 
-namespace Impact.Game
+namespace Impact.Game.Managers
 {
     public class GameManager
     {

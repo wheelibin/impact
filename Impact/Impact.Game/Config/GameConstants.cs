@@ -4,6 +4,12 @@ namespace Impact.Game.Config
 {
     public static class GameConstants
     {
+
+        //Game
+        public const int WorldWidth = 833;
+        public const int WorldHeight = 1481;
+        public const int BrickGap = 5;
+
         //Ball
         public const float BallMaxVelocityX = 500;
         public const float BallInitialVelocityY = 600;

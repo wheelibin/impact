@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using CocosSharp;
+using Impact.Game.Config;
 using Impact.Game.Entities;
 using Impact.Game.Entities.Powerups;
 using Impact.Game.Enums;
@@ -10,7 +11,7 @@ using Impact.Game.Models;
 using Microsoft.Xna.Framework;
 using TiledSharp;
 
-namespace Impact.Game
+namespace Impact.Game.Managers
 {
     public class LevelManager
     {
@@ -32,45 +33,46 @@ namespace Impact.Game
 
             var tileMap = new TmxMap("Content/Levels/level" + level.ToString("000") + ".tmx");
 
-
             CurrentLevelProperties = new LevelProperties
             {
                 FinalBallSpeedPercentageIncrease = int.Parse(tileMap.Properties["FinalBallSpeedPercentageIncrease"])
             };
 
-            var tileWidth = 114 + 5;
-            var tileHeight = 38 + 5;
+            int tileWidth = 114 + GameConstants.BrickGap;
+            int tileHeight = 38 + GameConstants.BrickGap;
 
-            var tileMapHeight = tileMap.Height * tileHeight;
+            int tileMapHeight = tileMap.Height * tileHeight;
 
-            var yOffset = 300;
+            int yOffset = 300;
 
-            var startY = tileMapHeight + yOffset;
+            int startY = tileMapHeight + yOffset;
 
-            var brickLayer = tileMap.Layers["Bricks"];
-            var powerupLayer = tileMap.Layers["Powerups"];
+            TmxLayer brickLayer = tileMap.Layers["Bricks"];
+            TmxLayer powerupLayer = tileMap.Layers["Powerups"];
 
-            var brickTileset = tileMap.Tilesets["Bricks"];
-            var powerupTileset = tileMap.Tilesets["Powerups"];
+            TmxTileset brickTileset = tileMap.Tilesets["Bricks"];
+            TmxTileset powerupTileset = tileMap.Tilesets["Powerups"];
 
             for (int t = 0; t < brickLayer.Tiles.Count; t++)
             {
 
-                var brickTile = brickLayer.Tiles[t];
-                var powerupTile = powerupLayer.Tiles[t];
+                TmxLayerTile brickTile = brickLayer.Tiles[t];
+                TmxLayerTile powerupTile = powerupLayer.Tiles[t];
 
                 if (brickTile.Gid > 0)
                 {
-                    var brickPosition = new CCPoint(brickTile.X * tileWidth, startY - (brickTile.Y * tileHeight));
+                    TmxTilesetTile brickTilesetTile = brickTileset.Tiles[brickTile.Gid - brickTileset.FirstGid];
+                    string brickImageFilename = Path.GetFileName(brickTilesetTile.Image.Source);
 
-                    var brickTilesetTile = brickTileset.Tiles[brickTile.Gid - brickTileset.FirstGid];
-                    var brickImageFilename = Path.GetFileName(brickTilesetTile.Image.Source);
+                    int hitsToDestroy = int.Parse(brickTilesetTile.Properties["HitsToDestroy"]);
+
+                    CCPoint brickPosition = new CCPoint(brickTile.X * tileWidth, startY - (brickTile.Y * tileHeight));
 
                     Powerup powerup = null;
                     if (powerupTile.Gid > 0)
                     {
-                        var powerupTilesetTile = powerupTileset.Tiles[powerupTile.Gid - powerupTileset.FirstGid];
-                        var powerupImageFilename = Path.GetFileName(powerupTilesetTile.Image.Source);
+                        TmxTilesetTile powerupTilesetTile = powerupTileset.Tiles[powerupTile.Gid - powerupTileset.FirstGid];
+                        string powerupImageFilename = Path.GetFileName(powerupTilesetTile.Image.Source);
 
                         PowerupType powerupType = (PowerupType)Enum.Parse(typeof(PowerupType), powerupTilesetTile.Properties["PowerupType"]);
                         switch (powerupType)
@@ -87,7 +89,7 @@ namespace Impact.Game
                         }
                     }
 
-                    var brick = BrickFactory.Instance.CreateNew(brickImageFilename, brickPosition, 1, int.Parse(brickTilesetTile.Properties["HitsToDestroy"]), powerup);
+                    var brick = BrickFactory.Instance.CreateNew(brickImageFilename, brickPosition, 1, hitsToDestroy, powerup);
                     bricks.Add(brick);
 
                 }
@@ -109,7 +111,7 @@ namespace Impact.Game
                 bool fileExists = false;
                 try
                 {
-                    using (var stream = TitleContainer.OpenStream("Content/Levels/level" + (NumberOfLevels + 1).ToString("000") + ".tmx"))
+                    using (TitleContainer.OpenStream("Content/Levels/level" + (NumberOfLevels + 1).ToString("000") + ".tmx"))
                     {
                     }
                     // if we got here then the file exists!
