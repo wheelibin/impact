@@ -101,6 +101,8 @@
     <BundleResource Include="Content\Sounds\massive-banzai23\E3.mp3" />
     <BundleResource Include="Content\Sounds\massive-banzai23\F3.mp3" />
     <BundleResource Include="Content\Sounds\massive-banzai23\G3.mp3" />
+    <Content Include="Content\Images\Ld\Spritesheets\TitleScreen.plist" />
+    <BundleResource Include="Content\Images\Ld\Spritesheets\TitleScreen.png" />
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
   </ItemGroup>

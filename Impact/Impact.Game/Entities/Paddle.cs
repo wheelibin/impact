@@ -9,7 +9,7 @@ namespace Impact.Game.Entities
     {
         public Paddle()
         {
-            var frame = GameManager.Instance.SpriteSheet.Frames.Find(item => item.TextureFilename == GameConstants.SpriteImagePaddle);
+            var frame = GameManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == GameConstants.SpriteImagePaddle);
             var sprite = new CCSprite(frame)
             {
                 AnchorPoint = CCPoint.AnchorLowerLeft

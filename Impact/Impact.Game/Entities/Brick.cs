@@ -21,7 +21,7 @@ namespace Impact.Game.Entities
 
             BrickType = hitsToDestroy == -1 ? BrickType.Indistructible : BrickType.Normal;
 
-            var frame = GameManager.Instance.SpriteSheet.Frames.Find(item => item.TextureFilename == spriteImageFilename);
+            var frame = GameManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == spriteImageFilename);
             _sprite = new CCSprite(frame)
             {
                 AnchorPoint = CCPoint.AnchorLowerLeft

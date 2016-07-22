@@ -12,7 +12,7 @@ namespace Impact.Game.Entities.Powerups
         
         protected Powerup(CCPoint initialPosition, string spriteImage)
         {
-            var frame = GameManager.Instance.SpriteSheet.Frames.Find(item => item.TextureFilename == spriteImage);
+            var frame = GameManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == spriteImage);
             _sprite = new CCSprite(frame)
             {
                 AnchorPoint = CCPoint.AnchorMiddle

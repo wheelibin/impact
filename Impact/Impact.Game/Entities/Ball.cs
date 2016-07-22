@@ -42,7 +42,7 @@ namespace Impact.Game.Entities
 
         public Ball(float? velocityY = GameConstants.BallInitialVelocityY, CCPoint? initialPosition = null, bool applyGravity = false)
         {
-            var frame = GameManager.Instance.SpriteSheet.Frames.Find(item => item.TextureFilename == GameConstants.SpriteImageBall);
+            var frame = GameManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == GameConstants.SpriteImageBall);
             var sprite = new CCSprite(frame);
 
             //AddChild(new CCLayerColor(CCColor4B.Yellow));

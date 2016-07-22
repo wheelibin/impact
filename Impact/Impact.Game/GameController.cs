@@ -41,7 +41,7 @@ namespace Impact
 
             gameView.ContentManager.SearchPaths = contentSearchPaths;
             //gameView.Stats.Enabled = true;
-            gameView.RunWithScene(new LevelSelectScene(gameView));
+            gameView.RunWithScene(new TitleScene(gameView));
 
         }
 

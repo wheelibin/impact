@@ -13,11 +13,26 @@ using TiledSharp;
 
 namespace Impact.Game.Managers
 {
+    /// <summary>
+    /// Contains level related functions such as level loading
+    /// </summary>
     public class LevelManager
     {
+        //Singleton
         private static readonly Lazy<LevelManager> SelfInstance = new Lazy<LevelManager>(() => new LevelManager());
-
         public static LevelManager Instance => SelfInstance.Value;
+
+        //Properties specified in the .tmx file
+        private const string FinalBallSpeedPercentageIncreaseProperty = "FinalBallSpeedPercentageIncrease";
+        private const string HitsToDestroyProperty = "HitsToDestroy";
+        private const string PowerupTypeProperty = "PowerupType";
+        private const string BrickLayer = "Bricks";
+        private const string BrickTileset = "Bricks";
+        private const string PowerupLayer = "Powerups";
+        private const string PowerupTileset = "Powerups";
+
+        private const string BaseLevelFolder = "Content/Levels/level";
+
         public int NumberOfLevels { get; private set; }
         public int CurrentLevel{ get; set; }
         public LevelProperties CurrentLevelProperties { get; private set; }
@@ -25,34 +40,36 @@ namespace Impact.Game.Managers
         public LevelManager()
         {
             DetermineAvailableLevels();
+            CurrentLevel = 1;
         }
 
         public List<Brick> LoadLevel(int level, Paddle paddle, List<Ball> balls)
         {
             var bricks = new List<Brick>();
 
-            var tileMap = new TmxMap("Content/Levels/level" + level.ToString("000") + ".tmx");
+            //Load the level
+            var tileMap = new TmxMap(BaseLevelFolder + level.ToString("000") + ".tmx");
 
+            //Set the level properties
             CurrentLevelProperties = new LevelProperties
             {
-                FinalBallSpeedPercentageIncrease = int.Parse(tileMap.Properties["FinalBallSpeedPercentageIncrease"])
+                FinalBallSpeedPercentageIncrease = int.Parse(tileMap.Properties[FinalBallSpeedPercentageIncreaseProperty])
             };
 
+            //Layout config
             int tileWidth = 114 + GameConstants.BrickGap;
             int tileHeight = 38 + GameConstants.BrickGap;
-
             int tileMapHeight = tileMap.Height * tileHeight;
-
             int yOffset = 300;
-
             int startY = tileMapHeight + yOffset;
 
-            TmxLayer brickLayer = tileMap.Layers["Bricks"];
-            TmxLayer powerupLayer = tileMap.Layers["Powerups"];
+            //Get the layers and tilesets
+            TmxLayer brickLayer = tileMap.Layers[BrickLayer];
+            TmxLayer powerupLayer = tileMap.Layers[PowerupLayer];
+            TmxTileset brickTileset = tileMap.Tilesets[BrickTileset];
+            TmxTileset powerupTileset = tileMap.Tilesets[PowerupTileset];
 
-            TmxTileset brickTileset = tileMap.Tilesets["Bricks"];
-            TmxTileset powerupTileset = tileMap.Tilesets["Powerups"];
-
+            //Loop through tiles
             for (int t = 0; t < brickLayer.Tiles.Count; t++)
             {
 
@@ -61,20 +78,25 @@ namespace Impact.Game.Managers
 
                 if (brickTile.Gid > 0)
                 {
+                    //Get the image filename from the tile image (regardless of the path it's set to), will be used to pick a texture out of a spritesheet
                     TmxTilesetTile brickTilesetTile = brickTileset.Tiles[brickTile.Gid - brickTileset.FirstGid];
                     string brickImageFilename = Path.GetFileName(brickTilesetTile.Image.Source);
 
-                    int hitsToDestroy = int.Parse(brickTilesetTile.Properties["HitsToDestroy"]);
+                    //Get brick properties
+                    int hitsToDestroy = int.Parse(brickTilesetTile.Properties[HitsToDestroyProperty]);
 
                     CCPoint brickPosition = new CCPoint(brickTile.X * tileWidth, startY - (brickTile.Y * tileHeight));
 
+                    //Create a powerup to add to the brick if one is defined
                     Powerup powerup = null;
                     if (powerupTile.Gid > 0)
                     {
+                        //Get the powerup image filename from the tile image 
                         TmxTilesetTile powerupTilesetTile = powerupTileset.Tiles[powerupTile.Gid - powerupTileset.FirstGid];
                         string powerupImageFilename = Path.GetFileName(powerupTilesetTile.Image.Source);
 
-                        PowerupType powerupType = (PowerupType)Enum.Parse(typeof(PowerupType), powerupTilesetTile.Properties["PowerupType"]);
+                        //Determine which powerup to create and initialse the appropriate powerup entity
+                        PowerupType powerupType = (PowerupType)Enum.Parse(typeof(PowerupType), powerupTilesetTile.Properties[PowerupTypeProperty]);
                         switch (powerupType)
                         {
                             case PowerupType.LargerPaddle:
@@ -89,6 +111,7 @@ namespace Impact.Game.Managers
                         }
                     }
 
+                    //Add the brick
                     var brick = BrickFactory.Instance.CreateNew(brickImageFilename, brickPosition, 1, hitsToDestroy, powerup);
                     bricks.Add(brick);
 
@@ -111,7 +134,7 @@ namespace Impact.Game.Managers
                 bool fileExists = false;
                 try
                 {
-                    using (TitleContainer.OpenStream("Content/Levels/level" + (NumberOfLevels + 1).ToString("000") + ".tmx"))
+                    using (TitleContainer.OpenStream(BaseLevelFolder + (NumberOfLevels + 1).ToString("000") + ".tmx"))
                     {
                     }
                     // if we got here then the file exists!

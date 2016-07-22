@@ -33,7 +33,7 @@ namespace Impact.Scenes
             for (int l = 0; l < LevelManager.Instance.NumberOfLevels; l++)
             {
                 var level = l + 1;
-                var button = new MenuButton(level, "LevelSelectMenuButton.png", level.ToString(), () =>
+                var button = new MenuButton(GameManager.Instance.GameEntitiesSpriteSheet, "LevelSelectMenuButton.png", level.ToString(), () =>
                 {
                     LevelManager.Instance.CurrentLevel = level;
                     GameController.GoToScene(new GameScene(_gameView));

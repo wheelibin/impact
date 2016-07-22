@@ -13,14 +13,17 @@ namespace Impact.Game.Managers
         public int Score { get; set; }
         public bool LevelHasStarted { get; private set; }
         public bool CheatModeEnabled { get; set; }
-        public CCSpriteSheet SpriteSheet { get; set; }
+        public CCSpriteSheet GameEntitiesSpriteSheet { get; set; }
+        public CCSpriteSheet TitleScreenSpriteSheet { get; set; }
         public LevelSelectScene LevelSelectScene { get; set; }
+        public GameScene GameScene { get; set; }
         public List<string> BrickSounds { get; set; }
 
         public GameManager()
         {
             LevelHasStarted = false;
-            SpriteSheet = new CCSpriteSheet("Spritesheets/GameEntities.plist", "Spritesheets/GameEntities.png");
+            GameEntitiesSpriteSheet = new CCSpriteSheet("Spritesheets/GameEntities.plist", "Spritesheets/GameEntities.png");
+            TitleScreenSpriteSheet = new CCSpriteSheet("Spritesheets/TitleScreen.plist", "Spritesheets/TitleScreen.png");
 
             BrickSounds = new List<string>
             {
