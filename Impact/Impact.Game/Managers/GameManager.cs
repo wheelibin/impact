@@ -8,8 +8,6 @@ namespace Impact.Game.Managers
     public class GameManager
     {
         private static readonly Lazy<GameManager> SelfInstance = new Lazy<GameManager>(() => new GameManager());
-
-        // simple singleton implementation
         public static GameManager Instance => SelfInstance.Value;
 
         public int Score { get; set; }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using CocosSharp;
 using Impact.Game.Config;
+using Impact.Game.Managers;
 
 namespace Impact.Game.Entities
 {

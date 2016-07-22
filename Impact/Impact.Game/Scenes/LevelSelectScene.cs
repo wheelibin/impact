@@ -3,6 +3,7 @@ using CocosSharp;
 using Impact.Entities;
 using Impact.Game;
 using Impact.Game.Config;
+using Impact.Game.Managers;
 
 namespace Impact.Scenes
 {

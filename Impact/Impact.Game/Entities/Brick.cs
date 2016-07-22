@@ -3,6 +3,7 @@ using Impact.Game.Config;
 using Impact.Game.Entities.Powerups;
 using Impact.Game.Enums;
 using Impact.Game.Factories;
+using Impact.Game.Managers;
 
 namespace Impact.Game.Entities
 {

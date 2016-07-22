@@ -9,6 +9,7 @@ using Impact.Game.Entities;
 using Impact.Game.Entities.Powerups;
 using Impact.Game.Enums;
 using Impact.Game.Factories;
+using Impact.Game.Managers;
 
 namespace Impact.Scenes
 {
