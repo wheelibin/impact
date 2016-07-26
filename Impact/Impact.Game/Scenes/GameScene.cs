@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CocosDenshion;
 using CocosSharp;
-using Impact.Game;
 using Impact.Game.Config;
 using Impact.Game.Entities;
 using Impact.Game.Entities.Powerups;
@@ -29,7 +27,10 @@ namespace Impact.Scenes
         public GameScene(CCGameView gameView) : base(gameView)
         {
             GameManager.Instance.CheatModeEnabled = true;
-            
+
+            //Preload the entire spritesheet
+            CCSpriteFrameCache.SharedSpriteFrameCache.AddSpriteFrames(GameConstants.GameEntitiesSpriteSheet, GameConstants.GameEntitiesSpriteSheetImage);
+
             AddLayers();
 
             RegisterEventHandlers();
@@ -55,7 +56,7 @@ namespace Impact.Scenes
             //backgroundLayer.AddChild(backgroundImage);
 
             var backgroundLayer = new CCLayerColor(GameConstants.BackgroundColour);
-            
+
             _gameLayer = new CCLayer();
             _hudLayer = new CCLayer();
 
@@ -81,7 +82,7 @@ namespace Impact.Scenes
                 OnTouchesMoved = HandleTouchesMoved
             };
             AddEventListener(touchListener, _gameLayer);
-            
+
         }
 
         private void AddEntities()
@@ -101,6 +102,7 @@ namespace Impact.Scenes
             _hudLayer.AddChild(_scoreLabel);
         }
 
+        #region Event Handlers
         private void BallFactory_BallCreated(Ball ball)
         {
             _balls.Add(ball);
@@ -167,17 +169,31 @@ namespace Impact.Scenes
 
                 ball.PositionX = firstTouch.Location.X - 100;
                 ball.PositionY = firstTouch.Location.Y + 100;
-                
+
             }
         }
 
-        private void PlayRandomBrickSound()
+        private void HandleTouchesMoved(List<CCTouch> touches, CCEvent touchEvent)
         {
-            Random rnd = new Random();
-            int r = rnd.Next(GameManager.Instance.BrickSounds.Count);
-            CCAudioEngine.SharedEngine.PlayEffect(GameManager.Instance.BrickSounds[r]);
+            if (!GameManager.Instance.LevelHasStarted)
+            {
+                GameManager.Instance.StartStopLevel(!GameManager.Instance.DebugMode);
+                Schedule(RunGameLogic);
+            }
         }
 
+        private void OnTouchesEnded(List<CCTouch> touches, CCEvent touchEvent)
+        {
+            if (touches.Count > 0)
+            {
+                _scoreLabel.Text = touches[0].Location.ToString();
+            }
+        }
+        #endregion
+        
+        /// <summary>
+        /// The main game loop, checks for collisions and whether the level has been completed
+        /// </summary>
         private void RunGameLogic(float frameTimeInSeconds)
         {
             //todo: implement fireball powerup - add visuals to ball
@@ -214,23 +230,11 @@ namespace Impact.Scenes
 
         }
 
-        private void HandleTouchesMoved(List<CCTouch> touches, CCEvent touchEvent)
+        private void PlayRandomBrickSound()
         {
-
-            if (!GameManager.Instance.LevelHasStarted)
-            {
-                GameManager.Instance.StartStopLevel(!GameManager.Instance.DebugMode);
-                Schedule(RunGameLogic);
-            }
-
-        }
-
-        private void OnTouchesEnded(List<CCTouch> touches, CCEvent touchEvent)
-        {
-            if (touches.Count > 0)
-            {
-                _scoreLabel.Text = touches[0].Location.ToString();
-            }
+            Random rnd = new Random();
+            int r = rnd.Next(GameManager.Instance.BrickSounds.Count);
+            CCAudioEngine.SharedEngine.PlayEffect(GameManager.Instance.BrickSounds[r]);
         }
 
         private void LoadLevel(int level)

@@ -33,5 +33,13 @@ namespace Impact.Game.Config
         public const string SpriteImagePaddle = "Paddle.png";
 
         public static CCColor4B BackgroundColour = new CCColor4B(0, 32, 40);
+
+        public const string TitleScreenSpriteSheet = "Spritesheets/TitleScreen.plist";
+        public const string TitleScreenSpriteSheetImage = "Spritesheets/TitleScreen.png";
+
+        public const string GameEntitiesSpriteSheet = "Spritesheets/GameEntities.plist";
+        public const string GameEntitiesSpriteSheetImage = "Spritesheets/GameEntities.png";
+
+
     }
 }

@@ -16,6 +16,9 @@ namespace Impact.Scenes
             _layer = new CCLayer();
             AddChild(_layer);
 
+            //Preload the entire spritesheet
+            CCSpriteFrameCache.SharedSpriteFrameCache.AddSpriteFrames(GameConstants.TitleScreenSpriteSheet, GameConstants.TitleScreenSpriteSheetImage);
+
             //background
             var frame = GameManager.Instance.TitleScreenSpriteSheet.Frames.Find(item => item.TextureFilename == "Impact-TitleScreen.png");
             var sprite = new CCSprite(frame)
