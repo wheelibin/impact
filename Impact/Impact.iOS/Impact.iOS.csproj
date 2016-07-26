@@ -86,6 +86,7 @@
     <BundleResource Include="Content\Levels\level002.tmx" />
     <BundleResource Include="Content\Levels\level003.tmx" />
     <BundleResource Include="Content\Levels\level004.tmx" />
+    <BundleResource Include="Content\Levels\level000.tmx" />
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
     <None Include="packages.config" />

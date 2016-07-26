@@ -43,9 +43,11 @@ namespace Impact.Game.Entities
         public Ball(float? velocityY = GameConstants.BallInitialVelocityY, CCPoint? initialPosition = null, bool applyGravity = false)
         {
             var frame = GameManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == GameConstants.SpriteImageBall);
-            var sprite = new CCSprite(frame);
+            var sprite = new CCSprite(frame)
+            {
+                AnchorPoint = CCPoint.AnchorLowerLeft
+            };
 
-            //AddChild(new CCLayerColor(CCColor4B.Yellow));
             AddChild(sprite);
 
             ContentSize = sprite.ContentSize;
@@ -62,7 +64,14 @@ namespace Impact.Game.Entities
             }
 
             GameManager.Instance.LevelStarted += GameManager_LevelStarted;
-            
+
+            if (GameManager.Instance.DebugMode)
+            {
+                var drawNode = new CCDrawNode();
+                AddChild(drawNode);
+                drawNode.DrawRect(new CCRect(0, 0, ContentSize.Width, ContentSize.Height), CCColor4B.Transparent, 1, CCColor4B.Yellow);
+            }
+
         }
         
         private void GameManager_LevelStarted(bool started)

@@ -26,8 +26,6 @@ namespace Impact.Scenes
         private readonly List<Powerup> _activatedPowerups = new List<Powerup>();
         private readonly List<Ball> _balls = new List<Ball>();
 
-        private int _currentLevel = 1;
-
         public GameScene(CCGameView gameView) : base(gameView)
         {
             GameManager.Instance.CheatModeEnabled = true;
@@ -37,6 +35,11 @@ namespace Impact.Scenes
             RegisterEventHandlers();
 
             AddEntities();
+
+            if (GameManager.Instance.DebugMode)
+            {
+                LevelManager.Instance.CurrentLevel = 0;
+            }
 
             //Load first level
             LoadLevel(LevelManager.Instance.CurrentLevel);
@@ -72,13 +75,15 @@ namespace Impact.Scenes
             CollisionManager.Instance.PaddleHit += CollisionManager_PaddleHit;
 
             // Register for touch events
-            var touchListener = new CCEventListenerTouchAllAtOnce { OnTouchesEnded = OnTouchesEnded };
+            var touchListener = new CCEventListenerTouchAllAtOnce
+            {
+                OnTouchesEnded = OnTouchesEnded,
+                OnTouchesMoved = HandleTouchesMoved
+            };
             AddEventListener(touchListener, _gameLayer);
-
-            touchListener.OnTouchesMoved = HandleTouchesMoved;
-            AddEventListener(touchListener, _gameLayer);
+            
         }
-        
+
         private void AddEntities()
         {
             _paddle = new Paddle();
@@ -100,6 +105,13 @@ namespace Impact.Scenes
         {
             _balls.Add(ball);
             _gameLayer.AddChild(ball, GameConstants.BallZOrder);
+
+            if (GameManager.Instance.DebugMode)
+            {
+                var movedTouchListener = new CCEventListenerTouchAllAtOnce { OnTouchesMoved = Ball_OnTouchesMoved };
+                AddEventListener(movedTouchListener, _balls.First());
+            }
+
         }
 
         private void BrickFactory_BrickCreated(Brick brick)
@@ -144,6 +156,21 @@ namespace Impact.Scenes
             PlayRandomBrickSound();
         }
 
+        private void Ball_OnTouchesMoved(List<CCTouch> touches, CCEvent arg2)
+        {
+            if (touches.Count > 0)
+            {
+
+                Ball ball = _balls.First();
+
+                CCTouch firstTouch = touches[0];
+
+                ball.PositionX = firstTouch.Location.X - 100;
+                ball.PositionY = firstTouch.Location.Y + 100;
+                
+            }
+        }
+
         private void PlayRandomBrickSound()
         {
             Random rnd = new Random();
@@ -180,8 +207,8 @@ namespace Impact.Scenes
                 BallFactory.Instance.ResetBalls(_balls);
 
                 //Load next level
-                _currentLevel++;
-                LoadLevel(_currentLevel);
+                LevelManager.Instance.CurrentLevel++;
+                LoadLevel(LevelManager.Instance.CurrentLevel);
 
             }
 
@@ -192,7 +219,7 @@ namespace Impact.Scenes
 
             if (!GameManager.Instance.LevelHasStarted)
             {
-                GameManager.Instance.StartStopLevel(true);
+                GameManager.Instance.StartStopLevel(!GameManager.Instance.DebugMode);
                 Schedule(RunGameLogic);
             }
 

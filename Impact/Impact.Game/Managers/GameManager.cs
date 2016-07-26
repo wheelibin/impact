@@ -10,6 +10,7 @@ namespace Impact.Game.Managers
         private static readonly Lazy<GameManager> SelfInstance = new Lazy<GameManager>(() => new GameManager());
         public static GameManager Instance => SelfInstance.Value;
 
+        public bool DebugMode { get; set; }
         public int Score { get; set; }
         public bool LevelHasStarted { get; private set; }
         public bool CheatModeEnabled { get; set; }

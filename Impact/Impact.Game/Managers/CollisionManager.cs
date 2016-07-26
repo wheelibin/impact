@@ -119,7 +119,7 @@ namespace Impact.Game.Managers
 
                     if (hitBrick)
                     {
-                        CCVector2 separatingVector = GetSeparatingVector(ballBoundingBox, brickBoundingBox);
+                        CCVector2 separatingVector = GetSeparatingVector(ballBoundingBox, brickBoundingBox, layer);
 
                         if (!ball.IsFireball)
                         {
@@ -208,22 +208,33 @@ namespace Impact.Game.Managers
         /// <param name="first"></param>
         /// <param name="second"></param>
         /// <returns></returns>
-        public CCVector2 GetSeparatingVector(CCRect first, CCRect second)
+        public CCVector2 GetSeparatingVector(CCRect first, CCRect second, CCLayer layer)
         {
             // Default to no separation
             CCVector2 separation = CCVector2.Zero;
-
+            
             // Only calculate separation if the rectangles intersect
             if (first.IntersectsRect(second))
             {
                 // The intersectionRect returns the rectangle produced
                 // by overlapping the two rectangles
                 var intersectionRect = first.Intersection(second);
-
+               
                 //Workaround CCRECT bug
                 if (intersectionRect.Size.Height == second.MinY)
                 {
                     intersectionRect.Size.Height = 0.1f;
+                }
+                if (intersectionRect.Size.Width == second.MinX)
+                {
+                    intersectionRect.Size.Width = 0.1f;
+                }
+
+                if (GameManager.Instance.DebugMode)
+                {
+                    var drawNode = new CCDrawNode();
+                    layer.AddChild(drawNode);
+                    drawNode.DrawRect(intersectionRect, CCColor4B.Transparent, 1, CCColor4B.Red);
                 }
 
                 // Separation should occur by moving the minimum distance
