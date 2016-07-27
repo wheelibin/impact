@@ -178,7 +178,7 @@ namespace Impact.Game.Managers
                 if (powerupHitPaddle)
                 {
                     powerup.Activate();
-
+                    GameManager.Instance.Score += 10;
                     powerup.RemoveFromParent();
                     powerups.Remove(powerup);
                     activatedPowerups.Add(powerup);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AudioUnit;
 using CocosSharp;
 using Impact.Game.Config;
 using Impact.Game.Entities;
@@ -23,6 +24,8 @@ namespace Impact.Scenes
         private readonly List<Powerup> _powerups = new List<Powerup>();
         private readonly List<Powerup> _activatedPowerups = new List<Powerup>();
         private readonly List<Ball> _balls = new List<Ball>();
+
+        private float _levelTimer = 0;
 
         public GameScene(CCGameView gameView) : base(gameView)
         {
@@ -74,6 +77,7 @@ namespace Impact.Scenes
             BrickFactory.Instance.BrickDestroyed += BrickFactory_BrickDestroyed;
             CollisionManager.Instance.BrickHitButNotDestroyed += CollisionManager_BrickHitButNotDestroyed;
             CollisionManager.Instance.PaddleHit += CollisionManager_PaddleHit;
+            GameManager.Instance.LevelStarted += GameManager_LevelStarted;
 
             // Register for touch events
             var touchListener = new CCEventListenerTouchAllAtOnce
@@ -84,7 +88,7 @@ namespace Impact.Scenes
             AddEventListener(touchListener, _gameLayer);
 
         }
-
+        
         private void AddEntities()
         {
             _paddle = new Paddle();
@@ -142,7 +146,7 @@ namespace Impact.Scenes
 
             _bricks.Remove(brick);
             brick.RemoveFromParent();
-
+            
             GameManager.Instance.Score += 10;
         }
 
@@ -173,12 +177,26 @@ namespace Impact.Scenes
             }
         }
 
+        private void GameManager_LevelStarted(bool started)
+        {
+            if (started)
+            {
+                Schedule(RunGameLogic);
+                Schedule(UpdateTimer, 0.25f);
+            }
+            else
+            {
+                Unschedule(RunGameLogic);
+                Unschedule(UpdateTimer);
+            }
+            
+        }
+
         private void HandleTouchesMoved(List<CCTouch> touches, CCEvent touchEvent)
         {
             if (!GameManager.Instance.LevelHasStarted)
             {
                 GameManager.Instance.StartStopLevel(!GameManager.Instance.DebugMode);
-                Schedule(RunGameLogic);
             }
         }
 
@@ -208,8 +226,15 @@ namespace Impact.Scenes
 
             CollisionManager.Instance.HandleCollisions(_gameLayer, _paddle, _balls, _bricks, _powerups, _activatedPowerups);
 
-            bool allBricksAreIndistructible = _bricks.All(b => b.BrickType == BrickType.Indistructible);
+            //Game over?
+            if (_balls.Count == 0)
+            {
+                GameManager.Instance.StartStopLevel(false);
+                GameController.GoToScene(new LevelSelectScene(GameView));
+            }
 
+            //Level Complete?
+            bool allBricksAreIndistructible = _bricks.All(b => b.BrickType == BrickType.Indistructible);
             if (_bricks.Count == 0 || allBricksAreIndistructible)
             {
                 //Reset powerups
@@ -243,6 +268,12 @@ namespace Impact.Scenes
             _bricks.Clear();
             LevelManager.Instance.LoadLevel(level, _paddle, _balls);
             GameManager.Instance.StartStopLevel(false);
+        }
+
+        private void UpdateTimer(float frameTime)
+        {
+            _levelTimer += frameTime;
+            //GameManager.Instance.Score -= (int)(_levelTimer*100);
         }
 
     }

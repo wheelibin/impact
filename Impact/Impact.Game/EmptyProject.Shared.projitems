@@ -14,6 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Entities\Brick.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\Bullet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\MenuButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\MenuItemImageWithText.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\Paddle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\Powerups\FireballPowerup.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\Powerups\IPowerup.cs" />
@@ -27,6 +28,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Factories\BrickFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Factories\PowerupFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Layers\GameOverLayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Managers\CollisionManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Managers\GameManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Managers\LevelManager.cs" />

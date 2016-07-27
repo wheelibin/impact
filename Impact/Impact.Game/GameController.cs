@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using CocosSharp;
 using Impact.Game.Config;
+using Impact.Game.Managers;
 using Impact.Scenes;
 
 namespace Impact
@@ -41,13 +42,14 @@ namespace Impact
 
             gameView.ContentManager.SearchPaths = contentSearchPaths;
             gameView.Stats.Enabled = true;
-            gameView.RunWithScene(new TitleScene(gameView));
 
+            GameManager.Instance.TitleScene = new TitleScene(gameView);
+            gameView.RunWithScene(GameManager.Instance.TitleScene);
         }
 
         public static void GoToScene(CCScene scene)
         {
-            GameView.Director.ReplaceScene(new CCTransitionFadeUp(1, scene));
+            GameView.Director.ReplaceScene(new CCTransitionFadeUp(0.6f, scene));
         }
     }
 }

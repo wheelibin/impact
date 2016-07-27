@@ -12,7 +12,7 @@ namespace Impact.Game.Config
 
         //Ball
         public const float BallMaxVelocityX = 500;
-        public const float BallInitialVelocityY = 600;
+        public const float BallInitialVelocityY = 750;
         public static CCPoint BallInitialPosition => new CCPoint(320, 112);
         public const int BallZOrder = 20;
         public const float BallGravityCoefficient = 750;

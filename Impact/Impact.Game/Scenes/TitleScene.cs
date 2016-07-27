@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using CocosSharp;
-using Impact.Entities;
+﻿using CocosSharp;
 using Impact.Game.Config;
 using Impact.Game.Managers;
 
@@ -8,13 +6,13 @@ namespace Impact.Scenes
 {
     public class TitleScene : CCScene
     {
-        readonly CCLayer _layer;
-        private readonly List<MenuButton> _buttons = new List<MenuButton>();
+        private readonly CCGameView _gameView;
 
         public TitleScene(CCGameView gameView) : base(gameView)
         {
-            _layer = new CCLayer();
-            AddChild(_layer);
+            _gameView = gameView;
+            var layer = new CCLayer();
+            AddChild(layer);
 
             //Preload the entire spritesheet
             CCSpriteFrameCache.SharedSpriteFrameCache.AddSpriteFrames(GameConstants.TitleScreenSpriteSheet, GameConstants.TitleScreenSpriteSheetImage);
@@ -25,61 +23,41 @@ namespace Impact.Scenes
             {
                 AnchorPoint = CCPoint.AnchorLowerLeft
             };
-            _layer.AddChild(sprite);
+            layer.AddChild(sprite);
 
-            //buttons
-            MenuButton playbutton = new MenuButton(GameManager.Instance.TitleScreenSpriteSheet, "PlayButton.png", "",
-                () =>
-                {
-                    GameManager.Instance.GameScene = new GameScene(gameView);
-                    GameController.GoToScene(GameManager.Instance.GameScene);
-                })
+            //Buttons
+            CCSpriteFrame playButtonFrame = GameManager.Instance.TitleScreenSpriteSheet.Frames.Find(item => item.TextureFilename == "PlayButton.png");
+            CCMenuItemImage playbutton = new CCMenuItemImage(playButtonFrame, playButtonFrame, playButtonFrame, PlayButton_Action);
+
+            CCSpriteFrame levelSelectButtonFrame = GameManager.Instance.TitleScreenSpriteSheet.Frames.Find(item => item.TextureFilename == "LevelSelectButton.png");
+            CCMenuItemImage levelSelectbutton = new CCMenuItemImage(levelSelectButtonFrame, levelSelectButtonFrame, levelSelectButtonFrame, LevelSelectButton_Action);
+
+            CCMenu menu = new CCMenu(playbutton, levelSelectbutton)
             {
-                Position = new CCPoint(150, GameConstants.WorldHeight - 800),
-                AnchorPoint = CCPoint.AnchorUpperLeft
+                Position = new CCPoint(layer.VisibleBoundsWorldspace.Size.Width / 2, layer.VisibleBoundsWorldspace.Size.Height - 950)
             };
-            _layer.AddChild(playbutton);
-            _buttons.Add(playbutton);
-
-            MenuButton levelSelectbutton = new MenuButton(GameManager.Instance.TitleScreenSpriteSheet, "LevelSelectButton.png", "",
-                () =>
-                {
-                    GameManager.Instance.LevelSelectScene = new LevelSelectScene(gameView);
-                    GameController.GoToScene(GameManager.Instance.LevelSelectScene);
-                })
-            {
-                Position = new CCPoint(150, GameConstants.WorldHeight - 950),
-                AnchorPoint = CCPoint.AnchorUpperLeft
-            };
-            _layer.AddChild(levelSelectbutton);
-            _buttons.Add(levelSelectbutton);
-
-            CreateTouchListener();
-
+            menu.AlignItemsVertically(75);
+            layer.AddChild(menu);
+            
         }
 
-
-
-        private void CreateTouchListener()
+        private void PlayButton_Action(object arg)
         {
-            var touchListener = new CCEventListenerTouchAllAtOnce { OnTouchesBegan = OnTouchesBegan };
-            _layer.AddEventListener(touchListener);
-        }
-
-        private void OnTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
-        {
-            if (touches.Count == 1)
+            if (GameManager.Instance.GameScene == null)
             {
-                CCTouch touch = touches[0];
-                foreach (MenuButton button in _buttons)
-                {
-                    if (button.BoundingBoxTransformedToWorld.ContainsPoint(touch.Location))
-                    {
-                        button.Click();
-                    }
-                }
+                GameManager.Instance.GameScene = new GameScene(_gameView);
             }
+            GameController.GoToScene(GameManager.Instance.GameScene);
         }
 
+        private void LevelSelectButton_Action(object arg)
+        {
+            if (GameManager.Instance.LevelSelectScene == null)
+            {
+                GameManager.Instance.LevelSelectScene = new LevelSelectScene(_gameView);
+            }
+            GameController.GoToScene(GameManager.Instance.LevelSelectScene);
+        }
+        
     }
 }

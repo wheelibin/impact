@@ -30,42 +30,61 @@ namespace Impact.Scenes
             };
             layer.AddChild(label);
 
+            List<CCMenuItem> menuItems = new List<CCMenuItem>();
+            //Back button
+            CCSpriteFrame backButtonFrame = GameManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == "LevelSelectMenuButton.png");
+            MenuItemImageWithText backButton = new MenuItemImageWithText(backButtonFrame, backButtonFrame, backButtonFrame, BackButton_Action, "<-");
+
+            menuItems.Add(backButton);
+            //Levels
             for (int l = 0; l < LevelManager.Instance.NumberOfLevels; l++)
             {
-                var level = l + 1;
-                var button = new MenuButton(GameManager.Instance.GameEntitiesSpriteSheet, "LevelSelectMenuButton.png", level.ToString(), () =>
+                CCSpriteFrame levelSelectButtonFrame = GameManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == "LevelSelectMenuButton.png");
+                MenuItemImageWithText levelSelectbutton = new MenuItemImageWithText(levelSelectButtonFrame, levelSelectButtonFrame, levelSelectButtonFrame, LevelSelectButton_Action, (l+1).ToString())
                 {
-                    LevelManager.Instance.CurrentLevel = level;
-                    GameController.GoToScene(new GameScene(_gameView));
-                })
-                {
-                    PositionX = level * 90,
-                    PositionY = gameView.DesignResolution.Height - 300,
-                    AnchorPoint = CCPoint.AnchorUpperLeft
+                    UserData = l + 1
                 };
-
-                layer.AddChild(button);
-                _buttons.Add(button);
+                menuItems.Add(levelSelectbutton);
             }
 
-            var touchListener = new CCEventListenerTouchAllAtOnce { OnTouchesBegan = OnTouchesBegan };
-            AddEventListener(touchListener, layer);
+            CCMenu menu = new CCMenu(menuItems.ToArray())
+            {
+                Position = new CCPoint(layer.VisibleBoundsWorldspace.Size.Width / 2, layer.VisibleBoundsWorldspace.Size.Height - 300)
+            };
+
+            const int itemsPerRow = 5;
+
+            List<uint> itemsPerRows = new List<uint>();
+
+            int fullRows = menuItems.Count / itemsPerRow;
+            uint remainder = (uint)(menuItems.Count % itemsPerRow);
+
+            for (int i = 0; i < fullRows; i++)
+            {
+                itemsPerRows.Add(itemsPerRow);
+            }
+            itemsPerRows.Add(remainder);
+
+            menu.AlignItemsInColumns(itemsPerRows.ToArray());
+
+            layer.AddChild(menu);
 
         }
 
-        private void OnTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
+        private void BackButton_Action(object obj)
         {
-            if (touches.Count == 1)
+            GameController.GoToScene(GameManager.Instance.TitleScene);
+        }
+
+        private void LevelSelectButton_Action(object obj)
+        {
+            LevelManager.Instance.CurrentLevel = (int)((CCMenuItem)obj).UserData;
+
+            if (GameManager.Instance.GameScene == null)
             {
-                CCTouch touch = touches[0];
-                foreach (MenuButton button in _buttons)
-                {
-                    if (button.BoundingBoxTransformedToWorld.ContainsPoint(touch.Location))
-                    {
-                        button.Click();
-                    }
-                }
+                GameManager.Instance.GameScene = new GameScene(_gameView);
             }
+            GameController.GoToScene(GameManager.Instance.GameScene);
         }
 
     }

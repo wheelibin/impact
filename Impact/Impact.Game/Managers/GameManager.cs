@@ -16,6 +16,7 @@ namespace Impact.Game.Managers
         public bool CheatModeEnabled { get; set; }
         public CCSpriteSheet GameEntitiesSpriteSheet { get; set; }
         public CCSpriteSheet TitleScreenSpriteSheet { get; set; }
+        public TitleScene TitleScene { get; set; }
         public LevelSelectScene LevelSelectScene { get; set; }
         public GameScene GameScene { get; set; }
         public List<string> BrickSounds { get; set; }
