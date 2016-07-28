@@ -70,7 +70,7 @@
             </struct>
         </struct>
         <key>shapePadding</key>
-        <uint>0</uint>
+        <uint>2</uint>
         <key>jpgQuality</key>
         <uint>80</uint>
         <key>pngOptimizationLevel</key>
@@ -203,6 +203,8 @@
             <key type="filename">Impact/Impact.iOS/Content/Images/Ld/PowerupFireball.png</key>
             <key type="filename">Impact/Impact.iOS/Content/Images/Ld/PowerupLargerPaddle.png</key>
             <key type="filename">Impact/Impact.iOS/Content/Images/Ld/PowerupMultiBall.png</key>
+            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/WormholeIn.png</key>
+            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/WormholeOut.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -225,6 +227,8 @@
             <filename>Impact/Impact.iOS/Content/Images/Ld/PowerupLargerPaddle.png</filename>
             <filename>Impact/Impact.iOS/Content/Images/Ld/PowerupMultiBall.png</filename>
             <filename>Impact/Impact.iOS/Content/Images/Ld/LevelSelectMenuButton.png</filename>
+            <filename>Impact/Impact.iOS/Content/Images/Ld/WormholeIn.png</filename>
+            <filename>Impact/Impact.iOS/Content/Images/Ld/WormholeOut.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

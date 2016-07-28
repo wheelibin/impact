@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="left-up" width="7" height="21" tilewidth="114" tileheight="38" nextobjectid="10">
+<map version="1.0" orientation="orthogonal" renderorder="left-up" width="7" height="21" tilewidth="114" tileheight="38" backgroundcolor="#002028" nextobjectid="9">
  <properties>
   <property name="FinalBallSpeedPercentageIncrease" type="int" value="75"/>
  </properties>
@@ -79,11 +79,11 @@
    <image width="57" height="38" source="../Images/Ld/PowerupMultiBall.png"/>
   </tile>
  </tileset>
- <tileset firstgid="13" name="Wormholes" tilewidth="114" tileheight="110" tilecount="1" columns="0">
+ <tileset firstgid="13" name="Wormholes" tilewidth="114" tileheight="114" tilecount="2" columns="0">
+  <tile id="0">
+   <image width="114" height="114" source="../Images/Ld/WormholeIn.png"/>
+  </tile>
   <tile id="1">
-   <properties>
-    <property name="WorkholeType" type="int" value="2"/>
-   </properties>
    <image width="114" height="110" source="../Images/Ld/WormholeOut.png"/>
   </tile>
  </tileset>
@@ -91,19 +91,19 @@
   <data encoding="csv">
 0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,
+0,0,5,5,5,0,0,
+0,0,5,5,5,0,0,
+0,0,7,7,7,0,0,
 9,9,9,9,9,9,9,
 0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,
-0,0,1,0,1,0,0,
-0,0,1,0,1,0,0,
-0,0,1,0,1,0,0,
-0,0,1,3,1,0,0,
-0,0,1,3,1,0,0,
-0,0,1,3,1,0,0,
-0,0,1,0,1,0,0,
-0,0,1,0,1,0,0,
-0,0,1,0,1,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+4,4,4,4,4,4,4,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,
@@ -128,7 +128,7 @@
 0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,
-0,0,11,0,0,0,0,
+0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,
@@ -137,4 +137,28 @@
 0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup name="Wormholes">
+  <object id="3" name="C" gid="13" x="10" y="352" width="114" height="114">
+   <properties>
+    <property name="ExitName" value="B"/>
+    <property name="WormholeType" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="5" name="A" gid="13" x="10" y="180" width="114" height="114">
+   <properties>
+    <property name="ExitName" value="D"/>
+    <property name="WormholeType" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="7" name="D" gid="14" x="673" y="348" width="114" height="110">
+   <properties>
+    <property name="WormholeType" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="8" name="B" gid="14" x="674" y="180" width="114" height="110">
+   <properties>
+    <property name="WormholeType" type="int" value="1"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

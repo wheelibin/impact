@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AudioUnit;
 using CocosSharp;
+using Impact.Entities;
 using Impact.Game.Config;
 using Impact.Game.Entities;
 using Impact.Game.Entities.Powerups;
@@ -24,6 +24,7 @@ namespace Impact.Scenes
         private readonly List<Powerup> _powerups = new List<Powerup>();
         private readonly List<Powerup> _activatedPowerups = new List<Powerup>();
         private readonly List<Ball> _balls = new List<Ball>();
+        private readonly List<Wormhole> _wormholes = new List<Wormhole>();
 
         private float _levelTimer = 0;
 
@@ -78,6 +79,7 @@ namespace Impact.Scenes
             CollisionManager.Instance.BrickHitButNotDestroyed += CollisionManager_BrickHitButNotDestroyed;
             CollisionManager.Instance.PaddleHit += CollisionManager_PaddleHit;
             GameManager.Instance.LevelStarted += GameManager_LevelStarted;
+            WormholeFactory.Instance.WormholeCreated += WormholeFactory_WormholeCreated;
 
             // Register for touch events
             var touchListener = new CCEventListenerTouchAllAtOnce
@@ -148,6 +150,12 @@ namespace Impact.Scenes
             brick.RemoveFromParent();
             
             GameManager.Instance.Score += 10;
+        }
+
+        private void WormholeFactory_WormholeCreated(Entities.Wormhole wormhole)
+        {
+            _wormholes.Add(wormhole);
+            _gameLayer.AddChild(wormhole);
         }
 
         private void CollisionManager_PaddleHit()
@@ -224,7 +232,7 @@ namespace Impact.Scenes
 
             _scoreLabel.Text = GameManager.Instance.Score.ToString("000000");
 
-            CollisionManager.Instance.HandleCollisions(_gameLayer, _paddle, _balls, _bricks, _powerups, _activatedPowerups);
+            CollisionManager.Instance.HandleCollisions(_gameLayer, _paddle, _balls, _bricks, _powerups, _activatedPowerups, _wormholes);
 
             //Game over?
             if (_balls.Count == 0)
@@ -243,7 +251,7 @@ namespace Impact.Scenes
                     powerup.Deactivate();
                 }
                 _powerups.Clear();
-
+                
                 //Reset ball(s)
                 BallFactory.Instance.ResetBalls(_balls);
 
@@ -266,6 +274,10 @@ namespace Impact.Scenes
         {
             _bricks.ForEach(b => b.RemoveFromParent());
             _bricks.Clear();
+
+            _wormholes.ForEach(b => b.RemoveFromParent());
+            _wormholes.Clear();
+
             LevelManager.Instance.LoadLevel(level, _paddle, _balls);
             GameManager.Instance.StartStopLevel(false);
         }

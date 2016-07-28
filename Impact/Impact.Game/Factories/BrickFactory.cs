@@ -2,7 +2,6 @@
 using CocosSharp;
 using Impact.Game.Entities;
 using Impact.Game.Entities.Powerups;
-using Impact.Game.Enums;
 
 namespace Impact.Game.Factories
 {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using CocosSharp;
+using Impact.Enums;
 using Impact.Game.Config;
 using Impact.Game.Entities;
 using Impact.Game.Entities.Powerups;
@@ -30,11 +31,13 @@ namespace Impact.Game.Managers
         private const string BrickTileset = "Bricks";
         private const string PowerupLayer = "Powerups";
         private const string PowerupTileset = "Powerups";
+        private const string WormholeObjectGroup = "Wormholes";
+        private const string WormholeTileset = "Wormholes";
 
         private const string BaseLevelFolder = "Content/Levels/level";
 
         public int NumberOfLevels { get; private set; }
-        public int CurrentLevel{ get; set; }
+        public int CurrentLevel { get; set; }
         public LevelProperties CurrentLevelProperties { get; private set; }
 
         public LevelManager()
@@ -115,6 +118,35 @@ namespace Impact.Game.Managers
                     var brick = BrickFactory.Instance.CreateNew(brickImageFilename, brickPosition, 1, hitsToDestroy, powerup);
                     bricks.Add(brick);
 
+                }
+            }
+
+            //Wormholes
+            if (tileMap.Tilesets.Contains(WormholeTileset))
+            {
+                TmxTileset wormholeTileset = tileMap.Tilesets[WormholeTileset];
+                TmxObjectGroup wormholes = tileMap.ObjectGroups[WormholeObjectGroup];
+
+                foreach (TmxObject wormhole in wormholes.Objects)
+                {
+                    TmxTilesetTile wormholeTilesetTile = wormholeTileset.Tiles[wormhole.Tile.Gid - wormholeTileset.FirstGid];
+                    string wormholeImageFilename = Path.GetFileName(wormholeTilesetTile.Image.Source);
+                    
+                    //Because we draw the bricks manually, with a gap, the coordinates for objects on the map need adjusting to our level coordinates.
+                    //The coordinates will be out by the number of brick gaps between the point and 0,0
+                    float xAdjustment = (int)(wormhole.X / tileMap.TileWidth) * GameConstants.BrickGap;
+                    float yAdjustment = (int)(wormhole.Y / tileMap.TileHeight) * GameConstants.BrickGap;
+
+                    CCPoint position = new CCPoint((float)wormhole.X + xAdjustment, (startY + tileHeight) - ((float)wormhole.Y + yAdjustment));
+
+                    WormholeType wormholeType = (WormholeType)Enum.Parse(typeof(WormholeType), wormhole.Properties["WormholeType"]);
+
+                    string exitName = string.Empty;
+                    if (wormhole.Properties.ContainsKey("ExitName"))
+                    {
+                        exitName = wormhole.Properties["ExitName"];
+                    }
+                    WormholeFactory.Instance.CreateNew(wormholeImageFilename, position, wormholeType, wormhole.Name, exitName);
                 }
             }
 

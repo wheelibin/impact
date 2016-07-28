@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using CocosSharp;
+using Impact.Entities;
+using Impact.Enums;
 using Impact.Game.Config;
 using Impact.Game.Entities;
 using Impact.Game.Entities.Powerups;
@@ -17,8 +19,8 @@ namespace Impact.Game.Managers
 
         public event Action PaddleHit;
         public event Action BrickHitButNotDestroyed;
-        
-        public void HandleCollisions(CCLayer layer, Paddle paddle, List<Ball> balls, List<Brick> bricks, List<Powerup> powerups, List<Powerup> activatedPowerups)
+
+        public void HandleCollisions(CCLayer layer, Paddle paddle, List<Ball> balls, List<Brick> bricks, List<Powerup> powerups, List<Powerup> activatedPowerups, List<Wormhole> wormholes)
         {
 
             CCRect paddleBoundingBox = paddle.BoundingBoxTransformedToWorld;
@@ -27,13 +29,15 @@ namespace Impact.Game.Managers
             {
                 Ball ball = balls[ballIndex];
 
+                bool isMovingDownward = ball.VelocityY < 0;
+                bool isMovingLeft = ball.VelocityX < 0;
+
                 CCRect ballBoundingBox = ball.BoundingBoxTransformedToWorld;
 
                 //Bounce off paddle
-                
-                bool ballHitPaddle = ballBoundingBox.IntersectsRect(paddleBoundingBox);
-                bool isMovingDownward = ball.VelocityY < 0;
 
+                bool ballHitPaddle = ballBoundingBox.IntersectsRect(paddleBoundingBox);
+               
                 if (ballHitPaddle && isMovingDownward)
                 {
                     // Y velocity
@@ -168,6 +172,44 @@ namespace Impact.Game.Managers
                     }
 
                 }
+
+
+                //Wormholes
+                foreach (Wormhole wormhole in wormholes.Where(w => w.WormholeType == WormholeType.In || w.WormholeType == WormholeType.InOut))
+                {
+
+                    CCRect wormholeBoundingBox = wormhole.BoundingBoxTransformedToWorld;
+                    bool enteredWormhole = ballBoundingBox.IntersectsRect(wormholeBoundingBox);
+
+                    if (enteredWormhole)
+                    {
+                        //Get the exit wormhole
+                        Wormhole exit = wormholes.First(w => w.ObjectName == wormhole.ExitName);
+                        ball.Position = exit.BoundingBoxTransformedToWorld.Center;
+
+                        //if (!isMovingDownward)
+                        //{
+                        //    ball.PositionY -= exit.ContentSize.Height/2; 
+                        //}
+                        //else
+                        //{
+                        //    ball.PositionY += exit.ContentSize.Height/2;
+                        //}
+
+                        //if (isMovingLeft)
+                        //{
+                        //    ball.PositionX -= exit.ContentSize.Width/2;
+                        //}
+                        //else
+                        //{
+                        //    ball.PositionX += exit.ContentSize.Width/2;
+                        //}
+
+                        return;
+                    }
+
+                }
+
             }
 
             //Have we caught a powerup?
@@ -191,13 +233,13 @@ namespace Impact.Game.Managers
         {
             const int variationPercentage = 5;
 
-            int variationAmount = (input/100)*variationPercentage;
+            int variationAmount = (input / 100) * variationPercentage;
 
             var rnd = new Random();
 
             if (input < 0)
             {
-                return rnd.Next(input + variationAmount, input - variationAmount); 
+                return rnd.Next(input + variationAmount, input - variationAmount);
             }
             return rnd.Next(input - variationAmount, input + variationAmount);
         }
@@ -212,14 +254,14 @@ namespace Impact.Game.Managers
         {
             // Default to no separation
             CCVector2 separation = CCVector2.Zero;
-            
+
             // Only calculate separation if the rectangles intersect
             if (first.IntersectsRect(second))
             {
                 // The intersectionRect returns the rectangle produced
                 // by overlapping the two rectangles
                 var intersectionRect = first.Intersection(second);
-               
+
                 //Workaround CCRECT bug
                 if (intersectionRect.Size.Height == second.MinY)
                 {
@@ -268,6 +310,6 @@ namespace Impact.Game.Managers
             return separation;
         }
 
-        
+
     }
 }

@@ -49,7 +49,7 @@ namespace Impact
 
         public static void GoToScene(CCScene scene)
         {
-            GameView.Director.ReplaceScene(new CCTransitionFadeUp(0.6f, scene));
+            GameView.Director.ReplaceScene(new CCTransitionMoveInB(0.6f, scene));
         }
     }
 }

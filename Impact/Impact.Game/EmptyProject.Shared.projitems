@@ -22,11 +22,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Entities\Powerups\MultiBallPowerup.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\Powerups\Powerup.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\Rocket.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\Wormhole.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\BrickTypeEnum.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\PowerUpTypeEnum.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\WormholeTypeEnum.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Factories\BallFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Factories\BrickFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Factories\PowerupFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Factories\WormholeFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Layers\GameOverLayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Managers\CollisionManager.cs" />
