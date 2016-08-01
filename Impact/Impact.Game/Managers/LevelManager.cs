@@ -54,16 +54,24 @@ namespace Impact.Game.Managers
             var tileMap = new TmxMap(BaseLevelFolder + level.ToString("000") + ".tmx");
 
             //Set the level properties
+
+            bool gravity = false;
+            if (tileMap.Properties.ContainsKey("Gravity"))
+            {
+                gravity = bool.Parse(tileMap.Properties["Gravity"]);
+            }
+
             CurrentLevelProperties = new LevelProperties
             {
-                FinalBallSpeedPercentageIncrease = int.Parse(tileMap.Properties[FinalBallSpeedPercentageIncreaseProperty])
+                FinalBallSpeedPercentageIncrease = int.Parse(tileMap.Properties[FinalBallSpeedPercentageIncreaseProperty]),
+                Gravity = gravity
             };
 
             //Layout config
             int tileWidth = 114 + GameConstants.BrickGap;
             int tileHeight = 38 + GameConstants.BrickGap;
             int tileMapHeight = tileMap.Height * tileHeight;
-            int yOffset = 300;
+            int yOffset = 450;
             int startY = tileMapHeight + yOffset;
 
             //Get the layers and tilesets
@@ -87,6 +95,16 @@ namespace Impact.Game.Managers
 
                     //Get brick properties
                     int hitsToDestroy = int.Parse(brickTilesetTile.Properties[HitsToDestroyProperty]);
+
+                    BrickType brickType;
+                    if (brickTilesetTile.Properties.ContainsKey("BrickType"))
+                    {
+                        brickType = (BrickType)Enum.Parse(typeof(BrickType), brickTilesetTile.Properties["BrickType"]);
+                    }
+                    else
+                    {
+                        brickType = BrickType.NotSet;
+                    }
 
                     CCPoint brickPosition = new CCPoint(brickTile.X * tileWidth, startY - (brickTile.Y * tileHeight));
 
@@ -114,15 +132,21 @@ namespace Impact.Game.Managers
                         }
                     }
 
+                    float bounceFactor = 0;
+                    if (brickTilesetTile.Properties.ContainsKey("BounceFactor"))
+                    {
+                        bounceFactor = float.Parse(brickTilesetTile.Properties["BounceFactor"]);
+                    }
+
                     //Add the brick
-                    var brick = BrickFactory.Instance.CreateNew(brickImageFilename, brickPosition, 1, hitsToDestroy, powerup);
+                    var brick = BrickFactory.Instance.CreateNew(brickImageFilename, brickPosition, 1, hitsToDestroy, powerup, bounceFactor, brickType);
                     bricks.Add(brick);
 
                 }
             }
 
             //Wormholes
-            if (tileMap.Tilesets.Contains(WormholeTileset))
+            if (tileMap.ObjectGroups.Contains(WormholeObjectGroup))
             {
                 TmxTileset wormholeTileset = tileMap.Tilesets[WormholeTileset];
                 TmxObjectGroup wormholes = tileMap.ObjectGroups[WormholeObjectGroup];
@@ -131,7 +155,7 @@ namespace Impact.Game.Managers
                 {
                     TmxTilesetTile wormholeTilesetTile = wormholeTileset.Tiles[wormhole.Tile.Gid - wormholeTileset.FirstGid];
                     string wormholeImageFilename = Path.GetFileName(wormholeTilesetTile.Image.Source);
-                    
+
                     //Because we draw the bricks manually, with a gap, the coordinates for objects on the map need adjusting to our level coordinates.
                     //The coordinates will be out by the number of brick gaps between the point and 0,0
                     float xAdjustment = (int)(wormhole.X / tileMap.TileWidth) * GameConstants.BrickGap;

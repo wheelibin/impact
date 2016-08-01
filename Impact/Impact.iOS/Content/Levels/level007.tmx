@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="left-up" width="7" height="21" tilewidth="114" tileheight="38" backgroundcolor="#002028" nextobjectid="10">
+<map version="1.0" orientation="orthogonal" renderorder="left-up" width="7" height="21" tilewidth="114" tileheight="38" backgroundcolor="#002028" nextobjectid="13">
  <properties>
   <property name="FinalBallSpeedPercentageIncrease" type="int" value="75"/>
+  <property name="Gravity" type="bool" value="true"/>
  </properties>
- <tileset firstgid="1" name="Bricks" tilewidth="114" tileheight="38" tilecount="9" columns="0">
+ <tileset firstgid="1" name="Bricks" tilewidth="114" tileheight="38" tilecount="10" columns="0">
   <tile id="0">
    <properties>
     <property name="HitsToDestroy" type="int" value="1"/>
@@ -58,8 +59,16 @@
    </properties>
    <image width="114" height="38" source="../Images/Ld/Brick-E1.png"/>
   </tile>
+  <tile id="9">
+   <properties>
+    <property name="BounceFactor" type="float" value="1.3999999999999999"/>
+    <property name="BrickType" type="int" value="2"/>
+    <property name="HitsToDestroy" type="int" value="-1"/>
+   </properties>
+   <image width="114" height="19" source="../Images/Ld/Brick-Bounce1.png"/>
+  </tile>
  </tileset>
- <tileset firstgid="10" name="Powerups" tilewidth="57" tileheight="40" tilecount="3" columns="0">
+ <tileset firstgid="11" name="Powerups" tilewidth="57" tileheight="40" tilecount="3" columns="0">
   <tile id="0">
    <properties>
     <property name="PowerupType" type="int" value="3"/>
@@ -79,37 +88,37 @@
    <image width="57" height="38" source="../Images/Ld/PowerupMultiBall.png"/>
   </tile>
  </tileset>
- <tileset firstgid="13" name="Wormholes" tilewidth="114" tileheight="110" tilecount="1" columns="0">
+ <tileset firstgid="14" name="Wormholes" tilewidth="114" tileheight="114" tilecount="2" columns="0">
+  <tile id="0">
+   <image width="114" height="114" source="../Images/Ld/WormholeIn.png"/>
+  </tile>
   <tile id="1">
-   <properties>
-    <property name="WorkholeType" type="int" value="2"/>
-   </properties>
    <image width="114" height="110" source="../Images/Ld/WormholeOut.png"/>
   </tile>
  </tileset>
  <layer name="Bricks" width="7" height="21">
   <data encoding="csv">
+0,0,0,9,0,0,9,
+0,0,0,9,0,0,9,
+0,0,0,9,0,0,9,
+0,0,0,9,5,5,9,
+0,0,0,9,0,0,9,
+0,0,0,9,3,3,9,
+0,0,0,9,0,0,9,
+0,0,0,9,7,7,9,
+0,0,0,9,0,0,9,
+0,0,0,9,1,1,9,
+0,0,0,9,0,0,9,
+0,0,0,9,0,0,9,
+0,0,0,9,0,0,9,
+0,0,0,9,9,9,9,
 0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,
-9,9,9,9,9,9,9,
+0,0,0,0,0,6,6,
 0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,
-0,0,3,0,3,0,0,
-0,0,5,0,5,0,0,
-0,0,1,0,1,0,0,
-0,0,5,3,5,0,0,
-0,0,1,1,1,0,0,
-0,0,5,3,5,0,0,
-0,0,1,0,1,0,0,
-0,0,5,0,5,0,0,
-0,0,3,0,3,0,0,
-0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,
-0,0,0,0,0,0,0
+10,10,0,0,0,0,0,
+9,9,0,0,0,0,0
 </data>
  </layer>
  <layer name="Powerups" width="7" height="21">
@@ -128,7 +137,7 @@
 0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,
-0,0,11,0,0,0,0,
+0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,
@@ -137,4 +146,28 @@
 0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup name="Wormholes">
+  <object id="9" name="A" gid="15" x="52" y="231" width="114" height="110">
+   <properties>
+    <property name="ExitName" value="B"/>
+    <property name="WormholeType" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="10" name="B" gid="14" x="514" y="73" width="114" height="114">
+   <properties>
+    <property name="WormholeType" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="11" name="C" gid="15" x="513" y="531" width="114" height="110">
+   <properties>
+    <property name="ExitName" value="D"/>
+    <property name="WormholeType" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="12" name="D" gid="14" x="681" y="650" width="114" height="114">
+   <properties>
+    <property name="WormholeType" type="int" value="1"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

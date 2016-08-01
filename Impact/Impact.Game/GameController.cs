@@ -24,7 +24,7 @@ namespace Impact
 
             // Set world dimensions
             gameView.DesignResolution = new CCSizeI(GameConstants.WorldWidth, GameConstants.WorldHeight);
-            gameView.ResolutionPolicy = CCViewResolutionPolicy.ExactFit;
+            gameView.ResolutionPolicy = CCViewResolutionPolicy.ShowAll;
 
             // Determine whether to use the high or low def versions of our images
             // Make sure the default texel to content size ratio is set correctly
@@ -43,13 +43,14 @@ namespace Impact
             gameView.ContentManager.SearchPaths = contentSearchPaths;
             gameView.Stats.Enabled = true;
 
+            //GameManager.Instance.DebugMode = true;
             GameManager.Instance.TitleScene = new TitleScene(gameView);
             gameView.RunWithScene(GameManager.Instance.TitleScene);
         }
 
         public static void GoToScene(CCScene scene)
         {
-            GameView.Director.ReplaceScene(new CCTransitionMoveInB(0.6f, scene));
+            GameView.Director.ReplaceScene(scene);
         }
     }
 }

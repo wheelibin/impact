@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="left-up" width="7" height="21" tilewidth="114" tileheight="38" nextobjectid="3">
+<map version="1.0" orientation="orthogonal" renderorder="left-up" width="7" height="21" tilewidth="114" tileheight="38" backgroundcolor="#002028" nextobjectid="3">
  <properties>
   <property name="FinalBallSpeedPercentageIncrease" type="int" value="75"/>
  </properties>

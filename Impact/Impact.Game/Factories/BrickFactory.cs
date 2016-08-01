@@ -2,6 +2,7 @@
 using CocosSharp;
 using Impact.Game.Entities;
 using Impact.Game.Entities.Powerups;
+using Impact.Game.Enums;
 
 namespace Impact.Game.Factories
 {
@@ -15,9 +16,9 @@ namespace Impact.Game.Factories
         public event Action<Brick> BrickCreated;
         public event Action<Brick> BrickDestroyed;
 
-        public Brick CreateNew(string spriteImageFilename, CCPoint position, float scale, int hitsToDestroy, Powerup powerup)
+        public Brick CreateNew(string spriteImageFilename, CCPoint position, float scale, int hitsToDestroy, Powerup powerup, float bounceFactor, BrickType brickType)
         {
-            Brick newBrick = new Brick(spriteImageFilename, position, scale, hitsToDestroy, powerup);
+            Brick newBrick = new Brick(spriteImageFilename, position, scale, hitsToDestroy, powerup, bounceFactor, brickType);
             BrickCreated?.Invoke(newBrick);
             return newBrick;
         }

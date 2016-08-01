@@ -29,14 +29,14 @@ namespace Impact.Game.Managers
 
             BrickSounds = new List<string>
             {
-                "massive-banzai23/D3.mp3",
-                "massive-banzai23/E3.mp3",
-                "massive-banzai23/F3.mp3",
-                "massive-banzai23/G3.mp3",
-                "massive-banzai23/A3.mp3",
-                "massive-banzai23/As3.mp3",
-                "massive-banzai23/C3.mp3",
-                "massive-banzai23/D4.mp3"
+                "massive-banzai23/D3.wav",
+                "massive-banzai23/E3.wav",
+                "massive-banzai23/F3.wav",
+                "massive-banzai23/G3.wav",
+                "massive-banzai23/A3.wav",
+                "massive-banzai23/As3.wav",
+                "massive-banzai23/C3.wav",
+                "massive-banzai23/D4.wav"
             };
 
         }

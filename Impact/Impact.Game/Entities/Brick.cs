@@ -15,11 +15,21 @@ namespace Impact.Game.Entities
         public Powerup Powerup { get; set; }
         public int HitsToDestroy { get; set; }
         public int HitsTaken { get; set; }
+        public float BounceFactor { get; set; }
+        public bool IsIndestructible { get; set; }
 
-        public Brick(string spriteImageFilename, CCPoint position, float scale, int hitsToDestroy, Powerup powerup)
+        public Brick(string spriteImageFilename, CCPoint position, float scale, int hitsToDestroy, Powerup powerup, float bounceFactor, BrickType brickType)
         {
+            if (brickType != BrickType.NotSet)
+            {
+                BrickType = brickType;
+            }
+            else
+            {
+                BrickType = hitsToDestroy == -1 ? BrickType.Indistructible : BrickType.Normal;
+            }
 
-            BrickType = hitsToDestroy == -1 ? BrickType.Indistructible : BrickType.Normal;
+            IsIndestructible = BrickType == BrickType.Indistructible || BrickType == BrickType.Bouncey;
 
             var frame = GameManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == spriteImageFilename);
             _sprite = new CCSprite(frame)
@@ -28,18 +38,23 @@ namespace Impact.Game.Entities
             };
             AddChild(_sprite);
 
-            if (BrickType == BrickType.Indistructible)
-            {
-                //hack to prevent balls from squeezing through indestructable brick gaps
-                var size = _sprite.ContentSize;
-                size.Width += GameConstants.BrickGap;
-                ContentSize = size;
-            }
-            else
-            {
-                ContentSize = _sprite.ContentSize;
-            }
-            
+            //if (BrickType == BrickType.Indistructible)
+            //{
+            //    //hack to prevent balls from squeezing through indestructable brick gaps
+            //    var size = _sprite.ContentSize;
+            //    size.Width += GameConstants.BrickGap;
+            //    ContentSize = size;
+
+            //    var drawNode = new CCDrawNode();
+            //    AddChild(drawNode);
+            //    drawNode.DrawRect(new CCRect(PositionX, PositionY, ContentSize.Width, ContentSize.Height), CCColor4B.Transparent, 1, CCColor4B.Red);
+
+            //}
+            //else
+            //{
+            ContentSize = _sprite.ContentSize;
+            //}
+
             AnchorPoint = CCPoint.AnchorLowerLeft;
             PositionX = position.X;
             PositionY = position.Y;
@@ -48,12 +63,13 @@ namespace Impact.Game.Entities
 
             HitsToDestroy = hitsToDestroy;
             Powerup = powerup;
+            BounceFactor = bounceFactor;
             HitsTaken = 0;
         }
 
         public bool Hit()
         {
-            if (BrickType == BrickType.Indistructible)
+            if (IsIndestructible)
             {
                 return false;
             }

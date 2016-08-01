@@ -193,6 +193,7 @@
             <key type="filename">Impact/Impact.iOS/Content/Images/Ld/Brick-A2.png</key>
             <key type="filename">Impact/Impact.iOS/Content/Images/Ld/Brick-B1.png</key>
             <key type="filename">Impact/Impact.iOS/Content/Images/Ld/Brick-B2.png</key>
+            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/Brick-Bounce1.png</key>
             <key type="filename">Impact/Impact.iOS/Content/Images/Ld/Brick-C1.png</key>
             <key type="filename">Impact/Impact.iOS/Content/Images/Ld/Brick-C2.png</key>
             <key type="filename">Impact/Impact.iOS/Content/Images/Ld/Brick-D1.png</key>
@@ -229,6 +230,7 @@
             <filename>Impact/Impact.iOS/Content/Images/Ld/LevelSelectMenuButton.png</filename>
             <filename>Impact/Impact.iOS/Content/Images/Ld/WormholeIn.png</filename>
             <filename>Impact/Impact.iOS/Content/Images/Ld/WormholeOut.png</filename>
+            <filename>Impact/Impact.iOS/Content/Images/Ld/Brick-Bounce1.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

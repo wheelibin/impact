@@ -4,6 +4,7 @@
     {
         NotSet = -1,
         Indistructible = 0,
-        Normal = 1
+        Normal = 1,
+        Bouncey = 2
     }
 }

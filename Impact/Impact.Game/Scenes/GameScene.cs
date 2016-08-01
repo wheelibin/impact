@@ -187,7 +187,7 @@ namespace Impact.Scenes
 
         private void GameManager_LevelStarted(bool started)
         {
-            if (started)
+            if (started || GameManager.Instance.DebugMode)
             {
                 Schedule(RunGameLogic);
                 Schedule(UpdateTimer, 0.25f);
@@ -242,7 +242,7 @@ namespace Impact.Scenes
             }
 
             //Level Complete?
-            bool allBricksAreIndistructible = _bricks.All(b => b.BrickType == BrickType.Indistructible);
+            bool allBricksAreIndistructible = _bricks.All(b => b.IsIndestructible);
             if (_bricks.Count == 0 || allBricksAreIndistructible)
             {
                 //Reset powerups
@@ -265,9 +265,12 @@ namespace Impact.Scenes
 
         private void PlayRandomBrickSound()
         {
-            Random rnd = new Random();
-            int r = rnd.Next(GameManager.Instance.BrickSounds.Count);
-            CCAudioEngine.SharedEngine.PlayEffect(GameManager.Instance.BrickSounds[r]);
+            if (!GameManager.Instance.DebugMode)
+            {
+                Random rnd = new Random();
+                int r = rnd.Next(GameManager.Instance.BrickSounds.Count);
+                CCAudioEngine.SharedEngine.PlayEffect(GameManager.Instance.BrickSounds[r]);
+            }
         }
 
         private void LoadLevel(int level)
@@ -279,6 +282,8 @@ namespace Impact.Scenes
             _wormholes.Clear();
 
             LevelManager.Instance.LoadLevel(level, _paddle, _balls);
+            _balls.ForEach(ball => ball.ApplyGravity = LevelManager.Instance.CurrentLevelProperties.Gravity);
+
             GameManager.Instance.StartStopLevel(false);
         }
 

@@ -57,8 +57,9 @@
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchProfiling>true</MtouchProfiling>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Developer: Jon Wheeler (E377NE4KJ9)</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
+    <CodesignProvision>ee415602-436c-4814-86bf-dbfdfaa4921e</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -88,6 +89,8 @@
     <BundleResource Include="Content\Levels\level004.tmx" />
     <BundleResource Include="Content\Levels\level000.tmx" />
     <BundleResource Include="Content\Levels\level005.tmx" />
+    <BundleResource Include="Content\Levels\level006.tmx" />
+    <BundleResource Include="Content\Levels\level007.tmx" />
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
     <None Include="packages.config" />
@@ -95,16 +98,16 @@
   <ItemGroup>
     <Content Include="Content\Images\Ld\Spritesheets\GameEntities.plist" />
     <BundleResource Include="Content\Images\Ld\Spritesheets\GameEntities.png" />
-    <BundleResource Include="Content\Sounds\massive-banzai23\As3.mp3" />
-    <BundleResource Include="Content\Sounds\massive-banzai23\A3.mp3" />
-    <BundleResource Include="Content\Sounds\massive-banzai23\C3.mp3" />
-    <BundleResource Include="Content\Sounds\massive-banzai23\D3.mp3" />
-    <BundleResource Include="Content\Sounds\massive-banzai23\D4.mp3" />
-    <BundleResource Include="Content\Sounds\massive-banzai23\E3.mp3" />
-    <BundleResource Include="Content\Sounds\massive-banzai23\F3.mp3" />
-    <BundleResource Include="Content\Sounds\massive-banzai23\G3.mp3" />
     <Content Include="Content\Images\Ld\Spritesheets\TitleScreen.plist" />
     <BundleResource Include="Content\Images\Ld\Spritesheets\TitleScreen.png" />
+    <BundleResource Include="Content\Sounds\massive-banzai23\A3.wav" />
+    <BundleResource Include="Content\Sounds\massive-banzai23\As3.wav" />
+    <BundleResource Include="Content\Sounds\massive-banzai23\C3.wav" />
+    <BundleResource Include="Content\Sounds\massive-banzai23\D3.wav" />
+    <BundleResource Include="Content\Sounds\massive-banzai23\D4.wav" />
+    <BundleResource Include="Content\Sounds\massive-banzai23\E3.wav" />
+    <BundleResource Include="Content\Sounds\massive-banzai23\F3.wav" />
+    <BundleResource Include="Content\Sounds\massive-banzai23\G3.wav" />
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
   </ItemGroup>

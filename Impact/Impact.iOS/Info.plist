@@ -5,7 +5,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>Impact.iOS</string>
 	<key>CFBundleIdentifier</key>
-	<string>Impact.iOS</string>
+	<string>uk.co.jwss.impact</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
