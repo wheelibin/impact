@@ -20,20 +20,19 @@ namespace Impact.Game.Scenes
 
         private readonly List<Brick> _bricks = new List<Brick>();
         private readonly List<Powerup> _powerups = new List<Powerup>();
+        private readonly List<ScoreUp> _scoreUps = new List<ScoreUp>();
         private readonly List<Powerup> _activatedPowerups = new List<Powerup>();
         private readonly List<Ball> _balls = new List<Ball>();
         private readonly List<Wormhole> _wormholes = new List<Wormhole>();
 
         private readonly ScoreManager _scoreManager = new ScoreManager();
-        private readonly CollisionManager _collisionManager;
+        private readonly CollisionManager _collisionManager = new CollisionManager();
 
         private float _levelTimer = 0;
 
         public GameScene(CCGameView gameView) : base(gameView)
         {
             GameManager.Instance.CheatModeEnabled = true;
-
-            _collisionManager = new CollisionManager(_scoreManager);
 
             //Preload the entire spritesheet
             CCSpriteFrameCache.SharedSpriteFrameCache.AddSpriteFrames(GameConstants.GameEntitiesSpriteSheet, GameConstants.GameEntitiesSpriteSheetImage);
@@ -80,8 +79,11 @@ namespace Impact.Game.Scenes
             BrickFactory.Instance.BrickDestroyed += BrickFactory_BrickDestroyed;
             _collisionManager.BrickHitButNotDestroyed += CollisionManager_BrickHitButNotDestroyed;
             _collisionManager.PaddleHit += CollisionManager_PaddleHit;
+            _collisionManager.PowerupCollected += CollisionManager_PowerupCollected;
+            _collisionManager.ScoreUpCollected += CollisionManager_ScoreUpCollected;
             GameManager.Instance.LevelStarted += GameManager_LevelStarted;
             WormholeFactory.Instance.WormholeCreated += WormholeFactory_WormholeCreated;
+            ScoreUpFactory.Instance.ScoreUpCreated += ScoreUpFactory_ScoreUpCreated;
 
             // Register for touch events
             var touchListener = new CCEventListenerTouchAllAtOnce
@@ -171,6 +173,31 @@ namespace Impact.Game.Scenes
             PlayRandomBrickSound();
         }
 
+        private void CollisionManager_ScoreUpCollected(ScoreUp scoreUp)
+        {
+            _scoreManager.ScoreUpCollected(scoreUp.Score);
+
+            scoreUp.RemoveFromParent();
+            _scoreUps.Remove(scoreUp);
+        }
+
+        private void CollisionManager_PowerupCollected(Powerup powerup)
+        {
+            powerup.Activate();
+            _activatedPowerups.Add(powerup);
+
+            powerup.RemoveFromParent();
+            _powerups.Remove(powerup);
+
+            _scoreManager.PowerupCollected();
+        }
+
+        private void ScoreUpFactory_ScoreUpCreated(ScoreUp scoreUp)
+        {
+            _scoreUps.Add(scoreUp);
+            _gameLayer.AddChild(scoreUp);
+        }
+
         private void Ball_OnTouchesMoved(List<CCTouch> touches, CCEvent arg2)
         {
             if (touches.Count > 0)
@@ -191,12 +218,16 @@ namespace Impact.Game.Scenes
             if (started || GameManager.Instance.DebugMode)
             {
                 Schedule(RunGameLogic);
-                Schedule(UpdateTimer, 0.25f);
+                //Schedule(UpdateTimer, 0.25f);
+                Schedule((frameTime) =>
+                {
+                    ScoreUpFactory.Instance.CreateNew();
+                }, 10);
             }
             else
             {
-                Unschedule(RunGameLogic);
-                Unschedule(UpdateTimer);
+                Unschedule();
+                //Unschedule(UpdateTimer);
             }
             
         }
@@ -209,13 +240,6 @@ namespace Impact.Game.Scenes
             }
         }
 
-        //private void OnTouchesEnded(List<CCTouch> touches, CCEvent touchEvent)
-        //{
-        //    if (touches.Count > 0)
-        //    {
-        //        _scoreLabel.Text = touches[0].Location.ToString();
-        //    }
-        //}
         #endregion
         
         /// <summary>
@@ -233,7 +257,7 @@ namespace Impact.Game.Scenes
 
             _scoreLabel.Text = _scoreManager.Score.ToString("000000");
 
-            _collisionManager.HandleCollisions(_gameLayer, _paddle, _balls, _bricks, _powerups, _activatedPowerups, _wormholes);
+            _collisionManager.HandleCollisions(_gameLayer, _paddle, _balls, _bricks, _powerups, _wormholes, _scoreUps);
 
             //Game over?
             if (_balls.Count == 0)

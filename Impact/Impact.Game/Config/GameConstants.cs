@@ -40,7 +40,9 @@ namespace Impact.Game.Config
         public const float PowerupFireballSeconds = 10;
         public const int PowerupZOrder = 10;
 
-        
+        //ScoreUps
+        public const float ScoreUpGravity = 100;
+
 
 
     }

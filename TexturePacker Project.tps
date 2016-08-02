@@ -204,6 +204,7 @@
             <key type="filename">Impact/Impact.iOS/Content/Images/Ld/PowerupFireball.png</key>
             <key type="filename">Impact/Impact.iOS/Content/Images/Ld/PowerupLargerPaddle.png</key>
             <key type="filename">Impact/Impact.iOS/Content/Images/Ld/PowerupMultiBall.png</key>
+            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/ScoreDrop.png</key>
             <key type="filename">Impact/Impact.iOS/Content/Images/Ld/SmallBrick-A1.png</key>
             <key type="filename">Impact/Impact.iOS/Content/Images/Ld/SmallBrick-A2.png</key>
             <key type="filename">Impact/Impact.iOS/Content/Images/Ld/SmallBrick-B1.png</key>
@@ -257,6 +258,7 @@
             <filename>Impact/Impact.iOS/Content/Images/Ld/SmallPowerupFireball.png</filename>
             <filename>Impact/Impact.iOS/Content/Images/Ld/SmallPowerupLargerPaddle.png</filename>
             <filename>Impact/Impact.iOS/Content/Images/Ld/SmallPowerupMultiBall.png</filename>
+            <filename>Impact/Impact.iOS/Content/Images/Ld/ScoreDrop.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

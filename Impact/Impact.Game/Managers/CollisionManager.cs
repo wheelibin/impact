@@ -15,15 +15,11 @@ namespace Impact.Game.Managers
         public event Action PaddleHit;
         public event Action<int> BricksHit;
         public event Action BrickHitButNotDestroyed;
+        public event Action<Powerup> PowerupCollected;
+        public event Action<ScoreUp> ScoreUpCollected;
 
-        private readonly IScoreManager _scoreManager;
-
-        public CollisionManager(IScoreManager scoreManager)
-        {
-            _scoreManager = scoreManager;
-        }
         
-        public void HandleCollisions(CCLayer layer, Paddle paddle, List<Ball> balls, List<Brick> bricks, List<Powerup> powerups, List<Powerup> activatedPowerups, List<Wormhole> wormholes)
+        public void HandleCollisions(CCLayer layer, Paddle paddle, List<Ball> balls, List<Brick> bricks, List<Powerup> powerups, List<Wormhole> wormholes, List<ScoreUp> scoreUps)
         {
 
             CCRect paddleBoundingBox = paddle.BoundingBoxTransformedToWorld;
@@ -161,10 +157,6 @@ namespace Impact.Game.Managers
                         {
                             ball.VelocityY *= -1;
                         }
-
-                        //Debug.WriteLine("velocityY: " + ball.VelocityY);
-
-                        
                     }
                 }
                 
@@ -269,11 +261,18 @@ namespace Impact.Game.Managers
                 bool powerupHitPaddle = powerup.BoundingBoxTransformedToWorld.IntersectsRect(paddleBoundingBox);
                 if (powerupHitPaddle)
                 {
-                    powerup.Activate();
-                    _scoreManager.PowerupCollected();
-                    powerup.RemoveFromParent();
-                    powerups.Remove(powerup);
-                    activatedPowerups.Add(powerup);
+                    PowerupCollected?.Invoke(powerup);
+                }
+            }
+
+            //Have we caught a scoreUp?
+            for (int s = scoreUps.Count - 1; s >= 0; s--)
+            {
+                ScoreUp scoreUp = scoreUps[s];
+                bool scoreUpHitPaddle = scoreUp.BoundingBoxTransformedToWorld.IntersectsRect(paddleBoundingBox);
+                if (scoreUpHitPaddle)
+                {
+                    ScoreUpCollected?.Invoke(scoreUp);
                 }
             }
 

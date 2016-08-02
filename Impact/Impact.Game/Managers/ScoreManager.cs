@@ -18,5 +18,10 @@
         {
             Score += 20;
         }
+
+        public void ScoreUpCollected(int scoreInc)
+        {
+            Score += scoreInc;
+        }
     }
 }
