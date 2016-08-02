@@ -33,7 +33,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Layers\GameOverLayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Managers\CollisionManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Managers\GameManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Managers\IScoreManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Managers\LevelManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Managers\ScoreManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\LevelProperties.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Scenes\GameScene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Scenes\LevelSelectScene.cs" />

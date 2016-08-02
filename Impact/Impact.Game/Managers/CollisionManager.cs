@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using CocosSharp;
 using Impact.Entities;
@@ -9,18 +8,24 @@ using Impact.Game.Config;
 using Impact.Game.Entities;
 using Impact.Game.Entities.Powerups;
 using Impact.Game.Enums;
+using Impact.Managers;
+using System.Diagnostics;
 
 namespace Impact.Game.Managers
 {
     public class CollisionManager
     {
-        //Singleton
-        private static readonly Lazy<CollisionManager> SelfInstance = new Lazy<CollisionManager>(() => new CollisionManager());
-        public static CollisionManager Instance => SelfInstance.Value;
-
         public event Action PaddleHit;
+        public event Action<int> BricksHit;
         public event Action BrickHitButNotDestroyed;
 
+        private readonly IScoreManager _scoreManager;
+
+        public CollisionManager(IScoreManager scoreManager)
+        {
+            _scoreManager = scoreManager;
+        }
+        
         public void HandleCollisions(CCLayer layer, Paddle paddle, List<Ball> balls, List<Brick> bricks, List<Powerup> powerups, List<Powerup> activatedPowerups, List<Wormhole> wormholes)
         {
 
@@ -31,7 +36,7 @@ namespace Impact.Game.Managers
                 Ball ball = balls[ballIndex];
 
                 bool isMovingDownward = ball.VelocityY < 0;
-                bool isMovingLeft = ball.VelocityX < 0;
+                //bool isMovingLeft = ball.VelocityX < 0;
 
                 CCRect ballBoundingBox = ball.BoundingBoxTransformedToWorld;
 
@@ -107,7 +112,7 @@ namespace Impact.Game.Managers
 
                 if (shouldReflectYVelocity)
                 {
-                    ball.VelocityY = ApplySlightVariation((int)ball.VelocityY);
+                    //ball.VelocityY = ApplySlightVariation((int)ball.VelocityY);
                     ball.VelocityY *= -1;
                     return;
                 }
@@ -186,11 +191,9 @@ namespace Impact.Game.Managers
                             int remainingBricks = bricks.Count(b => !b.IsIndestructible);
                             if (remainingBricks > 0)
                             {
-                                float ballSpeedPercentageIncreaseFactor =
-                                    (LevelManager.Instance.CurrentLevelProperties.FinalBallSpeedPercentageIncrease/
-                                     remainingBricks)/100;
-                                float newBallSpeed =
-                                    Math.Abs(ball.VelocityY + (ball.VelocityY*ballSpeedPercentageIncreaseFactor));
+                                float ballSpeedPercentageIncreaseFactor = (LevelManager.Instance.CurrentLevelProperties.FinalBallSpeedPercentageIncrease / (float)remainingBricks) / 100;
+                                
+                                float newBallSpeed = Math.Abs(GameConstants.BallInitialVelocityY + (GameConstants.BallInitialVelocityY*ballSpeedPercentageIncreaseFactor));
 
                                 if (ball.VelocityY < 0)
                                 {
@@ -217,88 +220,10 @@ namespace Impact.Game.Managers
                     }
                 }
 
-
-
-
-
-
-
-                ////have we hit a brick?
-                //for (int i = bricks.Count - 1; i >= 0; i--)
-                //{
-
-                //    Brick brick = bricks[i];
-                //    CCRect brickBoundingBox = brick.BoundingBoxTransformedToWorld;
-
-                //    bool hitBrick = ballBoundingBox.IntersectsRect(brickBoundingBox);
-
-                //    if (hitBrick)
-                //    {
-                //        CCVector2 separatingVector = GetSeparatingVector(ballBoundingBox, brickBoundingBox, layer, bricks);
-
-                //        if (!ball.IsFireball)
-                //        {
-                //            //Bounce off the brick
-                //            ball.PositionX += separatingVector.X;
-                //            ball.PositionY += separatingVector.Y;
-
-                //            if (separatingVector.X < 0 || separatingVector.X > 0)
-                //            {
-                //                ball.VelocityX *= -1;
-                //            }
-                //            if (separatingVector.Y < 0 || separatingVector.Y > 0)
-                //            {
-                //                ball.VelocityY *= -1;
-                //            }
-
-                //            //Debug.WriteLine("velocityY: " + ball.VelocityY);
-
-                //            if (brick.BrickType == BrickType.Bouncey)
-                //            {
-                //                ball.VelocityY = GameConstants.PaddleGravityBounceVelocityY * brick.BounceFactor;
-                //            }
-                //        }
-
-
-                //        bool brickDestroyed = brick.Hit();
-
-                //        if (brickDestroyed)
-                //        {
-                //            if (!ball.ApplyGravity)
-                //            {
-                //                //slightly speed the ball up if brick destroyed
-                //                int remainingBricks = bricks.Count(b => !b.IsIndestructible);
-                //                if (remainingBricks > 0)
-                //                {
-                //                    float ballSpeedPercentageIncreaseFactor = (LevelManager.Instance.CurrentLevelProperties.FinalBallSpeedPercentageIncrease / remainingBricks) / 100;
-                //                    float newBallSpeed = Math.Abs(ball.VelocityY + (ball.VelocityY * ballSpeedPercentageIncreaseFactor));
-
-                //                    if (ball.VelocityY < 0)
-                //                    {
-                //                        ball.VelocityY = -newBallSpeed;
-                //                    }
-                //                    else
-                //                    {
-                //                        ball.VelocityY = +newBallSpeed;
-                //                    }
-                //                }
-                //            }
-
-                //            //Drop powerup if there is one
-                //            brick.Powerup?.Drop();
-
-                //        }
-                //        else
-                //        {
-                //            BrickHitButNotDestroyed?.Invoke();
-                //        }
-
-                //        return;
-
-                //    }
-
-                //}
-
+                if (bricksHit.Any())
+                {
+                    BricksHit?.Invoke(bricksHit.Count);
+                }
 
                 //Wormholes
                 foreach (Wormhole wormhole in wormholes.Where(w => w.WormholeType == WormholeType.In || w.WormholeType == WormholeType.InOut))
@@ -348,7 +273,7 @@ namespace Impact.Game.Managers
                 if (powerupHitPaddle)
                 {
                     powerup.Activate();
-                    GameManager.Instance.Score += 10;
+                    _scoreManager.PowerupCollected();
                     powerup.RemoveFromParent();
                     powerups.Remove(powerup);
                     activatedPowerups.Add(powerup);
@@ -375,8 +300,6 @@ namespace Impact.Game.Managers
         /// <summary>
         /// Returns the vector that the 'ball' should be moved by to separate the objects. 
         /// </summary>
-        /// <param name="ball"></param>
-        /// <returns></returns>
         public CCVector2 GetSeparatingVector(CCRect ball, CCRect brick, CCLayer layer)
         {
             // Default to no separation

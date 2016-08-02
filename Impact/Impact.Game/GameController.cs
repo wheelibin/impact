@@ -24,7 +24,7 @@ namespace Impact
 
             // Set world dimensions
             gameView.DesignResolution = new CCSizeI(GameConstants.WorldWidth, GameConstants.WorldHeight);
-            gameView.ResolutionPolicy = CCViewResolutionPolicy.ShowAll;
+            gameView.ResolutionPolicy = CCViewResolutionPolicy.ExactFit;
 
             // Determine whether to use the high or low def versions of our images
             // Make sure the default texel to content size ratio is set correctly

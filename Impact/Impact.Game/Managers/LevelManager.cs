@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using CocosSharp;
 using Impact.Enums;
 using Impact.Game.Config;
@@ -68,11 +69,11 @@ namespace Impact.Game.Managers
             };
 
             //Layout config
-            int tileWidth = 114 + GameConstants.BrickGap;
-            int tileHeight = 38 + GameConstants.BrickGap;
-            int tileMapHeight = tileMap.Height * tileHeight;
+            float tileWidth = tileMap.TileWidth + GameConstants.BrickGap;
+            float tileHeight = tileMap.TileHeight + GameConstants.BrickGap;
+            float tileMapHeight = tileMap.Height * tileHeight;
             int yOffset = 450;
-            int startY = tileMapHeight + yOffset;
+            float startY = tileMapHeight + yOffset;
 
             //Get the layers and tilesets
             TmxLayer brickLayer = tileMap.Layers[BrickLayer];
@@ -90,7 +91,7 @@ namespace Impact.Game.Managers
                 if (brickTile.Gid > 0)
                 {
                     //Get the image filename from the tile image (regardless of the path it's set to), will be used to pick a texture out of a spritesheet
-                    TmxTilesetTile brickTilesetTile = brickTileset.Tiles[brickTile.Gid - brickTileset.FirstGid];
+                    TmxTilesetTile brickTilesetTile = brickTileset.Tiles.Single(tile => tile.Id == brickTile.Gid - brickTileset.FirstGid);
                     string brickImageFilename = Path.GetFileName(brickTilesetTile.Image.Source);
 
                     //Get brick properties
@@ -138,8 +139,10 @@ namespace Impact.Game.Managers
                         bounceFactor = float.Parse(brickTilesetTile.Properties["BounceFactor"]);
                     }
 
+                    bool doubleSizeBrick = brickTilesetTile.Image.Width == (tileMap.TileWidth*2);
+
                     //Add the brick
-                    var brick = BrickFactory.Instance.CreateNew(brickImageFilename, brickPosition, 1, hitsToDestroy, powerup, bounceFactor, brickType);
+                    var brick = BrickFactory.Instance.CreateNew(brickImageFilename, brickPosition, 1, hitsToDestroy, powerup, bounceFactor, brickType, doubleSizeBrick);
                     bricks.Add(brick);
 
                 }
@@ -153,7 +156,7 @@ namespace Impact.Game.Managers
 
                 foreach (TmxObject wormhole in wormholes.Objects)
                 {
-                    TmxTilesetTile wormholeTilesetTile = wormholeTileset.Tiles[wormhole.Tile.Gid - wormholeTileset.FirstGid];
+                    TmxTilesetTile wormholeTilesetTile = wormholeTileset.Tiles.Single(tile => tile.Id == wormhole.Tile.Gid - wormholeTileset.FirstGid);
                     string wormholeImageFilename = Path.GetFileName(wormholeTilesetTile.Image.Source);
 
                     //Because we draw the bricks manually, with a gap, the coordinates for objects on the map need adjusting to our level coordinates.

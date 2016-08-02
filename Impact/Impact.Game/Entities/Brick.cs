@@ -18,7 +18,7 @@ namespace Impact.Game.Entities
         public float BounceFactor { get; set; }
         public bool IsIndestructible { get; set; }
 
-        public Brick(string spriteImageFilename, CCPoint position, float scale, int hitsToDestroy, Powerup powerup, float bounceFactor, BrickType brickType)
+        public Brick(string spriteImageFilename, CCPoint position, float scale, int hitsToDestroy, Powerup powerup, float bounceFactor, BrickType brickType, bool doubleSizeBrick = false)
         {
             if (brickType != BrickType.NotSet)
             {
@@ -36,6 +36,12 @@ namespace Impact.Game.Entities
             {
                 AnchorPoint = CCPoint.AnchorLowerLeft
             };
+
+            if (doubleSizeBrick)
+            {
+                _sprite.ContentSize = new CCSize(_sprite.ContentSize.Width + GameConstants.BrickGap, _sprite.ContentSize.Height + GameConstants.BrickGap);
+            }
+
             AddChild(_sprite);
 
             //if (BrickType == BrickType.Indistructible)

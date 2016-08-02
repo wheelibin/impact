@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="left-up" width="14" height="42" tilewidth="57" tileheight="19" backgroundcolor="#002028" nextobjectid="10">
+<map version="1.0" orientation="orthogonal" renderorder="left-up" width="14" height="38" tilewidth="57" tileheight="19" backgroundcolor="#002028" nextobjectid="15">
  <properties>
   <property name="FinalBallSpeedPercentageIncrease" type="int" value="25"/>
  </properties>
@@ -133,66 +133,58 @@
    <image width="57" height="38" source="../Images/Ld/PowerupMultiBall.png"/>
   </tile>
  </tileset>
- <tileset firstgid="23" name="Wormholes" tilewidth="114" tileheight="110" tilecount="1" columns="0">
-  <tile id="1">
-   <properties>
-    <property name="WorkholeType" type="int" value="2"/>
-   </properties>
+ <tileset firstgid="23" name="Wormholes" tilewidth="57" tileheight="57" tilecount="2" columns="0">
+  <tile id="2">
+   <image width="57" height="57" source="../Images/Ld/WormholeIn.png"/>
+  </tile>
+  <tile id="3">
    <image width="57" height="57" source="../Images/Ld/WormholeOut.png"/>
   </tile>
  </tileset>
- <layer name="Bricks" width="14" height="42">
+ <layer name="Bricks" width="14" height="38">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-3,0,0,3,0,0,3,0,0,3,0,0,3,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,7,0,0,7,0,0,7,0,0,7,0,0,
+0,0,0,0,5,0,0,0,5,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,5,0,0,0,5,0,0,0,0,0,
+0,0,3,0,0,0,3,0,0,0,3,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-5,0,0,5,0,0,5,0,0,5,0,0,5,0,
+0,0,0,0,5,0,0,0,5,0,0,0,0,0,
+0,0,3,0,0,0,3,0,0,0,3,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,5,0,0,0,5,0,0,0,0,0,
+0,0,3,0,0,0,3,0,0,0,3,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,5,0,0,0,5,0,0,0,0,0,
+0,0,3,0,0,0,3,0,0,0,3,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,1,0,0,1,0,0,1,0,0,1,0,0,
+9,0,9,0,9,0,9,0,9,0,9,0,9,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,5,0,0,0,5,0,0,0,5,0,0,0,
+0,0,0,0,3,0,0,0,3,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,5,0,0,0,5,0,0,0,5,0,0,0,
+0,0,0,0,3,0,0,0,3,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-3,0,0,3,0,0,3,0,0,3,0,0,3,0,
+0,0,5,0,0,0,5,0,0,0,5,0,0,0,
+0,0,0,0,3,0,0,0,3,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,7,0,0,7,0,0,7,0,0,7,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-5,0,0,5,0,0,5,0,0,5,0,0,5,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,1,0,0,1,0,0,1,0,0,1,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-3,0,0,3,0,0,3,0,0,3,0,0,3,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,5,0,0,0,5,0,0,0,5,0,0,0,
+0,0,0,0,3,0,0,0,3,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,7,0,0,7,0,0,7,0,0,7,0,0,
+0,0,0,0,3,0,0,0,3,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-5,0,0,5,0,0,5,0,0,5,0,0,5,0
+0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer name="Powerups" width="14" height="42">
+ <layer name="Powerups" width="14" height="38">
   <data encoding="csv">
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -233,4 +225,28 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup name="Wormholes">
+  <object id="10" name="D" gid="26" x="731" y="447" width="57" height="55">
+   <properties>
+    <property name="WormholeType" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="11" name="A" gid="25" x="11" y="447" width="57" height="57">
+   <properties>
+    <property name="ExitName" value="B"/>
+    <property name="WormholeType" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="12" name="C" gid="25" x="11" y="65" width="57" height="57">
+   <properties>
+    <property name="ExitName" value="D"/>
+    <property name="WormholeType" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="13" name="B" gid="26" x="731" y="65" width="57" height="55">
+   <properties>
+    <property name="WormholeType" type="int" value="1"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

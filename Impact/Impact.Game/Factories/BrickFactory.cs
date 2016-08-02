@@ -16,9 +16,9 @@ namespace Impact.Game.Factories
         public event Action<Brick> BrickCreated;
         public event Action<Brick> BrickDestroyed;
 
-        public Brick CreateNew(string spriteImageFilename, CCPoint position, float scale, int hitsToDestroy, Powerup powerup, float bounceFactor, BrickType brickType)
+        public Brick CreateNew(string spriteImageFilename, CCPoint position, float scale, int hitsToDestroy, Powerup powerup, float bounceFactor, BrickType brickType, bool doubleSizeBrick)
         {
-            Brick newBrick = new Brick(spriteImageFilename, position, scale, hitsToDestroy, powerup, bounceFactor, brickType);
+            Brick newBrick = new Brick(spriteImageFilename, position, scale, hitsToDestroy, powerup, bounceFactor, brickType, doubleSizeBrick);
             BrickCreated?.Invoke(newBrick);
             return newBrick;
         }

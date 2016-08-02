@@ -6,9 +6,9 @@ using Impact.Entities;
 using Impact.Game.Config;
 using Impact.Game.Entities;
 using Impact.Game.Entities.Powerups;
-using Impact.Game.Enums;
 using Impact.Game.Factories;
 using Impact.Game.Managers;
+using Impact.Managers;
 
 namespace Impact.Scenes
 {
@@ -26,11 +26,16 @@ namespace Impact.Scenes
         private readonly List<Ball> _balls = new List<Ball>();
         private readonly List<Wormhole> _wormholes = new List<Wormhole>();
 
+        private readonly ScoreManager _scoreManager = new ScoreManager();
+        private readonly CollisionManager _collisionManager;
+
         private float _levelTimer = 0;
 
         public GameScene(CCGameView gameView) : base(gameView)
         {
             GameManager.Instance.CheatModeEnabled = true;
+
+            _collisionManager = new CollisionManager(_scoreManager);
 
             //Preload the entire spritesheet
             CCSpriteFrameCache.SharedSpriteFrameCache.AddSpriteFrames(GameConstants.GameEntitiesSpriteSheet, GameConstants.GameEntitiesSpriteSheetImage);
@@ -60,12 +65,11 @@ namespace Impact.Scenes
             //backgroundLayer.AddChild(backgroundImage);
 
             var backgroundLayer = new CCLayerColor(GameConstants.BackgroundColour);
-
+            AddChild(backgroundLayer);
+            
             _gameLayer = new CCLayer();
             _hudLayer = new CCLayer();
-
-
-            AddChild(backgroundLayer);
+                        
             AddChild(_gameLayer);
             AddChild(_hudLayer);
 
@@ -76,15 +80,14 @@ namespace Impact.Scenes
             BallFactory.Instance.BallCreated += BallFactory_BallCreated;
             BrickFactory.Instance.BrickCreated += BrickFactory_BrickCreated;
             BrickFactory.Instance.BrickDestroyed += BrickFactory_BrickDestroyed;
-            CollisionManager.Instance.BrickHitButNotDestroyed += CollisionManager_BrickHitButNotDestroyed;
-            CollisionManager.Instance.PaddleHit += CollisionManager_PaddleHit;
+            _collisionManager.BrickHitButNotDestroyed += CollisionManager_BrickHitButNotDestroyed;
+            _collisionManager.PaddleHit += CollisionManager_PaddleHit;
             GameManager.Instance.LevelStarted += GameManager_LevelStarted;
             WormholeFactory.Instance.WormholeCreated += WormholeFactory_WormholeCreated;
 
             // Register for touch events
             var touchListener = new CCEventListenerTouchAllAtOnce
             {
-                OnTouchesEnded = OnTouchesEnded,
                 OnTouchesMoved = HandleTouchesMoved
             };
             AddEventListener(touchListener, _gameLayer);
@@ -148,8 +151,8 @@ namespace Impact.Scenes
 
             _bricks.Remove(brick);
             brick.RemoveFromParent();
-            
-            GameManager.Instance.Score += 10;
+
+            _scoreManager.BrickDestroyed();
         }
 
         private void WormholeFactory_WormholeCreated(Entities.Wormhole wormhole)
@@ -208,13 +211,13 @@ namespace Impact.Scenes
             }
         }
 
-        private void OnTouchesEnded(List<CCTouch> touches, CCEvent touchEvent)
-        {
-            if (touches.Count > 0)
-            {
-                _scoreLabel.Text = touches[0].Location.ToString();
-            }
-        }
+        //private void OnTouchesEnded(List<CCTouch> touches, CCEvent touchEvent)
+        //{
+        //    if (touches.Count > 0)
+        //    {
+        //        _scoreLabel.Text = touches[0].Location.ToString();
+        //    }
+        //}
         #endregion
         
         /// <summary>
@@ -230,9 +233,9 @@ namespace Impact.Scenes
             //todo: score
             //todo: game over screen
 
-            _scoreLabel.Text = GameManager.Instance.Score.ToString("000000");
+            _scoreLabel.Text = _scoreManager.Score.ToString("000000");
 
-            CollisionManager.Instance.HandleCollisions(_gameLayer, _paddle, _balls, _bricks, _powerups, _activatedPowerups, _wormholes);
+            _collisionManager.HandleCollisions(_gameLayer, _paddle, _balls, _bricks, _powerups, _activatedPowerups, _wormholes);
 
             //Game over?
             if (_balls.Count == 0)

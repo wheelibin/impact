@@ -39,6 +39,31 @@ namespace Impact.Scenes
             menu.AlignItemsVertically(75);
             layer.AddChild(menu);
             
+            //frame = GameManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == GameConstants.SpriteImageBall);
+            //var zoomingStars = new CCParticleSystemQuad(1000, CCEmitterMode.Gravity)
+            //{
+            //    SourcePosition = layer.VisibleBoundsWorldspace.Center,
+            //    Texture = frame.Texture,
+            //    PositionVar = new CCPoint(100, 100),
+            //    AngleVar = 360,
+            //    Speed = 4,
+            //    SpeedVar = 30,
+            //    RadialAccel = 50,
+            //    Life = 10,
+            //    LifeVar = 2,
+            //    StartSize = 1,
+            //    StartSizeVar = 2,
+            //    EndSize = 10,
+            //    EndSizeVar = 2,
+            //    Duration = -1,
+            //    BlendFunc = CCBlendFunc.AlphaBlend,
+            //    BlendAdditive = true,
+            //    StartColor = new CCColor4F(255, 255, 255, 255),
+            //    EndColor = new CCColor4F(255, 255, 255, 255)
+
+            //};
+            //layer.AddChild(zoomingStars);
+
         }
 
         private void PlayButton_Action(object arg)

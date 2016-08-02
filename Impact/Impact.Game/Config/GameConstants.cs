@@ -18,7 +18,7 @@ namespace Impact.Game.Config
         //Game
         public const int WorldWidth = 833;
         public const int WorldHeight = 1481;
-        public const int BrickGap = 5;
+        public const float BrickGap = 2.5f;
 
         //Ball
         public const float BallMaxVelocityX = 500;

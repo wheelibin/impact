@@ -83,7 +83,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Content\Levels\level001.tmx" />
+    <BundleResource Include="Content\Levels\level001.tmx">
+      <SubType>Designer</SubType>
+    </BundleResource>
     <BundleResource Include="Content\Levels\level002.tmx" />
     <BundleResource Include="Content\Levels\level003.tmx" />
     <BundleResource Include="Content\Levels\level004.tmx" />
@@ -91,6 +93,11 @@
     <BundleResource Include="Content\Levels\level005.tmx" />
     <BundleResource Include="Content\Levels\level006.tmx" />
     <BundleResource Include="Content\Levels\level007.tmx" />
+    <BundleResource Include="Content\Levels\level008.tmx" />
+    <BundleResource Include="Content\Levels\level009.tmx" />
+    <BundleResource Include="Content\Levels\level010.tmx" />
+    <BundleResource Include="Content\Levels\level011.tmx" />
+    <BundleResource Include="Content\Levels\level012.tmx" />
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
     <None Include="packages.config" />

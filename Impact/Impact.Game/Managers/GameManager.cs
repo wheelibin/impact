@@ -11,7 +11,6 @@ namespace Impact.Game.Managers
         public static GameManager Instance => SelfInstance.Value;
 
         public bool DebugMode { get; set; }
-        public int Score { get; set; }
         public bool LevelHasStarted { get; private set; }
         public bool CheatModeEnabled { get; set; }
         public CCSpriteSheet GameEntitiesSpriteSheet { get; set; }
