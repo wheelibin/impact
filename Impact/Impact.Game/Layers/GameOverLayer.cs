@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CocosSharp;
+﻿using CocosSharp;
 
-namespace Impact.Layers
+namespace Impact.Game.Layers
 {
     public class GameOverLayer : CCLayerColor
     {

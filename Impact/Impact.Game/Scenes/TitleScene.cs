@@ -2,7 +2,7 @@
 using Impact.Game.Config;
 using Impact.Game.Managers;
 
-namespace Impact.Scenes
+namespace Impact.Game.Scenes
 {
     public class TitleScene : CCScene
     {

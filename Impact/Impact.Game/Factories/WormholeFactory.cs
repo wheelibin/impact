@@ -1,7 +1,7 @@
 ﻿using System;
 using CocosSharp;
-using Impact.Entities;
-using Impact.Enums;
+using Impact.Game.Entities;
+using Impact.Game.Enums;
 
 namespace Impact.Game.Factories
 {

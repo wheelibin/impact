@@ -2,13 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using CocosSharp;
-using Impact.Entities;
-using Impact.Enums;
 using Impact.Game.Config;
 using Impact.Game.Entities;
 using Impact.Game.Entities.Powerups;
 using Impact.Game.Enums;
-using Impact.Managers;
 using System.Diagnostics;
 
 namespace Impact.Game.Managers

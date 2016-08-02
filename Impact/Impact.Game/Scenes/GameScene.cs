@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using CocosSharp;
-using Impact.Entities;
 using Impact.Game.Config;
 using Impact.Game.Entities;
 using Impact.Game.Entities.Powerups;
 using Impact.Game.Factories;
 using Impact.Game.Managers;
-using Impact.Managers;
 
-namespace Impact.Scenes
+namespace Impact.Game.Scenes
 {
     public class GameScene : CCScene
     {
@@ -278,14 +276,24 @@ namespace Impact.Scenes
 
         private void LoadLevel(int level)
         {
-            _bricks.ForEach(b => b.RemoveFromParent());
+            foreach (Brick brick in _bricks)
+            {
+                brick.RemoveFromParent();
+            }
             _bricks.Clear();
 
-            _wormholes.ForEach(b => b.RemoveFromParent());
+            foreach (Wormhole wormhole in _wormholes)
+            {
+                wormhole.RemoveFromParent();
+            }
             _wormholes.Clear();
 
             LevelManager.Instance.LoadLevel(level, _paddle, _balls);
-            _balls.ForEach(ball => ball.ApplyGravity = LevelManager.Instance.CurrentLevelProperties.Gravity);
+
+            foreach (Ball ball in _balls)
+            {
+                ball.ApplyGravity = LevelManager.Instance.CurrentLevelProperties.Gravity;
+            }
 
             GameManager.Instance.StartStopLevel(false);
         }

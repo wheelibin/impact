@@ -73,7 +73,12 @@ namespace Impact.Game.Entities
             }
 
         }
-        
+
+        public void Reset()
+        {
+            VelocityY = GameConstants.BallInitialVelocityY;
+        }
+
         private void GameManager_LevelStarted(bool started)
         {
 

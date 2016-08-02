@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CocosSharp;
-using Impact.Scenes;
+using Impact.Game.Scenes;
 
 namespace Impact.Game.Managers
 {

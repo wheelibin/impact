@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using CocosSharp;
 
-namespace Impact.Entities
+namespace Impact.Game.Entities
 {
     public class MenuItemImageWithText : CCMenuItemImage
     {

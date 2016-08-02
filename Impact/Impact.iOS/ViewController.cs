@@ -1,7 +1,6 @@
 ﻿using System;
 using CocosSharp;
 using UIKit;
-using Impact.Game;
 
 namespace Impact.iOS
 {
@@ -51,7 +50,7 @@ namespace Impact.iOS
 
             if (gameView != null)
             {
-                GameController.Initialize(gameView);
+                Impact.Game.GameController.Initialize(gameView);
             }
         }
     }    

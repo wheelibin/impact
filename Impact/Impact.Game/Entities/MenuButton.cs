@@ -1,9 +1,7 @@
 ﻿using System;
 using CocosSharp;
-using Impact.Game;
-using Impact.Game.Managers;
 
-namespace Impact.Entities
+namespace Impact.Game.Entities
 {
     public class MenuButton : CCNode
     {

@@ -2,9 +2,9 @@
 using CocosSharp;
 using Impact.Game.Config;
 using Impact.Game.Managers;
-using Impact.Scenes;
+using Impact.Game.Scenes;
 
-namespace Impact
+namespace Impact.Game
 {
     public static class GameController
     {

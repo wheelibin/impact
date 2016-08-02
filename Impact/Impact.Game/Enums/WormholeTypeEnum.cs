@@ -1,4 +1,4 @@
-﻿namespace Impact.Enums
+﻿namespace Impact.Game.Enums
 {
     public enum WormholeType
     {

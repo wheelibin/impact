@@ -3,6 +3,7 @@ using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using CocosSharp;
+using Impact.Game;
 
 namespace Impact.Android
 {

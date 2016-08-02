@@ -1,8 +1,8 @@
 ﻿using CocosSharp;
-using Impact.Enums;
+using Impact.Game.Enums;
 using Impact.Game.Managers;
 
-namespace Impact.Entities
+namespace Impact.Game.Entities
 {
     public class Wormhole : CCNode
     {

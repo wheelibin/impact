@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using CocosSharp;
-using Impact.Entities;
-using Impact.Game;
 using Impact.Game.Config;
+using Impact.Game.Entities;
 using Impact.Game.Managers;
 
-namespace Impact.Scenes
+namespace Impact.Game.Scenes
 {
     public class LevelSelectScene : CCScene
     {

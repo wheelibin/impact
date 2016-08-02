@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6B2B0DC9-7AEF-49FE-850A-91F3FCC7F297}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Impact.Game</RootNamespace>
+    <AssemblyName>Impact.Game</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>Profile111</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Config\GameConstants.cs" />
+    <Compile Include="Entities\Ball.cs" />
+    <Compile Include="Entities\Brick.cs" />
+    <Compile Include="Entities\Bullet.cs" />
+    <Compile Include="Entities\MenuButton.cs" />
+    <Compile Include="Entities\MenuItemImageWithText.cs" />
+    <Compile Include="Entities\Paddle.cs" />
+    <Compile Include="Entities\Powerups\FireballPowerup.cs" />
+    <Compile Include="Entities\Powerups\IPowerup.cs" />
+    <Compile Include="Entities\Powerups\LargerPaddlePowerup.cs" />
+    <Compile Include="Entities\Powerups\MultiBallPowerup.cs" />
+    <Compile Include="Entities\Powerups\Powerup.cs" />
+    <Compile Include="Entities\Rocket.cs" />
+    <Compile Include="Entities\Wormhole.cs" />
+    <Compile Include="Enums\BrickTypeEnum.cs" />
+    <Compile Include="Enums\PowerUpTypeEnum.cs" />
+    <Compile Include="Enums\WormholeTypeEnum.cs" />
+    <Compile Include="Factories\BallFactory.cs" />
+    <Compile Include="Factories\BrickFactory.cs" />
+    <Compile Include="Factories\WormholeFactory.cs" />
+    <Compile Include="GameController.cs" />
+    <Compile Include="Layers\GameOverLayer.cs" />
+    <Compile Include="Managers\CollisionManager.cs" />
+    <Compile Include="Managers\GameManager.cs" />
+    <Compile Include="Managers\IScoreManager.cs" />
+    <Compile Include="Managers\LevelManager.cs" />
+    <Compile Include="Managers\ScoreManager.cs" />
+    <Compile Include="Models\LevelProperties.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scenes\GameScene.cs" />
+    <Compile Include="Scenes\LevelSelectScene.cs" />
+    <Compile Include="Scenes\TitleScene.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="box2d, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CocosSharp.1.7.1.0\lib\portable-net45+win+wpa81+wp81\box2d.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CocosSharp, Version=1.7.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CocosSharp.1.7.1.0\lib\portable-net45+win+wpa81+wp81\CocosSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MonoGame.Framework, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CocosSharp.1.7.1.0\lib\portable-net45+win+wpa81+wp81\MonoGame.Framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TiledSharp, Version=0.15.5889.20321, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\TiledSharp.0.15\lib\TiledSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Fonts\visitor1.ttf" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

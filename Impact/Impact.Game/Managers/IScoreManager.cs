@@ -1,4 +1,4 @@
-﻿namespace Impact.Managers
+﻿namespace Impact.Game.Managers
 {
     public interface IScoreManager
     {

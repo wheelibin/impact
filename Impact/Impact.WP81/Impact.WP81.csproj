@@ -170,7 +170,12 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <Import Project="..\Impact.Game\EmptyProject.Shared.projitems" Label="Shared" />
+  <ItemGroup>
+    <ProjectReference Include="..\Impact.Game\Impact.Game.csproj">
+      <Project>{6B2B0DC9-7AEF-49FE-850A-91F3FCC7F297}</Project>
+      <Name>Impact.Game</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>
   </PropertyGroup>

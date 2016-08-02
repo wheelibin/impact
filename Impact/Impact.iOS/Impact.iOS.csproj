@@ -157,6 +157,11 @@
     </Reference>
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
-  <Import Project="..\Impact.Game\EmptyProject.Shared.projitems" Label="Shared" />
+  <ItemGroup>
+    <ProjectReference Include="..\Impact.Game\Impact.Game.csproj">
+      <Project>{6b2b0dc9-7aef-49fe-850a-91f3fcc7f297}</Project>
+      <Name>Impact.Game</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
