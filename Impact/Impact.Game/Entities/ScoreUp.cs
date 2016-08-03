@@ -12,7 +12,7 @@ namespace Impact.Game.Entities
         public ScoreUp(CCPoint initialPosition, int score)
         {
             Score = score;
-            CCSpriteFrame frame = GameManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == "ScoreDrop.png");
+            CCSpriteFrame frame = GameManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == "ScoreUp.png");
             var sprite = new CCSprite(frame)
             {
                 AnchorPoint = CCPoint.AnchorMiddle
@@ -27,7 +27,8 @@ namespace Impact.Game.Entities
             CCLabel label = new CCLabel(score.ToString(), "visitor1.ttf", 24, CCLabelFormat.SystemFont)
             {
                 HorizontalAlignment = CCTextAlignment.Center,
-                PositionY = ContentSize.Height
+                PositionY = sprite.PositionY,
+                Color = CCColor3B.Black
             };
 
             AddChild(label);

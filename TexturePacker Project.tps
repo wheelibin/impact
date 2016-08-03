@@ -199,12 +199,11 @@
             <key type="filename">Impact/Impact.iOS/Content/Images/Ld/Brick-D1.png</key>
             <key type="filename">Impact/Impact.iOS/Content/Images/Ld/Brick-D2.png</key>
             <key type="filename">Impact/Impact.iOS/Content/Images/Ld/Brick-E1.png</key>
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/LevelSelectMenuButton.png</key>
             <key type="filename">Impact/Impact.iOS/Content/Images/Ld/Paddle.png</key>
             <key type="filename">Impact/Impact.iOS/Content/Images/Ld/PowerupFireball.png</key>
             <key type="filename">Impact/Impact.iOS/Content/Images/Ld/PowerupLargerPaddle.png</key>
             <key type="filename">Impact/Impact.iOS/Content/Images/Ld/PowerupMultiBall.png</key>
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/ScoreDrop.png</key>
+            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/ScoreUp.png</key>
             <key type="filename">Impact/Impact.iOS/Content/Images/Ld/SmallBrick-A1.png</key>
             <key type="filename">Impact/Impact.iOS/Content/Images/Ld/SmallBrick-A2.png</key>
             <key type="filename">Impact/Impact.iOS/Content/Images/Ld/SmallBrick-B1.png</key>
@@ -215,9 +214,6 @@
             <key type="filename">Impact/Impact.iOS/Content/Images/Ld/SmallBrick-D1.png</key>
             <key type="filename">Impact/Impact.iOS/Content/Images/Ld/SmallBrick-D2.png</key>
             <key type="filename">Impact/Impact.iOS/Content/Images/Ld/SmallBrick-E1.png</key>
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/SmallPowerupFireball.png</key>
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/SmallPowerupLargerPaddle.png</key>
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/SmallPowerupMultiBall.png</key>
             <key type="filename">Impact/Impact.iOS/Content/Images/Ld/WormholeIn.png</key>
             <key type="filename">Impact/Impact.iOS/Content/Images/Ld/WormholeOut.png</key>
             <struct type="IndividualSpriteSettings">
@@ -241,7 +237,6 @@
             <filename>Impact/Impact.iOS/Content/Images/Ld/PowerupFireball.png</filename>
             <filename>Impact/Impact.iOS/Content/Images/Ld/PowerupLargerPaddle.png</filename>
             <filename>Impact/Impact.iOS/Content/Images/Ld/PowerupMultiBall.png</filename>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/LevelSelectMenuButton.png</filename>
             <filename>Impact/Impact.iOS/Content/Images/Ld/WormholeIn.png</filename>
             <filename>Impact/Impact.iOS/Content/Images/Ld/WormholeOut.png</filename>
             <filename>Impact/Impact.iOS/Content/Images/Ld/Brick-Bounce1.png</filename>
@@ -255,10 +250,7 @@
             <filename>Impact/Impact.iOS/Content/Images/Ld/SmallBrick-D1.png</filename>
             <filename>Impact/Impact.iOS/Content/Images/Ld/SmallBrick-D2.png</filename>
             <filename>Impact/Impact.iOS/Content/Images/Ld/SmallBrick-E1.png</filename>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/SmallPowerupFireball.png</filename>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/SmallPowerupLargerPaddle.png</filename>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/SmallPowerupMultiBall.png</filename>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/ScoreDrop.png</filename>
+            <filename>Impact/Impact.iOS/Content/Images/Ld/ScoreUp.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

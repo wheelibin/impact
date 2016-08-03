@@ -155,7 +155,7 @@ namespace Impact.Game.Scenes
             _scoreManager.BrickDestroyed();
         }
 
-        private void WormholeFactory_WormholeCreated(Entities.Wormhole wormhole)
+        private void WormholeFactory_WormholeCreated(Wormhole wormhole)
         {
             _wormholes.Add(wormhole);
             _gameLayer.AddChild(wormhole);
@@ -219,10 +219,7 @@ namespace Impact.Game.Scenes
             {
                 Schedule(RunGameLogic);
                 //Schedule(UpdateTimer, 0.25f);
-                Schedule((frameTime) =>
-                {
-                    ScoreUpFactory.Instance.CreateNew();
-                }, 10);
+                Schedule(frameTime => {ScoreUpFactory.Instance.CreateNew();}, 10);
             }
             else
             {

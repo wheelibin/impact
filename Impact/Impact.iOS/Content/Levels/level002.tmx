@@ -113,24 +113,24 @@
    <image width="57" height="19" source="../Images/Ld/SmallBrick-E1.png"/>
   </tile>
  </tileset>
- <tileset firstgid="20" name="Powerups" tilewidth="57" tileheight="40" tilecount="3" columns="0">
+ <tileset firstgid="20" name="Powerups" tilewidth="57" tileheight="57" tilecount="3" columns="0">
   <tile id="0">
    <properties>
     <property name="PowerupType" type="int" value="3"/>
    </properties>
-   <image width="57" height="40" source="../Images/Ld/PowerupFireball.png"/>
+   <image width="57" height="57" source="../Images/Ld/PowerupFireball.png"/>
   </tile>
   <tile id="1">
    <properties>
     <property name="PowerupType" type="int" value="1"/>
    </properties>
-   <image width="57" height="38" source="../Images/Ld/PowerupLargerPaddle.png"/>
+   <image width="57" height="57" source="../Images/Ld/PowerupLargerPaddle.png"/>
   </tile>
   <tile id="2">
    <properties>
     <property name="PowerupType" type="int" value="2"/>
    </properties>
-   <image width="57" height="38" source="../Images/Ld/PowerupMultiBall.png"/>
+   <image width="57" height="57" source="../Images/Ld/PowerupMultiBall.png"/>
   </tile>
  </tileset>
  <tileset firstgid="23" name="Wormholes" tilewidth="114" tileheight="110" tilecount="1" columns="0">
@@ -221,7 +221,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,21,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
