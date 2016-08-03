@@ -21,7 +21,7 @@ namespace Impact.Game.Scenes
         private readonly List<Brick> _bricks = new List<Brick>();
         private readonly List<Powerup> _powerups = new List<Powerup>();
         private readonly List<ScoreUp> _scoreUps = new List<ScoreUp>();
-        private readonly List<Powerup> _activatedPowerups = new List<Powerup>();
+        private readonly List<IPowerup> _activatedPowerups = new List<IPowerup>();
         private readonly List<Ball> _balls = new List<Ball>();
         private readonly List<Wormhole> _wormholes = new List<Wormhole>();
 
@@ -244,13 +244,6 @@ namespace Impact.Game.Scenes
         /// </summary>
         private void RunGameLogic(float frameTimeInSeconds)
         {
-            //todo: implement fireball powerup - add visuals to ball
-            //todo: add negative powerups
-            //todo: think about level design and add shit loads more
-            //todo: menu screen, level selector
-            //todo: lives
-            //todo: score
-            //todo: game over screen
 
             _scoreLabel.Text = _scoreManager.Score.ToString("000000");
 
@@ -268,7 +261,7 @@ namespace Impact.Game.Scenes
             if (_bricks.Count == 0 || allBricksAreIndistructible)
             {
                 //Reset powerups
-                foreach (Powerup powerup in _activatedPowerups)
+                foreach (IPowerup powerup in _activatedPowerups)
                 {
                     powerup.Deactivate();
                 }

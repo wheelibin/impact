@@ -6,6 +6,9 @@ using Impact.Game.Factories;
 
 namespace Impact.Game.Entities.Powerups
 {
+    /// <summary>
+    /// A powerup that spawns extra balls
+    /// </summary>
     public class MultiBallPowerup : Powerup
     {
         private readonly List<Ball> _balls;
@@ -16,6 +19,9 @@ namespace Impact.Game.Entities.Powerups
             _balls = balls;
         }
 
+        /// <summary>
+        /// Creates extra balls
+        /// </summary>
         public override void Activate()
         {
             Ball firstBall = _balls.First();
@@ -27,6 +33,9 @@ namespace Impact.Game.Entities.Powerups
             }
         }
 
+        /// <summary>
+        /// Remove all but one ball
+        /// </summary>
         public override void Deactivate()
         {
             for (int b = _balls.Count - 1; b >= 1; b--)
