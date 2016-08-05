@@ -5,6 +5,9 @@ using Impact.Game.Entities;
 
 namespace Impact.Game.Factories
 {
+    /// <summary>
+    /// Responsible for the creation of ScoreUp objects
+    /// </summary>
     public class ScoreUpFactory
     {
         //Singleton
@@ -13,6 +16,9 @@ namespace Impact.Game.Factories
 
         public event Action<ScoreUp> ScoreUpCreated;
 
+        /// <summary>
+        /// Creates a new ScoreUp at the top of the screen at a random X position and gives it a random score value
+        /// </summary>
         public ScoreUp CreateNew()
         {
             var rnd = new Random();

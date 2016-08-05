@@ -47,6 +47,7 @@
     <Compile Include="Entities\Powerups\MultiBallPowerup.cs" />
     <Compile Include="Entities\Powerups\Powerup.cs" />
     <Compile Include="Entities\Rocket.cs" />
+    <Compile Include="Entities\LifeUp.cs" />
     <Compile Include="Entities\ScoreUp.cs" />
     <Compile Include="Entities\Wormhole.cs" />
     <Compile Include="Enums\BrickTypeEnum.cs" />
@@ -54,10 +55,11 @@
     <Compile Include="Enums\WormholeTypeEnum.cs" />
     <Compile Include="Factories\BallFactory.cs" />
     <Compile Include="Factories\BrickFactory.cs" />
+    <Compile Include="Factories\LifeUpFactory.cs" />
     <Compile Include="Factories\ScoreUpFactory.cs" />
     <Compile Include="Factories\WormholeFactory.cs" />
     <Compile Include="GameController.cs" />
-    <Compile Include="Layers\GameOverLayer.cs" />
+    <Compile Include="Layers\NewLevelLayer.cs" />
     <Compile Include="Managers\CollisionManager.cs" />
     <Compile Include="Managers\GameManager.cs" />
     <Compile Include="Managers\IScoreManager.cs" />

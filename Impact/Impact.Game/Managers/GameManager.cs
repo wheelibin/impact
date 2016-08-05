@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CocosSharp;
+using Impact.Game.Config;
 using Impact.Game.Scenes;
 
 namespace Impact.Game.Managers
@@ -15,29 +16,14 @@ namespace Impact.Game.Managers
         public bool CheatModeEnabled { get; set; }
         public CCSpriteSheet GameEntitiesSpriteSheet { get; set; }
         public CCSpriteSheet TitleScreenSpriteSheet { get; set; }
-        public TitleScene TitleScene { get; set; }
-        public LevelSelectScene LevelSelectScene { get; set; }
-        public GameScene GameScene { get; set; }
-        public List<string> BrickSounds { get; set; }
+        public CCSpriteSheet LevelSelectScreenSpriteSheet { get; set; }
 
         public GameManager()
         {
             LevelHasStarted = false;
-            GameEntitiesSpriteSheet = new CCSpriteSheet("Spritesheets/GameEntities.plist", "Spritesheets/GameEntities.png");
-            TitleScreenSpriteSheet = new CCSpriteSheet("Spritesheets/TitleScreen.plist", "Spritesheets/TitleScreen.png");
-
-            BrickSounds = new List<string>
-            {
-                "massive-banzai23/D3.wav",
-                "massive-banzai23/E3.wav",
-                "massive-banzai23/F3.wav",
-                "massive-banzai23/G3.wav",
-                "massive-banzai23/A3.wav",
-                "massive-banzai23/As3.wav",
-                "massive-banzai23/C3.wav",
-                "massive-banzai23/D4.wav"
-            };
-
+            GameEntitiesSpriteSheet = new CCSpriteSheet(GameConstants.GameEntitiesSpriteSheet, GameConstants.GameEntitiesSpriteSheetImage);
+            TitleScreenSpriteSheet = new CCSpriteSheet(GameConstants.TitleScreenSpriteSheet, GameConstants.TitleScreenSpriteSheetImage);
+            LevelSelectScreenSpriteSheet = new CCSpriteSheet(GameConstants.LevelSelectScreenSpriteSheet, GameConstants.LevelSelectScreenSpriteSheetImage);
         }
 
         public event Action<bool> LevelStarted;

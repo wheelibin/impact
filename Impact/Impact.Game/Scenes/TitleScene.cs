@@ -14,9 +14,6 @@ namespace Impact.Game.Scenes
             var layer = new CCLayer();
             AddChild(layer);
 
-            //Preload the entire spritesheet
-            CCSpriteFrameCache.SharedSpriteFrameCache.AddSpriteFrames(GameConstants.TitleScreenSpriteSheet, GameConstants.TitleScreenSpriteSheetImage);
-
             //background
             var frame = GameManager.Instance.TitleScreenSpriteSheet.Frames.Find(item => item.TextureFilename == "Impact-TitleScreen.png");
             var sprite = new CCSprite(frame)
@@ -29,7 +26,7 @@ namespace Impact.Game.Scenes
             CCSpriteFrame playButtonFrame = GameManager.Instance.TitleScreenSpriteSheet.Frames.Find(item => item.TextureFilename == "PlayButton.png");
             CCMenuItemImage playbutton = new CCMenuItemImage(playButtonFrame, playButtonFrame, playButtonFrame, PlayButton_Action);
 
-            CCSpriteFrame levelSelectButtonFrame = GameManager.Instance.TitleScreenSpriteSheet.Frames.Find(item => item.TextureFilename == "LevelSelectButton.png");
+            CCSpriteFrame levelSelectButtonFrame = GameManager.Instance.TitleScreenSpriteSheet.Frames.Find(item => item.TextureFilename == "TitleScreenLevelSelectButton.png");
             CCMenuItemImage levelSelectbutton = new CCMenuItemImage(levelSelectButtonFrame, levelSelectButtonFrame, levelSelectButtonFrame, LevelSelectButton_Action);
 
             CCMenu menu = new CCMenu(playbutton, levelSelectbutton)
@@ -68,20 +65,12 @@ namespace Impact.Game.Scenes
 
         private void PlayButton_Action(object arg)
         {
-            if (GameManager.Instance.GameScene == null)
-            {
-                GameManager.Instance.GameScene = new GameScene(_gameView);
-            }
-            GameController.GoToScene(GameManager.Instance.GameScene);
+            GameController.GoToScene(new GameScene(_gameView));
         }
 
         private void LevelSelectButton_Action(object arg)
         {
-            if (GameManager.Instance.LevelSelectScene == null)
-            {
-                GameManager.Instance.LevelSelectScene = new LevelSelectScene(_gameView);
-            }
-            GameController.GoToScene(GameManager.Instance.LevelSelectScene);
+            GameController.GoToScene(new LevelSelectScene(_gameView));
         }
         
     }

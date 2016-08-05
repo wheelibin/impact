@@ -1,4 +1,5 @@
-﻿using CocosSharp;
+﻿using System.Collections.Generic;
+using CocosSharp;
 
 namespace Impact.Game.Config
 {
@@ -11,6 +12,17 @@ namespace Impact.Game.Config
         public const string TitleScreenSpriteSheetImage = "Spritesheets/TitleScreen.png";
         public const string GameEntitiesSpriteSheet = "Spritesheets/GameEntities.plist";
         public const string GameEntitiesSpriteSheetImage = "Spritesheets/GameEntities.png";
+        public const string LevelSelectScreenSpriteSheet = "Spritesheets/LevelSelectScreen.plist";
+        public const string LevelSelectScreenSpriteSheetImage = "Spritesheets/LevelSelectScreen.png";
+
+        public static Queue<string> BrickHitSounds = new Queue<string>(new List<string>
+        {
+            "massive-timpanaphone/E5.wav",
+            "massive-timpanaphone/G5.wav",
+            "massive-timpanaphone/F5.wav"
+        });
+        public const string PaddleHitSound = "massive-banzai23/D3.wav";
+        public const string BrickHitButNotDestroyedSound = "massive-timpanaphone/D5-Filtered.wav";
 
         //Colours
         public static CCColor4B BackgroundColour = new CCColor4B(0, 32, 40);
@@ -23,7 +35,7 @@ namespace Impact.Game.Config
         //Ball
         public const float BallMaxVelocityX = 500;
         public const float BallInitialVelocityY = 750;
-        public static CCPoint BallInitialPosition => new CCPoint(320, 112);
+        public static CCPoint BallInitialPosition => new CCPoint(WorldWidth/2f, 300);
         public const int BallZOrder = 20;
         public const float BallGravityCoefficient = 1200;
         public const float GravityLevelBallSpeedBrickDampeningCoefficient = 0.80f; // 1= no dampening
@@ -32,7 +44,7 @@ namespace Impact.Game.Config
         public static CCPoint PaddleInitialPosition => new CCPoint(320, 200);
         public const float PaddleScaleX = 1;
         public const float PaddleGravityBounceVelocityY = 1000;
-
+        
         //Powerups
         public const float PowerupVelocityY = -300;
         public const float PowerupGravity = 210;
@@ -43,7 +55,8 @@ namespace Impact.Game.Config
         //ScoreUps
         public const float ScoreUpGravity = 100;
 
-
+        //LifeUps
+        public const float LifeUpGravity = 270;
 
     }
 }

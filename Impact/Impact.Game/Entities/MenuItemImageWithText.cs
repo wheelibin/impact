@@ -6,13 +6,13 @@ namespace Impact.Game.Entities
     public class MenuItemImageWithText : CCMenuItemImage
     {
 
-        public MenuItemImageWithText(CCSpriteFrame normalSpriteframe, CCSpriteFrame selectedSpriteframe, CCSpriteFrame disabledSpriteframe, Action<object> callback, string text)
+        public MenuItemImageWithText(CCSpriteFrame normalSpriteframe, CCSpriteFrame selectedSpriteframe, CCSpriteFrame disabledSpriteframe, Action<object> callback, string text, CCColor3B textColour)
             : base(normalSpriteframe, selectedSpriteframe, disabledSpriteframe, callback)
         {
 
             var label = new CCLabel(text, "visitor1.ttf", 72, CCLabelFormat.SystemFont)
             {
-                Color = new CCColor3B(123, 129, 131),
+                Color = textColour,
                 PositionX = ContentSize.Width/2,
                 PositionY = ContentSize.Height/2
             };

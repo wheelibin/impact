@@ -17,7 +17,7 @@ namespace Impact.Game.Managers
         public event Action BrickHitButNotDestroyed;
         public event Action<Powerup> PowerupCollected;
         public event Action<ScoreUp> ScoreUpCollected;
-
+        public event Action<Ball> MissedBall;
         
         public void HandleCollisions(CCLayer layer, Paddle paddle, List<Ball> balls, List<Brick> bricks, List<Powerup> powerups, List<Wormhole> wormholes, List<ScoreUp> scoreUps)
         {
@@ -96,9 +96,8 @@ namespace Impact.Game.Managers
                 {
                     if (ballTop < screenBottom && ball.VelocityY < 0)
                     {
-                        //missed the ball so remove it
-                        ball.RemoveFromParent();
-                        balls.RemoveAt(ballIndex);
+                        //missed the ball lose a life
+                        MissedBall?.Invoke(ball);
                         return;
                     }
                 }

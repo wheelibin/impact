@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using CocosSharp;
 using Impact.Game.Config;
 using Impact.Game.Entities;
 using Impact.Game.Entities.Powerups;
 using Impact.Game.Factories;
+using Impact.Game.Layers;
 using Impact.Game.Managers;
 
 namespace Impact.Game.Scenes
@@ -14,9 +14,14 @@ namespace Impact.Game.Scenes
     {
         private CCLayer _gameLayer;
         private CCLayer _hudLayer;
+        private NewLevelLayer _newLevelLayer;
 
         private Paddle _paddle;
         private CCLabel _scoreLabel;
+        private CCLabel _livesLabel;
+        private CCLabel _levelLabel;
+
+        private CCEventListenerTouchAllAtOnce _newLevelPopupEventListener;
 
         private readonly List<Brick> _bricks = new List<Brick>();
         private readonly List<Powerup> _powerups = new List<Powerup>();
@@ -28,11 +33,14 @@ namespace Impact.Game.Scenes
         private readonly ScoreManager _scoreManager = new ScoreManager();
         private readonly CollisionManager _collisionManager = new CollisionManager();
 
-        private float _levelTimer = 0;
+        private int _lives = 3;
+
+        private const int NewLevelLayerEventPriority = 1;
+        private const int DefaultEventPriority = 2;
 
         public GameScene(CCGameView gameView) : base(gameView)
         {
-            GameManager.Instance.CheatModeEnabled = true;
+            GameManager.Instance.CheatModeEnabled = false;
 
             //Preload the entire spritesheet
             CCSpriteFrameCache.SharedSpriteFrameCache.AddSpriteFrames(GameConstants.GameEntitiesSpriteSheet, GameConstants.GameEntitiesSpriteSheetImage);
@@ -77,21 +85,26 @@ namespace Impact.Game.Scenes
             BallFactory.Instance.BallCreated += BallFactory_BallCreated;
             BrickFactory.Instance.BrickCreated += BrickFactory_BrickCreated;
             BrickFactory.Instance.BrickDestroyed += BrickFactory_BrickDestroyed;
+
             _collisionManager.BrickHitButNotDestroyed += CollisionManager_BrickHitButNotDestroyed;
             _collisionManager.PaddleHit += CollisionManager_PaddleHit;
             _collisionManager.PowerupCollected += CollisionManager_PowerupCollected;
             _collisionManager.ScoreUpCollected += CollisionManager_ScoreUpCollected;
+            _collisionManager.MissedBall += CollisionManagerMissedBall;
+
             GameManager.Instance.LevelStarted += GameManager_LevelStarted;
             WormholeFactory.Instance.WormholeCreated += WormholeFactory_WormholeCreated;
             ScoreUpFactory.Instance.ScoreUpCreated += ScoreUpFactory_ScoreUpCreated;
+            _scoreManager.ScoreUpdated += ScoreManager_ScoreUpdated;
+
 
             // Register for touch events
             var touchListener = new CCEventListenerTouchAllAtOnce
             {
                 OnTouchesMoved = HandleTouchesMoved
             };
-            AddEventListener(touchListener, _gameLayer);
-
+            AddEventListener(touchListener, DefaultEventPriority);
+            
         }
         
         private void AddEntities()
@@ -109,6 +122,24 @@ namespace Impact.Game.Scenes
                 AnchorPoint = CCPoint.AnchorUpperRight
             };
             _hudLayer.AddChild(_scoreLabel);
+
+            _levelLabel = new CCLabel($"LEVEL: {LevelManager.Instance.CurrentLevel}", "visitor1.ttf", 48, CCLabelFormat.SystemFont)
+            {
+                PositionX = _gameLayer.VisibleBoundsWorldspace.MinX + 50,
+                PositionY = _gameLayer.VisibleBoundsWorldspace.MaxY - 50,
+                AnchorPoint = CCPoint.AnchorUpperLeft
+            };
+            _hudLayer.AddChild(_levelLabel);
+
+            _livesLabel = new CCLabel($"LIVES: {_lives}", "visitor1.ttf", 48, CCLabelFormat.SystemFont)
+            {
+                PositionX = _gameLayer.VisibleBoundsWorldspace.MinX + 50,
+                PositionY = _gameLayer.VisibleBoundsWorldspace.MaxY - 100,
+                AnchorPoint = CCPoint.AnchorUpperLeft
+            };
+            _hudLayer.AddChild(_livesLabel);
+
+            
         }
 
         #region Event Handlers
@@ -163,14 +194,12 @@ namespace Impact.Game.Scenes
 
         private void CollisionManager_PaddleHit()
         {
-            //play sound
-            CCAudioEngine.SharedEngine.PlayEffect(GameManager.Instance.BrickSounds[0]);
+            CCAudioEngine.SharedEngine.PlayEffect(GameConstants.PaddleHitSound);
         }
 
         private void CollisionManager_BrickHitButNotDestroyed()
         {
-            //play sound
-            PlayRandomBrickSound();
+            CCAudioEngine.SharedEngine.PlayEffect(GameConstants.BrickHitButNotDestroyedSound);
         }
 
         private void CollisionManager_ScoreUpCollected(ScoreUp scoreUp)
@@ -192,10 +221,45 @@ namespace Impact.Game.Scenes
             _scoreManager.PowerupCollected();
         }
 
+        private void CollisionManagerMissedBall(Ball ball)
+        {
+
+            ball.RemoveFromParent();
+            _balls.Remove(ball);
+
+            if (_balls.Count == 0)
+            {
+                //Stop the level
+                GameManager.Instance.StartStopLevel(false);
+
+                //Create another ball
+                BallFactory.Instance.CreateNew();
+
+                //Reduce the lives
+                _lives -= 1;
+
+                //Remove any scoreUps
+                RemoveAllScoreUps();
+
+                if (_lives == 0)
+                {
+                    //game over
+                    GameManager.Instance.StartStopLevel(false);
+                    GameController.GoToScene(new LevelSelectScene(GameView));
+                }
+            }
+            
+        }
+
         private void ScoreUpFactory_ScoreUpCreated(ScoreUp scoreUp)
         {
             _scoreUps.Add(scoreUp);
             _gameLayer.AddChild(scoreUp);
+        }
+
+        private void ScoreManager_ScoreUpdated()
+        {
+            _scoreLabel.Text = _scoreManager.Score.ToString("000000");
         }
 
         private void Ball_OnTouchesMoved(List<CCTouch> touches, CCEvent arg2)
@@ -223,7 +287,7 @@ namespace Impact.Game.Scenes
             }
             else
             {
-                Unschedule();
+                UnscheduleAll();
                 //Unschedule(UpdateTimer);
             }
             
@@ -237,24 +301,23 @@ namespace Impact.Game.Scenes
             }
         }
 
+        /// <summary>
+        /// This higher priority event prevents event propogation from triggering the GameScene TouchesMoved event
+        /// </summary>
+        private void NewLevelLayer_TouchesMoved(List<CCTouch> touches, CCEvent touchEvent)
+        {
+            touchEvent.StopPropogation();
+        }
+
         #endregion
-        
+
         /// <summary>
         /// The main game loop, checks for collisions and whether the level has been completed
         /// </summary>
         private void RunGameLogic(float frameTimeInSeconds)
         {
-
-            _scoreLabel.Text = _scoreManager.Score.ToString("000000");
-
+            _livesLabel.Text = $"LIVES: {_lives}";
             _collisionManager.HandleCollisions(_gameLayer, _paddle, _balls, _bricks, _powerups, _wormholes, _scoreUps);
-
-            //Game over?
-            if (_balls.Count == 0)
-            {
-                GameManager.Instance.StartStopLevel(false);
-                GameController.GoToScene(new LevelSelectScene(GameView));
-            }
 
             //Level Complete?
             bool allBricksAreIndistructible = _bricks.All(b => b.IsIndestructible);
@@ -270,6 +333,9 @@ namespace Impact.Game.Scenes
                 //Reset ball(s)
                 BallFactory.Instance.ResetBalls(_balls);
 
+                //Remove any scoreUps
+                RemoveAllScoreUps();
+
                 //Load next level
                 LevelManager.Instance.CurrentLevel++;
                 LoadLevel(LevelManager.Instance.CurrentLevel);
@@ -278,13 +344,28 @@ namespace Impact.Game.Scenes
 
         }
 
+        private void RemoveAllScoreUps()
+        {
+            //Remove any scoreUps
+            foreach (ScoreUp scoreUp in _scoreUps)
+            {
+                scoreUp.RemoveFromParent();
+            }
+            _scoreUps.Clear();
+        }
+
         private void PlayRandomBrickSound()
         {
             if (!GameManager.Instance.DebugMode)
             {
-                Random rnd = new Random();
-                int r = rnd.Next(GameManager.Instance.BrickSounds.Count);
-                CCAudioEngine.SharedEngine.PlayEffect(GameManager.Instance.BrickSounds[r]);
+
+                string sound = GameConstants.BrickHitSounds.Dequeue();
+                CCAudioEngine.SharedEngine.PlayEffect(sound);
+                GameConstants.BrickHitSounds.Enqueue(sound);
+
+                //Random rnd = new Random();
+                //int r = rnd.Next(GameConstants.BrickHitSounds.Count);
+                //CCAudioEngine.SharedEngine.PlayEffect(GameConstants.BrickHitSounds[r]);
             }
         }
 
@@ -309,14 +390,36 @@ namespace Impact.Game.Scenes
                 ball.ApplyGravity = LevelManager.Instance.CurrentLevelProperties.Gravity;
             }
 
+            _lives = 3;
+
             GameManager.Instance.StartStopLevel(false);
+
+            ShowNewLevelPopup(_lives);
+
         }
 
-        private void UpdateTimer(float frameTime)
+        private void ShowNewLevelPopup(int lives)
         {
-            _levelTimer += frameTime;
-            //GameManager.Instance.Score -= (int)(_levelTimer*100);
+            _newLevelLayer = new NewLevelLayer(lives);
+            AddChild(_newLevelLayer);
+
+            _newLevelPopupEventListener = new CCEventListenerTouchAllAtOnce
+            {
+                OnTouchesMoved = NewLevelLayer_TouchesMoved
+            };
+
+            _newLevelLayer.AddEventListener(_newLevelPopupEventListener, NewLevelLayerEventPriority);
+            _newLevelLayer.PlayButtonPressed += NewLevelLayer_PlayButtonPressed;
         }
 
+        private void NewLevelLayer_PlayButtonPressed()
+        {
+            _newLevelLayer.PlayButtonPressed -= NewLevelLayer_PlayButtonPressed;
+            _newLevelLayer.RemoveEventListener(_newLevelPopupEventListener);
+            _newLevelLayer.RemoveFromParent();
+            _newLevelLayer.Dispose();
+
+            _livesLabel.Text = $"LEVEL: {LevelManager.Instance.CurrentLevel}";
+        }
     }
 }

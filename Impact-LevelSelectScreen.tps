@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.2.2</string>
         <key>fileName</key>
-        <string>C:/Users/jon/Dropbox/dev/Impact/Impact-TitleScreen.tps</string>
+        <string>C:/Users/jon/Dropbox/dev/Impact/Impact-LevelSelectScreen.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -141,7 +141,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>Impact/Impact.iOS/Content/Images/Ld/Spritesheets/TitleScreen.plist</filename>
+                <filename>Impact/Impact.iOS/Content/Images/Ld/Spritesheets/LevelSelectScreen.plist</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -188,9 +188,8 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">SourceImages/Title Screen/Impact-TitleScreen.png</key>
-            <key type="filename">SourceImages/Title Screen/PlayButton.png</key>
-            <key type="filename">SourceImages/Title Screen/TitleScreenLevelSelectButton.png</key>
+            <key type="filename">SourceImages/Level Select Screen/LevelSelectBackground.png</key>
+            <key type="filename">SourceImages/Level Select Screen/LevelSelectButton.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -198,9 +197,8 @@
         </map>
         <key>fileList</key>
         <array>
-            <filename>SourceImages/Title Screen/Impact-TitleScreen.png</filename>
-            <filename>SourceImages/Title Screen/PlayButton.png</filename>
-            <filename>SourceImages/Title Screen/TitleScreenLevelSelectButton.png</filename>
+            <filename>SourceImages/Level Select Screen/LevelSelectBackground.png</filename>
+            <filename>SourceImages/Level Select Screen/LevelSelectButton.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

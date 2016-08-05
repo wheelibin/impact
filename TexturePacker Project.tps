@@ -188,34 +188,38 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/Ball.png</key>
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/Brick-A1.png</key>
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/Brick-A2.png</key>
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/Brick-B1.png</key>
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/Brick-B2.png</key>
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/Brick-Bounce1.png</key>
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/Brick-C1.png</key>
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/Brick-C2.png</key>
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/Brick-D1.png</key>
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/Brick-D2.png</key>
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/Brick-E1.png</key>
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/Paddle.png</key>
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/PowerupFireball.png</key>
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/PowerupLargerPaddle.png</key>
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/PowerupMultiBall.png</key>
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/ScoreUp.png</key>
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/SmallBrick-A1.png</key>
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/SmallBrick-A2.png</key>
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/SmallBrick-B1.png</key>
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/SmallBrick-B2.png</key>
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/SmallBrick-Bounce1.png</key>
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/SmallBrick-C1.png</key>
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/SmallBrick-C2.png</key>
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/SmallBrick-D1.png</key>
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/SmallBrick-D2.png</key>
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/SmallBrick-E1.png</key>
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/WormholeIn.png</key>
-            <key type="filename">Impact/Impact.iOS/Content/Images/Ld/WormholeOut.png</key>
+            <key type="filename">SourceImages/Game/Ball.png</key>
+            <key type="filename">SourceImages/Game/Brick-A1.png</key>
+            <key type="filename">SourceImages/Game/Brick-A2.png</key>
+            <key type="filename">SourceImages/Game/Brick-B1.png</key>
+            <key type="filename">SourceImages/Game/Brick-B2.png</key>
+            <key type="filename">SourceImages/Game/Brick-Bounce1.png</key>
+            <key type="filename">SourceImages/Game/Brick-C1.png</key>
+            <key type="filename">SourceImages/Game/Brick-C2.png</key>
+            <key type="filename">SourceImages/Game/Brick-D1.png</key>
+            <key type="filename">SourceImages/Game/Brick-D2.png</key>
+            <key type="filename">SourceImages/Game/Brick-E1.png</key>
+            <key type="filename">SourceImages/Game/LifeUp.png</key>
+            <key type="filename">SourceImages/Game/NewLevelPopupBackground.png</key>
+            <key type="filename">SourceImages/Game/NewLevelPopupMainMenuButton.png</key>
+            <key type="filename">SourceImages/Game/NewLevelPopupPlayButton.png</key>
+            <key type="filename">SourceImages/Game/Paddle.png</key>
+            <key type="filename">SourceImages/Game/PowerupFireball.png</key>
+            <key type="filename">SourceImages/Game/PowerupLargerPaddle.png</key>
+            <key type="filename">SourceImages/Game/PowerupMultiBall.png</key>
+            <key type="filename">SourceImages/Game/ScoreUp.png</key>
+            <key type="filename">SourceImages/Game/SmallBrick-A1.png</key>
+            <key type="filename">SourceImages/Game/SmallBrick-A2.png</key>
+            <key type="filename">SourceImages/Game/SmallBrick-B1.png</key>
+            <key type="filename">SourceImages/Game/SmallBrick-B2.png</key>
+            <key type="filename">SourceImages/Game/SmallBrick-Bounce1.png</key>
+            <key type="filename">SourceImages/Game/SmallBrick-C1.png</key>
+            <key type="filename">SourceImages/Game/SmallBrick-C2.png</key>
+            <key type="filename">SourceImages/Game/SmallBrick-D1.png</key>
+            <key type="filename">SourceImages/Game/SmallBrick-D2.png</key>
+            <key type="filename">SourceImages/Game/SmallBrick-E1.png</key>
+            <key type="filename">SourceImages/Game/WormholeIn.png</key>
+            <key type="filename">SourceImages/Game/WormholeOut.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -223,34 +227,38 @@
         </map>
         <key>fileList</key>
         <array>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/Ball.png</filename>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/Brick-A1.png</filename>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/Brick-A2.png</filename>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/Brick-B1.png</filename>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/Brick-B2.png</filename>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/Brick-C1.png</filename>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/Brick-C2.png</filename>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/Brick-D1.png</filename>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/Brick-D2.png</filename>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/Brick-E1.png</filename>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/Paddle.png</filename>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/PowerupFireball.png</filename>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/PowerupLargerPaddle.png</filename>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/PowerupMultiBall.png</filename>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/WormholeIn.png</filename>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/WormholeOut.png</filename>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/Brick-Bounce1.png</filename>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/SmallBrick-A1.png</filename>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/SmallBrick-A2.png</filename>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/SmallBrick-B1.png</filename>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/SmallBrick-B2.png</filename>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/SmallBrick-Bounce1.png</filename>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/SmallBrick-C1.png</filename>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/SmallBrick-C2.png</filename>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/SmallBrick-D1.png</filename>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/SmallBrick-D2.png</filename>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/SmallBrick-E1.png</filename>
-            <filename>Impact/Impact.iOS/Content/Images/Ld/ScoreUp.png</filename>
+            <filename>SourceImages/Game/NewLevelPopupBackground.png</filename>
+            <filename>SourceImages/Game/NewLevelPopupMainMenuButton.png</filename>
+            <filename>SourceImages/Game/NewLevelPopupPlayButton.png</filename>
+            <filename>SourceImages/Game/Ball.png</filename>
+            <filename>SourceImages/Game/Brick-A1.png</filename>
+            <filename>SourceImages/Game/Brick-A2.png</filename>
+            <filename>SourceImages/Game/Brick-B1.png</filename>
+            <filename>SourceImages/Game/Brick-B2.png</filename>
+            <filename>SourceImages/Game/Brick-Bounce1.png</filename>
+            <filename>SourceImages/Game/Brick-C1.png</filename>
+            <filename>SourceImages/Game/Brick-C2.png</filename>
+            <filename>SourceImages/Game/Brick-D1.png</filename>
+            <filename>SourceImages/Game/Brick-D2.png</filename>
+            <filename>SourceImages/Game/Brick-E1.png</filename>
+            <filename>SourceImages/Game/LifeUp.png</filename>
+            <filename>SourceImages/Game/Paddle.png</filename>
+            <filename>SourceImages/Game/PowerupFireball.png</filename>
+            <filename>SourceImages/Game/PowerupLargerPaddle.png</filename>
+            <filename>SourceImages/Game/PowerupMultiBall.png</filename>
+            <filename>SourceImages/Game/ScoreUp.png</filename>
+            <filename>SourceImages/Game/SmallBrick-A1.png</filename>
+            <filename>SourceImages/Game/SmallBrick-A2.png</filename>
+            <filename>SourceImages/Game/SmallBrick-B1.png</filename>
+            <filename>SourceImages/Game/SmallBrick-B2.png</filename>
+            <filename>SourceImages/Game/SmallBrick-Bounce1.png</filename>
+            <filename>SourceImages/Game/SmallBrick-C1.png</filename>
+            <filename>SourceImages/Game/SmallBrick-C2.png</filename>
+            <filename>SourceImages/Game/SmallBrick-D1.png</filename>
+            <filename>SourceImages/Game/SmallBrick-D2.png</filename>
+            <filename>SourceImages/Game/SmallBrick-E1.png</filename>
+            <filename>SourceImages/Game/WormholeIn.png</filename>
+            <filename>SourceImages/Game/WormholeOut.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

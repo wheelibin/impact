@@ -4,7 +4,7 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>Impact-TitleScreen.png</key>
+            <key>LevelSelectBackground.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -19,33 +19,18 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>PlayButton.png</key>
+            <key>LevelSelectButton.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{536,94}</string>
+                <string>{114,114}</string>
                 <key>spriteSourceSize</key>
-                <string>{536,94}</string>
+                <string>{114,114}</string>
                 <key>textureRect</key>
-                <string>{{0,1481},{536,94}}</string>
-                <key>textureRotated</key>
-                <false/>
-            </dict>
-            <key>TitleScreenLevelSelectButton.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{536,94}</string>
-                <key>spriteSourceSize</key>
-                <string>{536,94}</string>
-                <key>textureRect</key>
-                <string>{{0,1575},{536,94}}</string>
+                <string>{{833,0},{114,114}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -59,13 +44,13 @@
             <key>premultiplyAlpha</key>
             <false/>
             <key>realTextureFileName</key>
-            <string>TitleScreen.png</string>
+            <string>LevelSelectScreen.png</string>
             <key>size</key>
-            <string>{833,1669}</string>
+            <string>{947,1481}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:69e2d7fee6edcb517133cb8bbdba871f:7ec0cc3bd2004ae6ca15712d5d5530c5:ce1cf9e4b38a47c9cd3acd50187bf94d$</string>
+            <string>$TexturePacker:SmartUpdate:3ab14bc0cafb6678e576b29b09a762bb:7a36b15c4f1eb6be3abfa2951149452a:91d059f109f563e4f879bc5d033a66e0$</string>
             <key>textureFileName</key>
-            <string>TitleScreen.png</string>
+            <string>LevelSelectScreen.png</string>
         </dict>
     </dict>
 </plist>

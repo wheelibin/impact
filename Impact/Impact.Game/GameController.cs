@@ -41,11 +41,10 @@ namespace Impact.Game
             //}
 
             gameView.ContentManager.SearchPaths = contentSearchPaths;
-            gameView.Stats.Enabled = true;
+            //gameView.Stats.Enabled = true;
 
             //GameManager.Instance.DebugMode = true;
-            GameManager.Instance.TitleScene = new TitleScene(gameView);
-            gameView.RunWithScene(GameManager.Instance.TitleScene);
+            gameView.RunWithScene(new TitleScene(gameView));
         }
 
         public static void GoToScene(CCScene scene)
