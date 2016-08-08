@@ -1,5 +1,6 @@
 ﻿using CocosSharp;
 using Impact.Game.Config;
+using Impact.Game.Enums;
 
 namespace Impact.Game.Entities.Powerups
 {
@@ -21,8 +22,8 @@ namespace Impact.Game.Entities.Powerups
         /// </summary>
         public override void Activate()
         {
-            _paddle.EnableBullets();
-            ScheduleOnce(x => _paddle.DisableBullets(), GameConstants.PowerupBulletsSeconds);
+            _paddle.ProjectileType = ProjectileType.Bullet;
+            ScheduleOnce(x => _paddle.ProjectileType = ProjectileType.None, GameConstants.PowerupBulletsSeconds);
         }
 
         /// <summary>
@@ -30,7 +31,7 @@ namespace Impact.Game.Entities.Powerups
         /// </summary>
         public override void Deactivate()
         {
-            _paddle.DisableBullets();
+            _paddle.ProjectileType = ProjectileType.None;
         }
 
     }

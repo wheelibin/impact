@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using CocosSharp;
 using Impact.Game.Config;
+using Impact.Game.Enums;
 using Impact.Game.Factories;
 using Impact.Game.Managers;
 
@@ -8,18 +9,44 @@ namespace Impact.Game.Entities
 {
     public sealed class Paddle : CCNode
     {
+        public ProjectileType ProjectileType
+        {
+            get { return _projectileType; }
+            set
+            {
+                _projectileType = value;
+
+                switch (value)
+                {
+                    case ProjectileType.None:
+
+                        var frame = GameManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == GameConstants.SpriteImagePaddle);
+                        _sprite.SpriteFrame = frame;
+                        break;
+                    case ProjectileType.Bullet:
+                        frame = GameManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == GameConstants.SpriteImagePaddleBullet);
+                        _sprite.SpriteFrame = frame;
+                        break;
+                }
+                
+            }
+        }
+
+        private CCSprite _sprite;
+        private ProjectileType _projectileType;
+
         public Paddle()
         {
             var frame = GameManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == GameConstants.SpriteImagePaddle);
-            var sprite = new CCSprite(frame)
+            _sprite = new CCSprite(frame)
             {
                 AnchorPoint = CCPoint.AnchorLowerLeft
             };
 
             //AddChild(new CCLayerColor(CCColor4B.Yellow));
-            AddChild(sprite);
+            AddChild(_sprite);
 
-            ContentSize = sprite.ContentSize;
+            ContentSize = _sprite.ContentSize;
             PositionX = GameConstants.PaddleInitialPosition.X;
             PositionY = GameConstants.PaddleInitialPosition.Y;
             ScaleX = GameConstants.PaddleScaleX;
@@ -30,14 +57,9 @@ namespace Impact.Game.Entities
 
         }
 
-        public void EnableBullets()
+        public void FireProjectile()
         {
-            Schedule(FireBullet, 0.35f);
-        }
-
-        public void DisableBullets()
-        {
-            Unschedule(FireBullet);
+            ProjectileFactory.Instance.CreateNew(ProjectileType, Position);
         }
 
         private void HandleInput(List<CCTouch> touches, CCEvent touchEvent)
@@ -62,9 +84,5 @@ namespace Impact.Game.Entities
             }
         }
 
-        private void FireBullet(float frameTime)
-        {
-            BulletFactory.Instance.CreateNew(Position);
-        }
     }
 }

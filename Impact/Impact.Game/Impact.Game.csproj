@@ -38,6 +38,7 @@
     <Compile Include="Entities\Ball.cs" />
     <Compile Include="Entities\Brick.cs" />
     <Compile Include="Entities\Bullet.cs" />
+    <Compile Include="Entities\Projectile.cs" />
     <Compile Include="Entities\MenuButton.cs" />
     <Compile Include="Entities\MenuItemImageWithText.cs" />
     <Compile Include="Entities\Paddle.cs" />
@@ -53,11 +54,12 @@
     <Compile Include="Entities\Wormhole.cs" />
     <Compile Include="Enums\BrickTypeEnum.cs" />
     <Compile Include="Enums\PowerUpTypeEnum.cs" />
+    <Compile Include="Enums\ProjectileTypeEnum.cs" />
     <Compile Include="Enums\WormholeTypeEnum.cs" />
     <Compile Include="Factories\BallFactory.cs" />
     <Compile Include="Factories\BrickFactory.cs" />
     <Compile Include="Factories\LifeUpFactory.cs" />
-    <Compile Include="Factories\BulletFactory.cs" />
+    <Compile Include="Factories\ProjectileFactory.cs" />
     <Compile Include="Factories\ScoreUpFactory.cs" />
     <Compile Include="Factories\WormholeFactory.cs" />
     <Compile Include="GameController.cs" />

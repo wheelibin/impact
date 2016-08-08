@@ -4,6 +4,7 @@ using CocosSharp;
 using Impact.Game.Config;
 using Impact.Game.Entities;
 using Impact.Game.Entities.Powerups;
+using Impact.Game.Enums;
 using Impact.Game.Factories;
 using Impact.Game.Layers;
 using Impact.Game.Managers;
@@ -29,7 +30,7 @@ namespace Impact.Game.Scenes
         private readonly List<IPowerup> _activatedPowerups = new List<IPowerup>();
         private readonly List<Ball> _balls = new List<Ball>();
         private readonly List<Wormhole> _wormholes = new List<Wormhole>();
-        private readonly List<Bullet> _bullets = new List<Bullet>(); 
+        private readonly List<Projectile> _bullets = new List<Projectile>(); 
 
         private readonly ScoreManager _scoreManager = new ScoreManager();
         private readonly CollisionManager _collisionManager = new CollisionManager();
@@ -97,19 +98,21 @@ namespace Impact.Game.Scenes
             WormholeFactory.Instance.WormholeCreated += WormholeFactory_WormholeCreated;
             ScoreUpFactory.Instance.ScoreUpCreated += ScoreUpFactory_ScoreUpCreated;
             _scoreManager.ScoreUpdated += ScoreManager_ScoreUpdated;
-            BulletFactory.Instance.BulletCreated += BulletFactory_BulletCreated;
-            BulletFactory.Instance.BulletDestroyed += BulletFactory_BulletDestroyed;
+            ProjectileFactory.Instance.ProjectileCreated += ProjectileFactory_ProjectileCreated;
+            ProjectileFactory.Instance.ProjectileDestroyed += ProjectileFactory_ProjectileDestroyed;
 
             // Register for touch events
             var touchListener = new CCEventListenerTouchAllAtOnce
             {
-                OnTouchesMoved = HandleTouchesMoved
+                OnTouchesMoved = HandleTouchesMoved,
+                OnTouchesBegan = HandleTouchesBegan
             };
             AddEventListener(touchListener, DefaultEventPriority);
             
         }
 
         
+
 
         private void AddEntities()
         {
@@ -190,13 +193,13 @@ namespace Impact.Game.Scenes
             _scoreManager.BrickDestroyed();
         }
 
-        private void BulletFactory_BulletCreated(Bullet bullet)
+        private void ProjectileFactory_ProjectileCreated(Projectile bullet)
         {
             _bullets.Add(bullet);
             _gameLayer.AddChild(bullet);
         }
 
-        private void BulletFactory_BulletDestroyed(Bullet bullet)
+        private void ProjectileFactory_ProjectileDestroyed(Projectile bullet)
         {
             _bullets.Remove(bullet);
             bullet.RemoveFromParent();
@@ -315,6 +318,14 @@ namespace Impact.Game.Scenes
             if (!GameManager.Instance.LevelHasStarted)
             {
                 GameManager.Instance.StartStopLevel(!GameManager.Instance.DebugMode);
+            }
+        }
+
+        private void HandleTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
+        {
+            if (_paddle.ProjectileType != ProjectileType.None)
+            {
+                _paddle.FireProjectile();
             }
         }
 

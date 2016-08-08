@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CocosSharp;
+using Impact.Game.Config;
 
 namespace Impact.Game.Entities
 {
-    class Rocket
+    public class Rocket : Projectile
     {
+        public Rocket(CCPoint position) : base(GameConstants.SpriteImageBullet, position, GameConstants.BulletVelocity)
+        {
+        }
     }
 }

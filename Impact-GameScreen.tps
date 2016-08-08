@@ -206,6 +206,7 @@
             <key type="filename">SourceImages/Game/NewLevelPopupMainMenuButton.png</key>
             <key type="filename">SourceImages/Game/NewLevelPopupPlayButton.png</key>
             <key type="filename">SourceImages/Game/Paddle.png</key>
+            <key type="filename">SourceImages/Game/PaddleBullet.png</key>
             <key type="filename">SourceImages/Game/PowerupFireball.png</key>
             <key type="filename">SourceImages/Game/PowerupLargerPaddle.png</key>
             <key type="filename">SourceImages/Game/PowerupMultiBall.png</key>
@@ -263,6 +264,7 @@
             <filename>SourceImages/Game/WormholeOut.png</filename>
             <filename>SourceImages/Game/BulletsPowerup.png</filename>
             <filename>SourceImages/Game/Bullet.png</filename>
+            <filename>SourceImages/Game/PaddleBullet.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

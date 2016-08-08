@@ -8,6 +8,7 @@ namespace Impact.Game.Config
         //Resources
         public const string SpriteImageBall = "Ball.png";
         public const string SpriteImagePaddle = "Paddle.png";
+        public const string SpriteImagePaddleBullet = "PaddleBullet.png";
         public const string SpriteImageBullet = "Bullet.png";
         public const string TitleScreenSpriteSheet = "Spritesheets/TitleScreen.plist";
         public const string TitleScreenSpriteSheetImage = "Spritesheets/TitleScreen.png";

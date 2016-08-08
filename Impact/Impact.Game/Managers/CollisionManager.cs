@@ -19,14 +19,14 @@ namespace Impact.Game.Managers
         public event Action<ScoreUp> ScoreUpCollected;
         public event Action<Ball> MissedBall;
         
-        public void HandleCollisions(CCLayer layer, Paddle paddle, List<Ball> balls, List<Brick> bricks, List<Powerup> powerups, List<Wormhole> wormholes, List<ScoreUp> scoreUps, List<Bullet> bullets)
+        public void HandleCollisions(CCLayer layer, Paddle paddle, List<Ball> balls, List<Brick> bricks, List<Powerup> powerups, List<Wormhole> wormholes, List<ScoreUp> scoreUps, List<Projectile> bullets)
         {
 
             CCRect paddleBoundingBox = paddle.BoundingBoxTransformedToWorld;
 
             for (int b = bullets.Count - 1; b >= 0; b--)
             {
-                Bullet bullet = bullets[b];
+                Projectile bullet = bullets[b];
                 List<Brick> bricksHitByBullet = BricksHitByEntity(bullet, bricks);
 
                 foreach (Brick brick in bricksHitByBullet)
@@ -40,7 +40,7 @@ namespace Impact.Game.Managers
 
                 if (bricksHitByBullet.Any())
                 {
-                    BulletFactory.Instance.DestroyBullet(bullet);
+                    ProjectileFactory.Instance.DestroyBullet(bullet);
                 }
 
             }

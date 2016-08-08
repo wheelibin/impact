@@ -8,9 +8,8 @@ namespace Impact.Game.Factories
 {
     public class BrickFactory
     {
+        //Singleton
         private static readonly Lazy<BrickFactory> SelfInstance = new Lazy<BrickFactory>(() => new BrickFactory());
-
-        // simple singleton implementation
         public static BrickFactory Instance => SelfInstance.Value;
 
         public event Action<Brick> BrickCreated;
