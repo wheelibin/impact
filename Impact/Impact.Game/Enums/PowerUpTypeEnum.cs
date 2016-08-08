@@ -5,6 +5,7 @@
         NoPowerup = 0,
         LargerPaddle = 1,
         Multiball = 2,
-        FireBall = 3
+        FireBall = 3,
+        Bullets = 4
     }
 }

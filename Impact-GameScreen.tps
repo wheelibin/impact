@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.2.2</string>
         <key>fileName</key>
-        <string>C:/Users/jon/Dropbox/dev/Impact/TexturePacker Project.tps</string>
+        <string>C:/Users/jon/Dropbox/dev/Impact/Impact-GameScreen.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -199,6 +199,8 @@
             <key type="filename">SourceImages/Game/Brick-D1.png</key>
             <key type="filename">SourceImages/Game/Brick-D2.png</key>
             <key type="filename">SourceImages/Game/Brick-E1.png</key>
+            <key type="filename">SourceImages/Game/Bullet.png</key>
+            <key type="filename">SourceImages/Game/BulletsPowerup.png</key>
             <key type="filename">SourceImages/Game/LifeUp.png</key>
             <key type="filename">SourceImages/Game/NewLevelPopupBackground.png</key>
             <key type="filename">SourceImages/Game/NewLevelPopupMainMenuButton.png</key>
@@ -259,6 +261,8 @@
             <filename>SourceImages/Game/SmallBrick-E1.png</filename>
             <filename>SourceImages/Game/WormholeIn.png</filename>
             <filename>SourceImages/Game/WormholeOut.png</filename>
+            <filename>SourceImages/Game/BulletsPowerup.png</filename>
+            <filename>SourceImages/Game/Bullet.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

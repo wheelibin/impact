@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using CocosSharp;
 using Impact.Game.Config;
+using Impact.Game.Factories;
 using Impact.Game.Managers;
 
 namespace Impact.Game.Entities
@@ -29,6 +30,16 @@ namespace Impact.Game.Entities
 
         }
 
+        public void EnableBullets()
+        {
+            Schedule(FireBullet, 0.35f);
+        }
+
+        public void DisableBullets()
+        {
+            Unschedule(FireBullet);
+        }
+
         private void HandleInput(List<CCTouch> touches, CCEvent touchEvent)
         {
             if (touches.Count > 0)
@@ -49,6 +60,11 @@ namespace Impact.Game.Entities
                 }
 
             }
+        }
+
+        private void FireBullet(float frameTime)
+        {
+            BulletFactory.Instance.CreateNew(Position);
         }
     }
 }

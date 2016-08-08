@@ -41,6 +41,7 @@
     <Compile Include="Entities\MenuButton.cs" />
     <Compile Include="Entities\MenuItemImageWithText.cs" />
     <Compile Include="Entities\Paddle.cs" />
+    <Compile Include="Entities\Powerups\BulletsPowerup.cs" />
     <Compile Include="Entities\Powerups\FireballPowerup.cs" />
     <Compile Include="Entities\Powerups\IPowerup.cs" />
     <Compile Include="Entities\Powerups\LargerPaddlePowerup.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="Factories\BallFactory.cs" />
     <Compile Include="Factories\BrickFactory.cs" />
     <Compile Include="Factories\LifeUpFactory.cs" />
+    <Compile Include="Factories\BulletFactory.cs" />
     <Compile Include="Factories\ScoreUpFactory.cs" />
     <Compile Include="Factories\WormholeFactory.cs" />
     <Compile Include="GameController.cs" />

@@ -6,7 +6,7 @@ using Impact.Game.Config;
 using Impact.Game.Entities;
 using Impact.Game.Entities.Powerups;
 using Impact.Game.Enums;
-using System.Diagnostics;
+using Impact.Game.Factories;
 
 namespace Impact.Game.Managers
 {
@@ -19,10 +19,33 @@ namespace Impact.Game.Managers
         public event Action<ScoreUp> ScoreUpCollected;
         public event Action<Ball> MissedBall;
         
-        public void HandleCollisions(CCLayer layer, Paddle paddle, List<Ball> balls, List<Brick> bricks, List<Powerup> powerups, List<Wormhole> wormholes, List<ScoreUp> scoreUps)
+        public void HandleCollisions(CCLayer layer, Paddle paddle, List<Ball> balls, List<Brick> bricks, List<Powerup> powerups, List<Wormhole> wormholes, List<ScoreUp> scoreUps, List<Bullet> bullets)
         {
 
             CCRect paddleBoundingBox = paddle.BoundingBoxTransformedToWorld;
+
+            for (int b = bullets.Count - 1; b >= 0; b--)
+            {
+                Bullet bullet = bullets[b];
+                List<Brick> bricksHitByBullet = BricksHitByEntity(bullet, bricks);
+
+                foreach (Brick brick in bricksHitByBullet)
+                {
+                    bool brickDestroyed = brick.Hit();
+                    if (brickDestroyed)
+                    {
+                        BrickHitButNotDestroyed?.Invoke();
+                    }
+                }
+
+                if (bricksHitByBullet.Any())
+                {
+                    BulletFactory.Instance.DestroyBullet(bullet);
+                }
+
+            }
+
+            
 
             for (int ballIndex = balls.Count - 1; ballIndex >= 0; ballIndex--)
             {
@@ -111,35 +134,15 @@ namespace Impact.Game.Managers
 
                 //Have we hit any bricks
                 //If the ball also intersects other bricks, group them into a single brick
-                List<Brick> bricksHit = new List<Brick>();
-                foreach (Brick brick in bricks)
-                {
-                    if (ballBoundingBox.IntersectsRect(brick.BoundingBoxTransformedToWorld))
-                    {
-                        bricksHit.Add(brick);
-                    }
-                }
-
-                bool hitAnyBricks = bricksHit.Count > 0;
+                List<Brick> bricksHitByBall = BricksHitByEntity(ball, bricks);
+                
+                bool hitAnyBricksWithBall = bricksHitByBall.Count > 0;
 
                 //Bounce logic (using all the hit bricks as a group)
-                if (hitAnyBricks)
+                if (hitAnyBricksWithBall)
                 {
-                    CCRect groupedBrick;
-
-                    if (bricksHit.Count == 1)
-                    {
-                        groupedBrick = bricksHit[0].BoundingBoxTransformedToWorld;
-                    }
-                    else
-                    {
-                        groupedBrick = bricksHit[0].BoundingBoxTransformedToWorld;
-                        for (int b = 1; b < bricksHit.Count; b++)
-                        {
-                            groupedBrick = CCRect.Union(groupedBrick, bricksHit[b].BoundingBoxTransformedToWorld);
-                        }
-                    }
-
+                    CCRect groupedBrick = GetGroupedBrickBounds(bricksHitByBall);
+                    
                     CCVector2 separatingVector = GetSeparatingVector(ballBoundingBox, groupedBrick, layer);
 
                     if (!ball.IsFireball)
@@ -160,7 +163,7 @@ namespace Impact.Game.Managers
                 }
                 
                 //Individual brick hit functions
-                foreach (Brick brick in bricksHit)
+                foreach (Brick brick in bricksHitByBall)
                 {
 
                     if (brick.BrickType == BrickType.Bouncey)
@@ -208,9 +211,9 @@ namespace Impact.Game.Managers
                     }
                 }
 
-                if (bricksHit.Any())
+                if (bricksHitByBall.Any())
                 {
-                    BricksHit?.Invoke(bricksHit.Count);
+                    BricksHit?.Invoke(bricksHitByBall.Count);
                 }
 
                 //Wormholes
@@ -275,6 +278,44 @@ namespace Impact.Game.Managers
                 }
             }
 
+        }
+
+        /// <summary>
+        /// Returns a list of bricks that have been hit by the specified entity
+        /// </summary>
+        private List<Brick> BricksHitByEntity(CCNode entity, List<Brick> bricks)
+        {
+            List<Brick> bricksHitByEntity = new List<Brick>();
+            foreach (Brick brick in bricks)
+            {
+                if (entity.BoundingBoxTransformedToWorld.IntersectsRect(brick.BoundingBoxTransformedToWorld))
+                {
+                    bricksHitByEntity.Add(brick);
+                }
+            }
+
+            return bricksHitByEntity;
+
+        }
+
+        private CCRect GetGroupedBrickBounds(List<Brick> entities)
+        {
+            CCRect groupedBrick;
+
+            if (entities.Count == 1)
+            {
+                groupedBrick = entities[0].BoundingBoxTransformedToWorld;
+            }
+            else
+            {
+                groupedBrick = entities[0].BoundingBoxTransformedToWorld;
+                for (int b = 1; b < entities.Count; b++)
+                {
+                    groupedBrick = CCRect.Union(groupedBrick, entities[b].BoundingBoxTransformedToWorld);
+                }
+            }
+
+            return groupedBrick;
         }
 
         private float ApplySlightVariation(int input)

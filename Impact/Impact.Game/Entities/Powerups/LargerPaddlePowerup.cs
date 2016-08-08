@@ -4,7 +4,7 @@ using Impact.Game.Config;
 namespace Impact.Game.Entities.Powerups
 {
     /// <summary>
-    /// A powerup that makes the paddle larger for an amount of time
+    /// A powerup that makes the paddle larger for a period of time
     /// </summary>
     public class LargerPaddlePowerup : Powerup
     {

@@ -129,6 +129,9 @@ namespace Impact.Game.Managers
                             case PowerupType.FireBall:
                                 powerup = new FireballPowerup(powerupImageFilename, brickPosition, balls);
                                 break;
+                            case PowerupType.Bullets:
+                                powerup = new BulletsPowerup(brickPosition, powerupImageFilename, paddle);
+                                break;
                         }
                     }
 

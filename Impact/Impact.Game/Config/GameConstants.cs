@@ -8,6 +8,7 @@ namespace Impact.Game.Config
         //Resources
         public const string SpriteImageBall = "Ball.png";
         public const string SpriteImagePaddle = "Paddle.png";
+        public const string SpriteImageBullet = "Bullet.png";
         public const string TitleScreenSpriteSheet = "Spritesheets/TitleScreen.plist";
         public const string TitleScreenSpriteSheetImage = "Spritesheets/TitleScreen.png";
         public const string GameEntitiesSpriteSheet = "Spritesheets/GameEntities.plist";
@@ -17,9 +18,9 @@ namespace Impact.Game.Config
 
         public static Queue<string> BrickHitSounds = new Queue<string>(new List<string>
         {
-            "massive-timpanaphone/E5.wav",
-            "massive-timpanaphone/G5.wav",
-            "massive-timpanaphone/F5.wav"
+            "massive-banzai23/E3.wav",
+            "massive-banzai23/A3.wav",
+            "massive-banzai23/F3.wav"
         });
         public const string PaddleHitSound = "massive-banzai23/D3.wav";
         public const string BrickHitButNotDestroyedSound = "massive-timpanaphone/D5-Filtered.wav";
@@ -44,12 +45,14 @@ namespace Impact.Game.Config
         public static CCPoint PaddleInitialPosition => new CCPoint(320, 200);
         public const float PaddleScaleX = 1;
         public const float PaddleGravityBounceVelocityY = 1000;
+        public const float BulletVelocity = 750;
         
         //Powerups
         public const float PowerupVelocityY = -300;
         public const float PowerupGravity = 210;
-        public const float PowerupLargerPaddleSeconds = 10;
-        public const float PowerupFireballSeconds = 10;
+        public const float PowerupLargerPaddleSeconds = 7;
+        public const float PowerupFireballSeconds = 3;
+        public const float PowerupBulletsSeconds = 5;
         public const int PowerupZOrder = 10;
 
         //ScoreUps

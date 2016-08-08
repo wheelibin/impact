@@ -29,6 +29,7 @@ namespace Impact.Game.Scenes
         private readonly List<IPowerup> _activatedPowerups = new List<IPowerup>();
         private readonly List<Ball> _balls = new List<Ball>();
         private readonly List<Wormhole> _wormholes = new List<Wormhole>();
+        private readonly List<Bullet> _bullets = new List<Bullet>(); 
 
         private readonly ScoreManager _scoreManager = new ScoreManager();
         private readonly CollisionManager _collisionManager = new CollisionManager();
@@ -96,7 +97,8 @@ namespace Impact.Game.Scenes
             WormholeFactory.Instance.WormholeCreated += WormholeFactory_WormholeCreated;
             ScoreUpFactory.Instance.ScoreUpCreated += ScoreUpFactory_ScoreUpCreated;
             _scoreManager.ScoreUpdated += ScoreManager_ScoreUpdated;
-
+            BulletFactory.Instance.BulletCreated += BulletFactory_BulletCreated;
+            BulletFactory.Instance.BulletDestroyed += BulletFactory_BulletDestroyed;
 
             // Register for touch events
             var touchListener = new CCEventListenerTouchAllAtOnce
@@ -106,7 +108,9 @@ namespace Impact.Game.Scenes
             AddEventListener(touchListener, DefaultEventPriority);
             
         }
+
         
+
         private void AddEntities()
         {
             _paddle = new Paddle();
@@ -186,6 +190,18 @@ namespace Impact.Game.Scenes
             _scoreManager.BrickDestroyed();
         }
 
+        private void BulletFactory_BulletCreated(Bullet bullet)
+        {
+            _bullets.Add(bullet);
+            _gameLayer.AddChild(bullet);
+        }
+
+        private void BulletFactory_BulletDestroyed(Bullet bullet)
+        {
+            _bullets.Remove(bullet);
+            bullet.RemoveFromParent();
+        }
+
         private void WormholeFactory_WormholeCreated(Wormhole wormhole)
         {
             _wormholes.Add(wormhole);
@@ -237,6 +253,7 @@ namespace Impact.Game.Scenes
 
                 //Reduce the lives
                 _lives -= 1;
+                _livesLabel.Text = $"LIVES: {_lives}";
 
                 //Remove any scoreUps
                 RemoveAllScoreUps();
@@ -316,8 +333,7 @@ namespace Impact.Game.Scenes
         /// </summary>
         private void RunGameLogic(float frameTimeInSeconds)
         {
-            _livesLabel.Text = $"LIVES: {_lives}";
-            _collisionManager.HandleCollisions(_gameLayer, _paddle, _balls, _bricks, _powerups, _wormholes, _scoreUps);
+            _collisionManager.HandleCollisions(_gameLayer, _paddle, _balls, _bricks, _powerups, _wormholes, _scoreUps, _bullets);
 
             //Level Complete?
             bool allBricksAreIndistructible = _bricks.All(b => b.IsIndestructible);
@@ -396,6 +412,8 @@ namespace Impact.Game.Scenes
 
             ShowNewLevelPopup(_lives);
 
+            _livesLabel.Text = $"LIVES: {_lives}";
+
         }
 
         private void ShowNewLevelPopup(int lives)
@@ -419,7 +437,7 @@ namespace Impact.Game.Scenes
             _newLevelLayer.RemoveFromParent();
             _newLevelLayer.Dispose();
 
-            _livesLabel.Text = $"LEVEL: {LevelManager.Instance.CurrentLevel}";
+            _levelLabel.Text = $"LEVEL: {LevelManager.Instance.CurrentLevel}";
         }
     }
 }
