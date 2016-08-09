@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Impact.Game.Helpers;
 
 namespace Impact.Game.Managers
 {
@@ -29,6 +31,26 @@ namespace Impact.Game.Managers
         {
             Score += scoreInc;
             ScoreUpdated?.Invoke();
+        }
+
+        public void SaveCurrentLevelHighScore()
+        {
+            int currentLevel = LevelManager.Instance.CurrentLevel;
+            Dictionary<int, int> scores = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<int, int>>(Settings.HighScores);
+
+            if (scores.ContainsKey(currentLevel))
+            {
+                if (scores[currentLevel] < Score)
+                {
+                    scores[currentLevel] = Score;
+                }
+            }
+            else
+            {
+                scores.Add(currentLevel, Score);
+            }
+
+            Settings.HighScores = Newtonsoft.Json.JsonConvert.SerializeObject(scores);
         }
     }
 }

@@ -6,6 +6,7 @@ using Impact.Game.Entities;
 using Impact.Game.Entities.Powerups;
 using Impact.Game.Enums;
 using Impact.Game.Factories;
+using Impact.Game.Helpers;
 using Impact.Game.Layers;
 using Impact.Game.Managers;
 
@@ -264,6 +265,10 @@ namespace Impact.Game.Scenes
                 if (_lives == 0)
                 {
                     //game over
+
+                    //Save high score
+                    _scoreManager.SaveCurrentLevelHighScore();
+
                     GameManager.Instance.StartStopLevel(false);
                     GameController.GoToScene(new LevelSelectScene(GameView));
                 }
@@ -363,6 +368,9 @@ namespace Impact.Game.Scenes
                 //Remove any scoreUps
                 RemoveAllScoreUps();
 
+                //Save high score
+                _scoreManager.SaveCurrentLevelHighScore();
+
                 //Load next level
                 LevelManager.Instance.CurrentLevel++;
                 LoadLevel(LevelManager.Instance.CurrentLevel);
@@ -370,7 +378,7 @@ namespace Impact.Game.Scenes
             }
 
         }
-
+        
         private void RemoveAllScoreUps()
         {
             //Remove any scoreUps
@@ -429,7 +437,7 @@ namespace Impact.Game.Scenes
 
         private void ShowNewLevelPopup(int lives)
         {
-            _newLevelLayer = new NewLevelLayer(lives);
+            _newLevelLayer = new NewLevelLayer(lives, LevelManager.Instance.CurrentLevelProperties.HighScore);
             AddChild(_newLevelLayer);
 
             _newLevelPopupEventListener = new CCEventListenerTouchAllAtOnce

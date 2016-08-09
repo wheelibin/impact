@@ -8,6 +8,7 @@ using Impact.Game.Entities;
 using Impact.Game.Entities.Powerups;
 using Impact.Game.Enums;
 using Impact.Game.Factories;
+using Impact.Game.Helpers;
 using Impact.Game.Models;
 using Microsoft.Xna.Framework;
 using TiledSharp;
@@ -40,6 +41,7 @@ namespace Impact.Game.Managers
         public int CurrentLevel { get; set; }
         public LevelProperties CurrentLevelProperties { get; private set; }
 
+
         public LevelManager()
         {
             DetermineAvailableLevels();
@@ -48,6 +50,11 @@ namespace Impact.Game.Managers
 
         public List<Brick> LoadLevel(int level, Paddle paddle, List<Ball> balls)
         {
+            
+            //var scores = new Dictionary<int, int>();
+            //scores.Add(1,123);
+            //Settings.HighScores = Newtonsoft.Json.JsonConvert.SerializeObject(scores);
+            
             var bricks = new List<Brick>();
 
             //Load the level
@@ -61,8 +68,20 @@ namespace Impact.Game.Managers
                 gravity = bool.Parse(tileMap.Properties["Gravity"]);
             }
 
+            //Get high score
+            int highScore = 0;
+            if (!string.IsNullOrEmpty(Settings.HighScores))
+            {
+                Dictionary<int, int> scores = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<int, int>>(Settings.HighScores);
+                if (scores.ContainsKey(level))
+                {
+                    highScore = scores[level];
+                }
+            }
+            
             CurrentLevelProperties = new LevelProperties
             {
+                HighScore = highScore,
                 FinalBallSpeedPercentageIncrease = int.Parse(tileMap.Properties[FinalBallSpeedPercentageIncreaseProperty]),
                 Gravity = gravity
             };

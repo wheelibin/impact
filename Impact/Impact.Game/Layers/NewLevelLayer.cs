@@ -10,7 +10,7 @@ namespace Impact.Game.Layers
     {
         public event Action PlayButtonPressed;
 
-        public NewLevelLayer(int lives) : base(new CCColor4B(0, 0, 0, 128))
+        public NewLevelLayer(int lives, int highScore) : base(new CCColor4B(0, 0, 0, 128))
         {
             //background
             var frame = GameManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == "NewLevelPopupBackground.png");
@@ -36,7 +36,7 @@ namespace Impact.Game.Layers
             AddChild(levelLabel);
             //HIGH SCORE: 12345
             //LIVES:      1
-            CCLabel scoreLabel = new CCLabel($"HIGH SCORE: 000000", "visitor1.ttf", 40, CCLabelFormat.SystemFont)
+            CCLabel scoreLabel = new CCLabel($"HIGH SCORE: {highScore}", "visitor1.ttf", 40, CCLabelFormat.SystemFont)
             {
                 AnchorPoint = CCPoint.AnchorMiddleLeft,
                 PositionX = (float) (popupX - (sprite.ContentSize.Width) * 0.5 + 150),
