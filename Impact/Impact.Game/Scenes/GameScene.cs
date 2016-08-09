@@ -63,6 +63,12 @@ namespace Impact.Game.Scenes
             LoadLevel(LevelManager.Instance.CurrentLevel);
         }
 
+        public override void OnExit()
+        {
+            UnsubscribeCustomEventHandlers();
+            base.OnExit();
+        }
+
         private void AddLayers()
         {
             //var backgroundLayer = new CCLayer();
@@ -77,7 +83,16 @@ namespace Impact.Game.Scenes
             
             _gameLayer = new CCLayer();
             _hudLayer = new CCLayer();
-                        
+
+            //Draw a line under the hud
+            CCDrawNode hudDrawNode = new CCDrawNode
+            {
+                PositionX = 0,
+                PositionY = GameConstants.WorldTop
+            };
+            _hudLayer.AddChild(hudDrawNode);
+            hudDrawNode.DrawLine(new CCPoint(0,0), new CCPoint(GameConstants.WorldWidth, 0), CCColor4B.White);
+
             AddChild(_gameLayer);
             AddChild(_hudLayer);
 
@@ -85,22 +100,8 @@ namespace Impact.Game.Scenes
 
         private void RegisterEventHandlers()
         {
-            BallFactory.Instance.BallCreated += BallFactory_BallCreated;
-            BrickFactory.Instance.BrickCreated += BrickFactory_BrickCreated;
-            BrickFactory.Instance.BrickDestroyed += BrickFactory_BrickDestroyed;
 
-            _collisionManager.BrickHitButNotDestroyed += CollisionManager_BrickHitButNotDestroyed;
-            _collisionManager.PaddleHit += CollisionManager_PaddleHit;
-            _collisionManager.PowerupCollected += CollisionManager_PowerupCollected;
-            _collisionManager.ScoreUpCollected += CollisionManager_ScoreUpCollected;
-            _collisionManager.MissedBall += CollisionManagerMissedBall;
-
-            GameManager.Instance.LevelStarted += GameManager_LevelStarted;
-            WormholeFactory.Instance.WormholeCreated += WormholeFactory_WormholeCreated;
-            ScoreUpFactory.Instance.ScoreUpCreated += ScoreUpFactory_ScoreUpCreated;
-            _scoreManager.ScoreUpdated += ScoreManager_ScoreUpdated;
-            ProjectileFactory.Instance.ProjectileCreated += ProjectileFactory_ProjectileCreated;
-            ProjectileFactory.Instance.ProjectileDestroyed += ProjectileFactory_ProjectileDestroyed;
+            SubscribeCustomEventHandlers();
 
             // Register for touch events
             var touchListener = new CCEventListenerTouchAllAtOnce
@@ -112,8 +113,54 @@ namespace Impact.Game.Scenes
             
         }
 
-        
+        /// <summary>
+        /// Subscribe to our various game events.
+        /// YOU MUST ADD A CORRESPONDING UNSUBSCRIBE IN THE METHOD BELOW
+        /// </summary>
+        private void SubscribeCustomEventHandlers()
+        {
+            BallFactory.Instance.BallCreated += BallFactory_BallCreated;
+            BrickFactory.Instance.BrickCreated += BrickFactory_BrickCreated;
+            BrickFactory.Instance.BrickDestroyed += BrickFactory_BrickDestroyed;
 
+            _collisionManager.BrickHitButNotDestroyed += CollisionManager_BrickHitButNotDestroyed;
+            _collisionManager.PaddleHit += CollisionManager_PaddleHit;
+            _collisionManager.PowerupCollected += CollisionManager_PowerupCollected;
+            _collisionManager.ScoreUpCollected += CollisionManager_ScoreUpCollected;
+            _collisionManager.MissedBall += CollisionManager_MissedBall;
+
+            GameManager.Instance.LevelStarted += GameManager_LevelStarted;
+            WormholeFactory.Instance.WormholeCreated += WormholeFactory_WormholeCreated;
+            ScoreUpFactory.Instance.ScoreUpCreated += ScoreUpFactory_ScoreUpCreated;
+            _scoreManager.ScoreUpdated += ScoreManager_ScoreUpdated;
+            ProjectileFactory.Instance.ProjectileCreated += ProjectileFactory_ProjectileCreated;
+            ProjectileFactory.Instance.ProjectileDestroyed += ProjectileFactory_ProjectileDestroyed;
+        }
+
+        /// <summary>
+        /// Unsubscribe from our various game events
+        /// </summary>
+        private void UnsubscribeCustomEventHandlers()
+        {
+            BallFactory.Instance.BallCreated -= BallFactory_BallCreated;
+            BrickFactory.Instance.BrickCreated -= BrickFactory_BrickCreated;
+            BrickFactory.Instance.BrickDestroyed -= BrickFactory_BrickDestroyed;
+
+            _collisionManager.BrickHitButNotDestroyed -= CollisionManager_BrickHitButNotDestroyed;
+            _collisionManager.PaddleHit -= CollisionManager_PaddleHit;
+            _collisionManager.PowerupCollected -= CollisionManager_PowerupCollected;
+            _collisionManager.ScoreUpCollected -= CollisionManager_ScoreUpCollected;
+            _collisionManager.MissedBall -= CollisionManager_MissedBall;
+
+            GameManager.Instance.LevelStarted -= GameManager_LevelStarted;
+            WormholeFactory.Instance.WormholeCreated -= WormholeFactory_WormholeCreated;
+            ScoreUpFactory.Instance.ScoreUpCreated -= ScoreUpFactory_ScoreUpCreated;
+            _scoreManager.ScoreUpdated -= ScoreManager_ScoreUpdated;
+            ProjectileFactory.Instance.ProjectileCreated -= ProjectileFactory_ProjectileCreated;
+            ProjectileFactory.Instance.ProjectileDestroyed -= ProjectileFactory_ProjectileDestroyed;
+        }
+
+        
 
         private void AddEntities()
         {
@@ -241,7 +288,7 @@ namespace Impact.Game.Scenes
             _scoreManager.PowerupCollected();
         }
 
-        private void CollisionManagerMissedBall(Ball ball)
+        private void CollisionManager_MissedBall(Ball ball)
         {
 
             ball.RemoveFromParent();
@@ -447,16 +494,31 @@ namespace Impact.Game.Scenes
 
             _newLevelLayer.AddEventListener(_newLevelPopupEventListener, NewLevelLayerEventPriority);
             _newLevelLayer.PlayButtonPressed += NewLevelLayer_PlayButtonPressed;
+            _newLevelLayer.MainMenuButtonPressed += NewLeveLayer_MainMenuButtonPressed;
         }
 
         private void NewLevelLayer_PlayButtonPressed()
         {
+            DisposeNewLevelPopup();
+            _levelLabel.Text = $"LEVEL: {LevelManager.Instance.CurrentLevel}";
+        }
+
+        private void NewLeveLayer_MainMenuButtonPressed()
+        {
+            DisposeNewLevelPopup();
+            GameController.GoToScene(new TitleScene(GameView));
+        }
+
+        private void DisposeNewLevelPopup()
+        {
             _newLevelLayer.PlayButtonPressed -= NewLevelLayer_PlayButtonPressed;
+            _newLevelLayer.MainMenuButtonPressed -= NewLeveLayer_MainMenuButtonPressed;
             _newLevelLayer.RemoveEventListener(_newLevelPopupEventListener);
             _newLevelLayer.RemoveFromParent();
             _newLevelLayer.Dispose();
-
-            _levelLabel.Text = $"LEVEL: {LevelManager.Instance.CurrentLevel}";
         }
+
+        
+
     }
 }

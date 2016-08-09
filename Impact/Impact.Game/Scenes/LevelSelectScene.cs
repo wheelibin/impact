@@ -73,7 +73,6 @@ namespace Impact.Game.Scenes
         private void LevelSelectButton_Action(object obj)
         {
             LevelManager.Instance.CurrentLevel = (int)((CCMenuItem)obj).UserData;
-
             GameController.GoToScene(new GameScene(_gameView));
         }
 

@@ -9,6 +9,7 @@ namespace Impact.Game.Layers
     public class NewLevelLayer : CCLayerColor
     {
         public event Action PlayButtonPressed;
+        public event Action MainMenuButtonPressed; 
 
         public NewLevelLayer(int lives, int highScore) : base(new CCColor4B(0, 0, 0, 128))
         {
@@ -72,7 +73,7 @@ namespace Impact.Game.Layers
 
         private void MainMenuButton_Action(object obj)
         {
-            GameController.GoToScene(new TitleScene(GameView));
+            MainMenuButtonPressed?.Invoke();
         }
 
         private void PlayButton_Action(object obj)

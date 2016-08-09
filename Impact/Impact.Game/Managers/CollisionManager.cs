@@ -32,7 +32,7 @@ namespace Impact.Game.Managers
                 foreach (Brick brick in bricksHitByBullet)
                 {
                     bool brickDestroyed = brick.Hit();
-                    if (brickDestroyed)
+                    if (!brickDestroyed)
                     {
                         BrickHitButNotDestroyed?.Invoke();
                     }
@@ -44,9 +44,7 @@ namespace Impact.Game.Managers
                 }
 
             }
-
             
-
             for (int ballIndex = balls.Count - 1; ballIndex >= 0; ballIndex--)
             {
                 Ball ball = balls[ballIndex];
@@ -93,7 +91,7 @@ namespace Impact.Game.Managers
                 // Then let’s get the screen edges
                 float screenRight = layer.VisibleBoundsWorldspace.MaxX;
                 float screenLeft = layer.VisibleBoundsWorldspace.MinX;
-                float screenTop = layer.VisibleBoundsWorldspace.MaxY;
+                float screenTop = GameConstants.WorldTop;
                 float screenBottom = layer.VisibleBoundsWorldspace.MinY;
 
                 // Check if the ball is either too far to the right or left:    
@@ -170,8 +168,7 @@ namespace Impact.Game.Managers
                     {
                         ball.VelocityY = GameConstants.PaddleGravityBounceVelocityY * brick.BounceFactor;
                     }
-
-
+                    
                     bool brickDestroyed = brick.Hit();
 
                     if (brickDestroyed)

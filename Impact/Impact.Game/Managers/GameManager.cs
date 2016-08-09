@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using CocosSharp;
 using Impact.Game.Config;
 using Impact.Game.Scenes;
