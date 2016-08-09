@@ -5,5 +5,6 @@
         int Score { get; }
         void BrickDestroyed();
         void PowerupCollected();
+        int GetHighScoreForLevel(int level);
     }
 }

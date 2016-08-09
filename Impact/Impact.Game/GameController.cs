@@ -24,7 +24,7 @@ namespace Impact.Game
 
             // Set world dimensions
             gameView.DesignResolution = new CCSizeI(GameConstants.WorldWidth, GameConstants.WorldHeight);
-            gameView.ResolutionPolicy = CCViewResolutionPolicy.ExactFit;
+            gameView.ResolutionPolicy = CCViewResolutionPolicy.ShowAll;
 
             // Determine whether to use the high or low def versions of our images
             // Make sure the default texel to content size ratio is set correctly
@@ -49,7 +49,7 @@ namespace Impact.Game
 
         public static void GoToScene(CCScene scene)
         {
-            GameView.Director.ReplaceScene(scene);
+            GameView.Director.ReplaceScene(new CCTransitionFade(1,scene));
         }
     }
 }

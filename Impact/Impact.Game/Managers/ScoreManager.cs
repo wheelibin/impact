@@ -33,11 +33,34 @@ namespace Impact.Game.Managers
             ScoreUpdated?.Invoke();
         }
 
+        public int GetHighScoreForLevel(int level)
+        {
+            int highScore = 0;
+            if (!string.IsNullOrEmpty(Settings.HighScores))
+            {
+                Dictionary<int, int> scores = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<int, int>>(Settings.HighScores);
+                if (scores.ContainsKey(level))
+                {
+                    highScore = scores[level];
+                }
+            }
+            return highScore;
+        }
+
         public void SaveCurrentLevelHighScore()
         {
             int currentLevel = LevelManager.Instance.CurrentLevel;
-            Dictionary<int, int> scores = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<int, int>>(Settings.HighScores);
 
+            Dictionary<int, int> scores;
+            if (string.IsNullOrEmpty(Settings.HighScores))
+            {
+                scores = new Dictionary<int, int>();
+            }
+            else
+            {
+                scores = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<int, int>>(Settings.HighScores);
+            }
+            
             if (scores.ContainsKey(currentLevel))
             {
                 if (scores[currentLevel] < Score)

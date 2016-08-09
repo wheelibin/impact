@@ -418,7 +418,7 @@ namespace Impact.Game.Scenes
             }
             _wormholes.Clear();
 
-            LevelManager.Instance.LoadLevel(level, _paddle, _balls);
+            LevelManager.Instance.LoadLevel(level, _paddle, _balls, _scoreManager);
 
             foreach (Ball ball in _balls)
             {

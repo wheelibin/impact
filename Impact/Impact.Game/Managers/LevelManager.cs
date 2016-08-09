@@ -48,14 +48,10 @@ namespace Impact.Game.Managers
             CurrentLevel = 1;
         }
 
-        public List<Brick> LoadLevel(int level, Paddle paddle, List<Ball> balls)
+        public List<Brick> LoadLevel(int level, Paddle paddle, List<Ball> balls, IScoreManager scoreManager)
         {
             
-            //var scores = new Dictionary<int, int>();
-            //scores.Add(1,123);
-            //Settings.HighScores = Newtonsoft.Json.JsonConvert.SerializeObject(scores);
-            
-            var bricks = new List<Brick>();
+           var bricks = new List<Brick>();
 
             //Load the level
             var tileMap = new TmxMap(BaseLevelFolder + level.ToString("000") + ".tmx");
@@ -69,15 +65,7 @@ namespace Impact.Game.Managers
             }
 
             //Get high score
-            int highScore = 0;
-            if (!string.IsNullOrEmpty(Settings.HighScores))
-            {
-                Dictionary<int, int> scores = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<int, int>>(Settings.HighScores);
-                if (scores.ContainsKey(level))
-                {
-                    highScore = scores[level];
-                }
-            }
+            int highScore = scoreManager.GetHighScoreForLevel(level);
             
             CurrentLevelProperties = new LevelProperties
             {
