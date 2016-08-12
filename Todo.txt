@@ -1,3 +1,1 @@
-- Change paddle gun sprite to be more obvious
 - Read lives from level setting, maybe with default fallback
-- bug: powerups continue to fall after level complete

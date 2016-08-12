@@ -6,6 +6,8 @@ namespace Impact.Game.Entities
     public abstract class Projectile : CCNode
     {
         public float VelocityY { get; set; }
+        public abstract bool IsSingleShot { get; set; }
+        public abstract bool IsDestroyedByBrickCollision { get; set; }
 
         protected Projectile(string spriteImageFilename, CCPoint position, float velocityY)
         {
@@ -23,6 +25,6 @@ namespace Impact.Game.Entities
         {
             PositionY += VelocityY * frameTimeInSeconds;
         }
-
+        
     }
 }

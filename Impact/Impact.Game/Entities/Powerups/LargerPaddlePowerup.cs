@@ -28,7 +28,6 @@ namespace Impact.Game.Entities.Powerups
         public override void Deactivate()
         {
             RunActions(_scaleReset);
-
         }
     }
 }

@@ -27,6 +27,10 @@ namespace Impact.Game.Entities
                         frame = GameManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == GameConstants.SpriteImagePaddleBullet);
                         _sprite.SpriteFrame = frame;
                         break;
+                    case ProjectileType.Rocket:
+                        frame = GameManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == GameConstants.SpriteImagePaddleRocket);
+                        _sprite.SpriteFrame = frame;
+                        break;
                 }
                 
             }
@@ -59,7 +63,7 @@ namespace Impact.Game.Entities
 
         public void FireProjectile()
         {
-            const int gunHeight = 35;
+            int gunHeight = ProjectileType == ProjectileType.Bullet ? 35 : 22;
             CCPoint bulletStartPosition = new CCPoint(Position.X, Position.Y + gunHeight);
             ProjectileFactory.Instance.CreateNew(ProjectileType, bulletStartPosition);
         }
@@ -72,16 +76,16 @@ namespace Impact.Game.Entities
               
                 PositionX = firstTouch.Location.X;
 
-                //Don't allow paddle to go off the left side of the screen
-                if (PositionX - (ContentSize.Width/2) <= 0)
-                {
-                    PositionX = ContentSize.Width/2;
-                }
-                //or the right
-                if (PositionX + (ContentSize.Width / 2) >= GameConstants.WorldWidth)
-                {
-                    PositionX = GameConstants.WorldWidth - ContentSize.Width / 2;
-                }
+                ////Don't allow paddle to go off the left side of the screen
+                //if (PositionX - (ContentSize.Width/2) <= 0)
+                //{
+                //    PositionX = ContentSize.Width/2;
+                //}
+                ////or the right
+                //if (PositionX + (ContentSize.Width / 2) >= GameConstants.WorldWidth)
+                //{
+                //    PositionX = GameConstants.WorldWidth - ContentSize.Width / 2;
+                //}
 
             }
         }

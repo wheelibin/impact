@@ -9,7 +9,9 @@ namespace Impact.Game.Config
         public const string SpriteImageBall = "Ball.png";
         public const string SpriteImagePaddle = "Paddle.png";
         public const string SpriteImagePaddleBullet = "PaddleBullet.png";
+        public const string SpriteImagePaddleRocket = "PaddleRocket.png";
         public const string SpriteImageBullet = "Bullet.png";
+        public const string SpriteImageRocket = "Rocket.png";
         public const string TitleScreenSpriteSheet = "Spritesheets/TitleScreen.plist";
         public const string TitleScreenSpriteSheetImage = "Spritesheets/TitleScreen.png";
         public const string GameEntitiesSpriteSheet = "Spritesheets/GameEntities.plist";
@@ -50,13 +52,14 @@ namespace Impact.Game.Config
         public const float PaddleScaleY = 1;
         public const float PaddleGravityBounceVelocityY = 1000;
         public const float BulletVelocity = 750;
-        
+        public const float RocketVelocity = 400;
+
         //Powerups
         public const float PowerupVelocityY = -300;
         public const float PowerupGravity = 210;
         public const float PowerupLargerPaddleSeconds = 7;
-        public const float PowerupFireballSeconds = 3;
-        public const float PowerupBulletsSeconds = 5;
+        public const float PowerupFireballSeconds = 7;
+        public const float PowerupBulletsSeconds = 7;
         public const int PowerupZOrder = 10;
 
         //ScoreUps

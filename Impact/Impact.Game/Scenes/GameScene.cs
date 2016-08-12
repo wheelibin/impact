@@ -32,7 +32,7 @@ namespace Impact.Game.Scenes
         private readonly List<IPowerup> _activatedPowerups = new List<IPowerup>();
         private readonly List<Ball> _balls = new List<Ball>();
         private readonly List<Wormhole> _wormholes = new List<Wormhole>();
-        private readonly List<Projectile> _bullets = new List<Projectile>(); 
+        private readonly List<Projectile> _projectiles = new List<Projectile>(); 
 
         private readonly ScoreManager _scoreManager = new ScoreManager();
         private readonly CollisionManager _collisionManager = new CollisionManager();
@@ -230,15 +230,22 @@ namespace Impact.Game.Scenes
             _scoreManager.BrickDestroyed();
         }
 
-        private void ProjectileFactory_ProjectileCreated(Projectile bullet)
+        private void ProjectileFactory_ProjectileCreated(Projectile projectile)
         {
-            _bullets.Add(bullet);
-            _gameLayer.AddChild(bullet);
+            if (projectile.IsSingleShot)
+            {
+                if (_projectiles.Any())
+                {
+                    return;
+                }
+            }
+            _projectiles.Add(projectile);
+            _gameLayer.AddChild(projectile);
         }
 
         private void ProjectileFactory_ProjectileDestroyed(Projectile bullet)
         {
-            _bullets.Remove(bullet);
+            _projectiles.Remove(bullet);
             bullet.RemoveFromParent();
         }
 
@@ -378,8 +385,20 @@ namespace Impact.Game.Scenes
         /// </summary>
         private void RunGameLogic(float frameTimeInSeconds)
         {
-            _collisionManager.HandleCollisions(_gameLayer, _paddle, _balls, _bricks, _powerups, _wormholes, _scoreUps, _bullets);
+            //Collision logic
+            _collisionManager.HandleCollisions(_gameLayer, _paddle, _balls, _bricks, _powerups, _wormholes, _scoreUps, _projectiles);
 
+            //Remove projectiles if they go off screen
+            for (int p = _projectiles.Count - 1; p >= 0; p--)
+            {
+                Projectile projectile = _projectiles[p];
+                if (projectile.PositionY > GameConstants.WorldTop)
+                {
+                    projectile.RemoveFromParent();
+                    _projectiles.Remove(projectile);
+                }
+            }
+            
             //Level Complete?
             bool allBricksAreIndistructible = _bricks.All(b => b.IsIndestructible);
             if (_bricks.Count == 0 || allBricksAreIndistructible)
@@ -401,11 +420,16 @@ namespace Impact.Game.Scenes
         private void ResetEntities()
         {
             //Reset powerups
+            foreach (Powerup powerup in _powerups)
+            {
+                powerup.RemoveFromParent();
+            }
+            _powerups.Clear();
             foreach (IPowerup powerup in _activatedPowerups)
             {
                 powerup.Deactivate();
             }
-            _powerups.Clear();
+            _activatedPowerups.Clear();
 
             //Reset ball(s)
             BallFactory.Instance.ResetBalls(_balls);

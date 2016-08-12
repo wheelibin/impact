@@ -38,6 +38,7 @@
     <Compile Include="Entities\Ball.cs" />
     <Compile Include="Entities\Brick.cs" />
     <Compile Include="Entities\Bullet.cs" />
+    <Compile Include="Entities\Powerups\RocketsPowerup.cs" />
     <Compile Include="Entities\Projectile.cs" />
     <Compile Include="Entities\MenuButton.cs" />
     <Compile Include="Entities\MenuItemImageWithText.cs" />

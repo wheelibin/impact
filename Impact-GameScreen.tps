@@ -200,7 +200,6 @@
             <key type="filename">SourceImages/Game/Brick-D2.png</key>
             <key type="filename">SourceImages/Game/Brick-E1.png</key>
             <key type="filename">SourceImages/Game/Bullet.png</key>
-            <key type="filename">SourceImages/Game/BulletsPowerup.png</key>
             <key type="filename">SourceImages/Game/GameOverPopupBackground.png</key>
             <key type="filename">SourceImages/Game/GameOverPopupPlayButton.png</key>
             <key type="filename">SourceImages/Game/LifeUp.png</key>
@@ -209,9 +208,13 @@
             <key type="filename">SourceImages/Game/NewLevelPopupPlayButton.png</key>
             <key type="filename">SourceImages/Game/Paddle.png</key>
             <key type="filename">SourceImages/Game/PaddleBullet.png</key>
+            <key type="filename">SourceImages/Game/PaddleRocket.png</key>
+            <key type="filename">SourceImages/Game/PowerupBullets.png</key>
             <key type="filename">SourceImages/Game/PowerupFireball.png</key>
             <key type="filename">SourceImages/Game/PowerupLargerPaddle.png</key>
             <key type="filename">SourceImages/Game/PowerupMultiBall.png</key>
+            <key type="filename">SourceImages/Game/PowerupRockets.png</key>
+            <key type="filename">SourceImages/Game/Rocket.png</key>
             <key type="filename">SourceImages/Game/ScoreUp.png</key>
             <key type="filename">SourceImages/Game/SmallBrick-A1.png</key>
             <key type="filename">SourceImages/Game/SmallBrick-A2.png</key>
@@ -264,11 +267,14 @@
             <filename>SourceImages/Game/SmallBrick-E1.png</filename>
             <filename>SourceImages/Game/WormholeIn.png</filename>
             <filename>SourceImages/Game/WormholeOut.png</filename>
-            <filename>SourceImages/Game/BulletsPowerup.png</filename>
             <filename>SourceImages/Game/Bullet.png</filename>
             <filename>SourceImages/Game/PaddleBullet.png</filename>
             <filename>SourceImages/Game/GameOverPopupBackground.png</filename>
             <filename>SourceImages/Game/GameOverPopupPlayButton.png</filename>
+            <filename>SourceImages/Game/PowerupBullets.png</filename>
+            <filename>SourceImages/Game/PowerupRockets.png</filename>
+            <filename>SourceImages/Game/Rocket.png</filename>
+            <filename>SourceImages/Game/PaddleRocket.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

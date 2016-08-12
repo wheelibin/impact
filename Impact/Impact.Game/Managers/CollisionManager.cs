@@ -26,10 +26,10 @@ namespace Impact.Game.Managers
 
             for (int b = bullets.Count - 1; b >= 0; b--)
             {
-                Projectile bullet = bullets[b];
-                List<Brick> bricksHitByBullet = BricksHitByEntity(bullet, bricks);
+                Projectile projectile = bullets[b];
+                List<Brick> bricksHitByProjectile = BricksHitByEntity(projectile, bricks);
 
-                foreach (Brick brick in bricksHitByBullet)
+                foreach (Brick brick in bricksHitByProjectile)
                 {
                     bool brickDestroyed = brick.Hit();
                     if (!brickDestroyed)
@@ -38,9 +38,9 @@ namespace Impact.Game.Managers
                     }
                 }
 
-                if (bricksHitByBullet.Any())
+                if (bricksHitByProjectile.Any() && projectile.IsDestroyedByBrickCollision)
                 {
-                    ProjectileFactory.Instance.DestroyBullet(bullet);
+                    ProjectileFactory.Instance.DestroyBullet(projectile);
                 }
 
             }

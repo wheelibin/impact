@@ -5,29 +5,29 @@ using Impact.Game.Enums;
 namespace Impact.Game.Entities.Powerups
 {
     /// <summary>
-    /// A powerup that causes the paddle to fire bullets for a period of time
+    /// A powerup that causes the paddle to fire rockets for a period of time
     /// </summary>
-    public class BulletsPowerup : Powerup
+    public class RocketsPowerup : Powerup
     {
         private readonly Paddle _paddle;
 
-        public BulletsPowerup(CCPoint initialPosition, string spriteImage, Paddle paddle) 
+        public RocketsPowerup(CCPoint initialPosition, string spriteImage, Paddle paddle)
             : base(initialPosition, spriteImage)
         {
             _paddle = paddle;
         }
 
         /// <summary>
-        /// Tells the paddle to allow the firing of bullets, and schedules it to stop after a defined amount of time
+        /// Tells the paddle to allow the firing of rockets, and schedules it to stop after a defined amount of time
         /// </summary>
         public override void Activate()
         {
-            _paddle.ProjectileType = ProjectileType.Bullet;
-            ScheduleOnce(x => _paddle.ProjectileType = ProjectileType.None, GameConstants.PowerupBulletsSeconds);
+            _paddle.ProjectileType = ProjectileType.Rocket;
+            _paddle.ScheduleOnce(x => _paddle.ProjectileType = ProjectileType.None, 99f);
         }
 
         /// <summary>
-        /// Tells the paddle to stop allowing the firing of bullets
+        /// Tells the paddle to stop allowing the firing of rockets
         /// </summary>
         public override void Deactivate()
         {
