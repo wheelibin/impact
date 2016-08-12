@@ -1,7 +1,3 @@
-- Certain menu flow results in game action not starting
-	- play, menu, choose level, play
 - Change paddle gun sprite to be more obvious
-- Game play should be:
-	- Only levels completed (and next one) are unlocked
-	- Game over shows screen with replay level & menu buttons
-	
+- Read lives from level setting, maybe with default fallback
+- bug: powerups continue to fall after level complete

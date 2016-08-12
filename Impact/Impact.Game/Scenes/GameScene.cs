@@ -17,13 +17,14 @@ namespace Impact.Game.Scenes
         private CCLayer _gameLayer;
         private CCLayer _hudLayer;
         private NewLevelLayer _newLevelLayer;
+        private GameOverLayer _gameOverLayer;
 
         private Paddle _paddle;
         private CCLabel _scoreLabel;
         private CCLabel _livesLabel;
         private CCLabel _levelLabel;
 
-        private CCEventListenerTouchAllAtOnce _newLevelPopupEventListener;
+        private CCEventListenerTouchAllAtOnce _popupLayerEventListener;
 
         private readonly List<Brick> _bricks = new List<Brick>();
         private readonly List<Powerup> _powerups = new List<Powerup>();
@@ -38,7 +39,7 @@ namespace Impact.Game.Scenes
 
         private int _lives = 3;
 
-        private const int NewLevelLayerEventPriority = 1;
+        private const int PopupLayerEventPriority = 1;
         private const int DefaultEventPriority = 2;
 
         public GameScene(CCGameView gameView) : base(gameView)
@@ -71,13 +72,6 @@ namespace Impact.Game.Scenes
 
         private void AddLayers()
         {
-            //var backgroundLayer = new CCLayer();
-            //CCSprite backgroundImage = new CCSprite("background.png")
-            //{
-            //    AnchorPoint = CCPoint.AnchorLowerLeft
-            //};
-            //backgroundLayer.AddChild(backgroundImage);
-
             var backgroundLayer = new CCLayerColor(GameConstants.BackgroundColour);
             AddChild(backgroundLayer);
             
@@ -85,13 +79,9 @@ namespace Impact.Game.Scenes
             _hudLayer = new CCLayer();
 
             //Draw a line under the hud
-            CCDrawNode hudDrawNode = new CCDrawNode
-            {
-                PositionX = 0,
-                PositionY = GameConstants.WorldTop
-            };
+            CCDrawNode hudDrawNode = new CCDrawNode();
             _hudLayer.AddChild(hudDrawNode);
-            hudDrawNode.DrawLine(new CCPoint(0,0), new CCPoint(GameConstants.WorldWidth, 0), CCColor4B.White);
+            hudDrawNode.DrawLine(new CCPoint(0, GameConstants.WorldTop), new CCPoint(GameConstants.WorldWidth, GameConstants.WorldTop), CCColor4B.White);
 
             AddChild(_gameLayer);
             AddChild(_hudLayer);
@@ -100,7 +90,6 @@ namespace Impact.Game.Scenes
 
         private void RegisterEventHandlers()
         {
-
             SubscribeCustomEventHandlers();
 
             // Register for touch events
@@ -280,9 +269,9 @@ namespace Impact.Game.Scenes
         private void CollisionManager_PowerupCollected(Powerup powerup)
         {
             powerup.Activate();
+            powerup.RemoveFromParent();
             _activatedPowerups.Add(powerup);
 
-            powerup.RemoveFromParent();
             _powerups.Remove(powerup);
 
             _scoreManager.PowerupCollected();
@@ -312,12 +301,7 @@ namespace Impact.Game.Scenes
                 if (_lives == 0)
                 {
                     //game over
-
-                    //Save high score
-                    _scoreManager.SaveCurrentLevelHighScore();
-
-                    GameManager.Instance.StartStopLevel(false);
-                    GameController.GoToScene(new LevelSelectScene(GameView));
+                    ShowGameOverPopup();
                 }
             }
             
@@ -354,13 +338,11 @@ namespace Impact.Game.Scenes
             if (started || GameManager.Instance.DebugMode)
             {
                 Schedule(RunGameLogic);
-                //Schedule(UpdateTimer, 0.25f);
                 Schedule(frameTime => {ScoreUpFactory.Instance.CreateNew();}, 10);
             }
             else
             {
                 UnscheduleAll();
-                //Unschedule(UpdateTimer);
             }
             
         }
@@ -384,7 +366,7 @@ namespace Impact.Game.Scenes
         /// <summary>
         /// This higher priority event prevents event propogation from triggering the GameScene TouchesMoved event
         /// </summary>
-        private void NewLevelLayer_TouchesMoved(List<CCTouch> touches, CCEvent touchEvent)
+        private void PopupLayer_TouchesMoved(List<CCTouch> touches, CCEvent touchEvent)
         {
             touchEvent.StopPropogation();
         }
@@ -402,21 +384,11 @@ namespace Impact.Game.Scenes
             bool allBricksAreIndistructible = _bricks.All(b => b.IsIndestructible);
             if (_bricks.Count == 0 || allBricksAreIndistructible)
             {
-                //Reset powerups
-                foreach (IPowerup powerup in _activatedPowerups)
-                {
-                    powerup.Deactivate();
-                }
-                _powerups.Clear();
-                
-                //Reset ball(s)
-                BallFactory.Instance.ResetBalls(_balls);
-
-                //Remove any scoreUps
-                RemoveAllScoreUps();
-
                 //Save high score
                 _scoreManager.SaveCurrentLevelHighScore();
+
+                //Save progress
+                Settings.HighestCompletedLevel = LevelManager.Instance.CurrentLevel;
 
                 //Load next level
                 LevelManager.Instance.CurrentLevel++;
@@ -425,7 +397,37 @@ namespace Impact.Game.Scenes
             }
 
         }
-        
+
+        private void ResetEntities()
+        {
+            //Reset powerups
+            foreach (IPowerup powerup in _activatedPowerups)
+            {
+                powerup.Deactivate();
+            }
+            _powerups.Clear();
+
+            //Reset ball(s)
+            BallFactory.Instance.ResetBalls(_balls);
+
+            //Remove any scoreUps
+            RemoveAllScoreUps();
+
+            //Reset bricks
+            foreach (Brick brick in _bricks)
+            {
+                brick.RemoveFromParent();
+            }
+            _bricks.Clear();
+
+            //Reset wormholes
+            foreach (Wormhole wormhole in _wormholes)
+            {
+                wormhole.RemoveFromParent();
+            }
+            _wormholes.Clear();
+        }
+
         private void RemoveAllScoreUps()
         {
             //Remove any scoreUps
@@ -451,20 +453,11 @@ namespace Impact.Game.Scenes
             }
         }
 
-        private void LoadLevel(int level)
+        private void LoadLevel(int level, bool showNewLevelPopup = true)
         {
-            foreach (Brick brick in _bricks)
-            {
-                brick.RemoveFromParent();
-            }
-            _bricks.Clear();
 
-            foreach (Wormhole wormhole in _wormholes)
-            {
-                wormhole.RemoveFromParent();
-            }
-            _wormholes.Clear();
-
+            ResetEntities();
+            
             LevelManager.Instance.LoadLevel(level, _paddle, _balls, _scoreManager);
 
             foreach (Ball ball in _balls)
@@ -472,13 +465,17 @@ namespace Impact.Game.Scenes
                 ball.ApplyGravity = LevelManager.Instance.CurrentLevelProperties.Gravity;
             }
 
-            _lives = 3;
+            _lives = 2;
+            _livesLabel.Text = $"LIVES: {_lives}";
+
+            _scoreManager.ResetScore();
 
             GameManager.Instance.StartStopLevel(false);
 
-            ShowNewLevelPopup(_lives);
-
-            _livesLabel.Text = $"LIVES: {_lives}";
+            if (showNewLevelPopup)
+            {
+                ShowNewLevelPopup(_lives);
+            }
 
         }
 
@@ -487,12 +484,12 @@ namespace Impact.Game.Scenes
             _newLevelLayer = new NewLevelLayer(lives, LevelManager.Instance.CurrentLevelProperties.HighScore);
             AddChild(_newLevelLayer);
 
-            _newLevelPopupEventListener = new CCEventListenerTouchAllAtOnce
+            _popupLayerEventListener = new CCEventListenerTouchAllAtOnce
             {
-                OnTouchesMoved = NewLevelLayer_TouchesMoved
+                OnTouchesMoved = PopupLayer_TouchesMoved
             };
 
-            _newLevelLayer.AddEventListener(_newLevelPopupEventListener, NewLevelLayerEventPriority);
+            _newLevelLayer.AddEventListener(_popupLayerEventListener, PopupLayerEventPriority);
             _newLevelLayer.PlayButtonPressed += NewLevelLayer_PlayButtonPressed;
             _newLevelLayer.MainMenuButtonPressed += NewLeveLayer_MainMenuButtonPressed;
         }
@@ -513,12 +510,47 @@ namespace Impact.Game.Scenes
         {
             _newLevelLayer.PlayButtonPressed -= NewLevelLayer_PlayButtonPressed;
             _newLevelLayer.MainMenuButtonPressed -= NewLeveLayer_MainMenuButtonPressed;
-            _newLevelLayer.RemoveEventListener(_newLevelPopupEventListener);
+            _newLevelLayer.RemoveEventListener(_popupLayerEventListener);
             _newLevelLayer.RemoveFromParent();
             _newLevelLayer.Dispose();
         }
 
-        
+
+        private void ShowGameOverPopup()
+        {
+            _gameOverLayer = new GameOverLayer();
+            AddChild(_gameOverLayer);
+
+            _popupLayerEventListener = new CCEventListenerTouchAllAtOnce
+            {
+                OnTouchesMoved = PopupLayer_TouchesMoved
+            };
+
+            _gameOverLayer.AddEventListener(_popupLayerEventListener, PopupLayerEventPriority);
+            _gameOverLayer.PlayButtonPressed += GameOverLayer_PlayButtonPressed;
+            _gameOverLayer.MainMenuButtonPressed += GameOverLayer_MainMenuButtonPressed;
+        }
+
+        private void GameOverLayer_PlayButtonPressed()
+        {
+            DisposeGameOverLayer();
+            LoadLevel(LevelManager.Instance.CurrentLevel, showNewLevelPopup: false);
+        }
+
+        private void GameOverLayer_MainMenuButtonPressed()
+        {
+            DisposeGameOverLayer();
+            GameController.GoToScene(new TitleScene(GameView));
+        }
+
+        private void DisposeGameOverLayer()
+        {
+            _gameOverLayer.PlayButtonPressed -= GameOverLayer_PlayButtonPressed;
+            _gameOverLayer.MainMenuButtonPressed -= GameOverLayer_MainMenuButtonPressed;
+            _gameOverLayer.RemoveEventListener(_popupLayerEventListener);
+            _gameOverLayer.RemoveFromParent();
+            _gameOverLayer.Dispose();
+        }
 
     }
 }

@@ -10,7 +10,9 @@ namespace Impact.Game.Entities.Powerups
     {
         private readonly Paddle _paddle;
 
-        public LargerPaddlePowerup(string imageFilename, CCPoint initialPosition, Paddle paddle) 
+        private readonly CCFiniteTimeAction _scaleReset = new CCEaseBounceInOut(new CCScaleTo(1f, GameConstants.PaddleScaleX, GameConstants.PaddleScaleY));
+
+        public LargerPaddlePowerup(string imageFilename, CCPoint initialPosition, Paddle paddle)
             : base(initialPosition, imageFilename)
         {
             _paddle = paddle;
@@ -18,17 +20,15 @@ namespace Impact.Game.Entities.Powerups
 
         public override void Activate()
         {
-            //Make the paddle bigger
-            _paddle.ScaleX += 0.5f;
-
-            //Reset the size after a number of seconds
-            ScheduleOnce(f => _paddle.ScaleX = GameConstants.PaddleScaleX, GameConstants.PowerupLargerPaddleSeconds);
+            //Make the paddle bigger and reset the size after a number of seconds
+            CCFiniteTimeAction scaleLarger = new CCEaseBounceInOut(new CCScaleTo(1f, _paddle.ScaleX + 0.5f, GameConstants.PaddleScaleY));
+            _paddle.RunActions(scaleLarger, new CCDelayTime(GameConstants.PowerupLargerPaddleSeconds), _scaleReset);
         }
 
         public override void Deactivate()
         {
-            //Reset the paddle size
-            _paddle.ScaleX = GameConstants.PaddleScaleX;
+            RunActions(_scaleReset);
+
         }
     }
 }

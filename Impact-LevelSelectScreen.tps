@@ -190,6 +190,7 @@
         <map type="IndividualSpriteSettingsMap">
             <key type="filename">SourceImages/Level Select Screen/LevelSelectBackground.png</key>
             <key type="filename">SourceImages/Level Select Screen/LevelSelectButton.png</key>
+            <key type="filename">SourceImages/Level Select Screen/LevelSelectButtonDisabled.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -199,6 +200,7 @@
         <array>
             <filename>SourceImages/Level Select Screen/LevelSelectBackground.png</filename>
             <filename>SourceImages/Level Select Screen/LevelSelectButton.png</filename>
+            <filename>SourceImages/Level Select Screen/LevelSelectButtonDisabled.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

@@ -201,6 +201,8 @@
             <key type="filename">SourceImages/Game/Brick-E1.png</key>
             <key type="filename">SourceImages/Game/Bullet.png</key>
             <key type="filename">SourceImages/Game/BulletsPowerup.png</key>
+            <key type="filename">SourceImages/Game/GameOverPopupBackground.png</key>
+            <key type="filename">SourceImages/Game/GameOverPopupPlayButton.png</key>
             <key type="filename">SourceImages/Game/LifeUp.png</key>
             <key type="filename">SourceImages/Game/NewLevelPopupBackground.png</key>
             <key type="filename">SourceImages/Game/NewLevelPopupMainMenuButton.png</key>
@@ -265,6 +267,8 @@
             <filename>SourceImages/Game/BulletsPowerup.png</filename>
             <filename>SourceImages/Game/Bullet.png</filename>
             <filename>SourceImages/Game/PaddleBullet.png</filename>
+            <filename>SourceImages/Game/GameOverPopupBackground.png</filename>
+            <filename>SourceImages/Game/GameOverPopupPlayButton.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

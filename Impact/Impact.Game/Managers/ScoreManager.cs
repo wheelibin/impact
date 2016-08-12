@@ -75,5 +75,11 @@ namespace Impact.Game.Managers
 
             Settings.HighScores = Newtonsoft.Json.JsonConvert.SerializeObject(scores);
         }
+
+        public void ResetScore()
+        {
+            Score = 0;
+            ScoreUpdated?.Invoke();
+        }
     }
 }

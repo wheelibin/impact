@@ -34,6 +34,7 @@ namespace Impact.Game.Config
         public const int WorldHeight = 1481;
         public const int WorldTop = 1312;
         public const float BrickGap = 2.5f;
+        public const int BricksMinY = 350;
 
         //Ball
         public const float BallMaxVelocityX = 500;
@@ -46,6 +47,7 @@ namespace Impact.Game.Config
         //Paddle
         public static CCPoint PaddleInitialPosition => new CCPoint(320, 200);
         public const float PaddleScaleX = 1;
+        public const float PaddleScaleY = 1;
         public const float PaddleGravityBounceVelocityY = 1000;
         public const float BulletVelocity = 750;
         

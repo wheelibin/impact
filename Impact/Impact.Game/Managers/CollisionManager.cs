@@ -224,7 +224,30 @@ namespace Impact.Game.Managers
                     {
                         //Get the exit wormhole
                         Wormhole exit = wormholes.First(w => w.ObjectName == wormhole.ExitName);
+
                         ball.Position = exit.BoundingBoxTransformedToWorld.Center;
+                        //CCScaleTo scaleActionIn = new CCScaleTo(0.5f, 0);
+                        //CCScaleTo scaleActionOut = new CCScaleTo(0.5f, 1);
+                        //CCEaseExponentialIn easeActionIn = new CCEaseExponentialIn(scaleActionIn);
+                        //CCEaseExponentialIn easeActionOut = new CCEaseExponentialIn(scaleActionOut);
+                        //CCCallFunc ballMoveAction = new CCCallFunc((() =>
+                        //{
+                        //    ball.Position = exit.BoundingBoxTransformedToWorld.Center;
+                        //}));
+
+                        //if (ball.NumberOfRunningActions == 0)
+                        //{
+                        //    ball.AddActions(false, easeActionIn, ballMoveAction, easeActionOut );
+                        //}
+
+                        //if (ball.GetActionState(123) == null)
+                        //{
+                        //    CCMoveTo moveAction = new CCMoveTo(0.3f, exit.BoundingBoxTransformedToWorld.Center);
+                        //    CCAction easeAction = new CCEaseExponentialIn(moveAction);
+                        //    easeAction.Tag = 123;
+                        //    ball.AddAction(easeAction);
+                        //}
+
 
                         //todo: in order to properly handle InOut wormholes, we would need to handle the fact that once a ball has 
                         //todo: been moved to the target one, it will still be classed as being inside one, which will transport it again...in and endless loop

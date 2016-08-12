@@ -13,6 +13,7 @@ namespace Impact.Game.Helpers
     {
 
         private const string HighScoresSetting = "HighScores";
+        private const string HighestCompletedLevelSetting = "HighestCompletedLevel";
 
         private static ISettings AppSettings => CrossSettings.Current;
 
@@ -41,6 +42,12 @@ namespace Impact.Game.Helpers
         {
             get { return AppSettings.GetValueOrDefault(HighScoresSetting, string.Empty); }
             set { AppSettings.AddOrUpdateValue(HighScoresSetting, value); }
+        }
+
+        public static int HighestCompletedLevel
+        {
+            get { return AppSettings.GetValueOrDefault(HighestCompletedLevelSetting, 0); }
+            set { AppSettings.AddOrUpdateValue(HighestCompletedLevelSetting, value); }
         }
 
     }

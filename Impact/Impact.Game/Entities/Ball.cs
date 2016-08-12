@@ -33,8 +33,11 @@ namespace Impact.Game.Entities
                 }
                 else
                 {
-                    _fireball.RemoveFromParent();
-                    _fireball.Dispose();   
+                    if (_fireball != null)
+                    {
+                        _fireball.RemoveFromParent();
+                        _fireball.Dispose();
+                    }
                 }
                 
             }

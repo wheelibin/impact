@@ -115,6 +115,7 @@
     <BundleResource Include="Content\Fonts\visitor1.ttf" />
     <BundleResource Include="Content\Levels\level013.tmx" />
     <BundleResource Include="Content\Levels\level014.tmx" />
+    <BundleResource Include="Content\Levels\level015.tmx" />
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
     <None Include="packages.config" />

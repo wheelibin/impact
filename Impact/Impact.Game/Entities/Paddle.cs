@@ -32,7 +32,7 @@ namespace Impact.Game.Entities
             }
         }
 
-        private CCSprite _sprite;
+        private readonly CCSprite _sprite;
         private ProjectileType _projectileType;
 
         public Paddle()
@@ -59,7 +59,9 @@ namespace Impact.Game.Entities
 
         public void FireProjectile()
         {
-            ProjectileFactory.Instance.CreateNew(ProjectileType, Position);
+            const int gunHeight = 35;
+            CCPoint bulletStartPosition = new CCPoint(Position.X, Position.Y + gunHeight);
+            ProjectileFactory.Instance.CreateNew(ProjectileType, bulletStartPosition);
         }
 
         private void HandleInput(List<CCTouch> touches, CCEvent touchEvent)

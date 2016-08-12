@@ -45,7 +45,7 @@ namespace Impact.Game.Managers
         public LevelManager()
         {
             DetermineAvailableLevels();
-            CurrentLevel = 1;
+            CurrentLevel = Settings.HighestCompletedLevel+1;
         }
 
         public List<Brick> LoadLevel(int level, Paddle paddle, List<Ball> balls, IScoreManager scoreManager)
@@ -78,8 +78,7 @@ namespace Impact.Game.Managers
             float tileWidth = tileMap.TileWidth + GameConstants.BrickGap;
             float tileHeight = tileMap.TileHeight + GameConstants.BrickGap;
             float tileMapHeight = tileMap.Height * tileHeight;
-            int yOffset = 450;
-            float startY = tileMapHeight + yOffset;
+            float startY = tileMapHeight + GameConstants.BricksMinY;
 
             //Get the layers and tilesets
             TmxLayer brickLayer = tileMap.Layers[BrickLayer];

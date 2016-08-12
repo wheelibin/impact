@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using CocosSharp;
-using Impact.Game.Config;
 using Impact.Game.Entities;
+using Impact.Game.Helpers;
 using Impact.Game.Managers;
 
 namespace Impact.Game.Scenes
@@ -10,7 +10,7 @@ namespace Impact.Game.Scenes
     public class LevelSelectScene : CCScene
     {
         private readonly CCGameView _gameView;
-        private static CCColor3B _buttonTextColour = new CCColor3B(178, 242,0);
+        private static readonly CCColor3B ButtonTextColour = new CCColor3B(178, 242,0); //green
 
         public LevelSelectScene(CCGameView gameView) : base(gameView)
         {
@@ -27,28 +27,22 @@ namespace Impact.Game.Scenes
             };
             layer.AddChild(sprite);
 
-            //var label = new CCLabel("Select level", "visitor1.ttf", 72, CCLabelFormat.SystemFont)
-            //{
-            //    Color = new CCColor3B(123,129,131),
-            //    PositionX = 50,
-            //    PositionY = gameView.DesignResolution.Height - 50,
-            //    AnchorPoint = CCPoint.AnchorUpperLeft
-            //};
-            //layer.AddChild(label);
-
             List<CCMenuItem> menuItems = new List<CCMenuItem>();
-            //Back button
-            CCSpriteFrame backButtonFrame = GameManager.Instance.LevelSelectScreenSpriteSheet.Frames.Find(item => item.TextureFilename == "LevelSelectButton.png");
-            MenuItemImageWithText backButton = new MenuItemImageWithText(backButtonFrame, backButtonFrame, backButtonFrame, BackButton_Action, "<-", _buttonTextColour);
 
+            CCSpriteFrame levelSelectButtonFrame = GameManager.Instance.LevelSelectScreenSpriteSheet.Frames.Find(item => item.TextureFilename == "LevelSelectButton.png");
+            CCSpriteFrame levelSelectButtonDisabledFrame = GameManager.Instance.LevelSelectScreenSpriteSheet.Frames.Find(item => item.TextureFilename == "LevelSelectButtonDisabled.png");
+            
+            //Back button
+            MenuItemImageWithText backButton = new MenuItemImageWithText(levelSelectButtonFrame, levelSelectButtonFrame, levelSelectButtonFrame, BackButton_Action, "<-", ButtonTextColour);
             menuItems.Add(backButton);
+
             //Levels
-            for (int l = 0; l < LevelManager.Instance.NumberOfLevels; l++)
+            for (int l = 1; l <= LevelManager.Instance.NumberOfLevels; l++)
             {
-                CCSpriteFrame levelSelectButtonFrame = GameManager.Instance.LevelSelectScreenSpriteSheet.Frames.Find(item => item.TextureFilename == "LevelSelectButton.png");
-                MenuItemImageWithText levelSelectbutton = new MenuItemImageWithText(levelSelectButtonFrame, levelSelectButtonFrame, levelSelectButtonFrame, LevelSelectButton_Action, (l+1).ToString(), _buttonTextColour)
+                MenuItemImageWithText levelSelectbutton = new MenuItemImageWithText(levelSelectButtonFrame, levelSelectButtonFrame, levelSelectButtonDisabledFrame, LevelSelectButton_Action, l.ToString(), ButtonTextColour)
                 {
-                    UserData = l + 1
+                    UserData = l,
+                    Enabled = (l <= Settings.HighestCompletedLevel+1)
                 };
                 menuItems.Add(levelSelectbutton);
             }
@@ -56,7 +50,7 @@ namespace Impact.Game.Scenes
             CCMenu menu = new CCMenu(menuItems.ToArray());
 
             AlignItemsInGrid(menu, new CCPoint(5, 5), 5);
-            float x = 50;
+            const float x = 50;
             float y = layer.VisibleBoundsWorldspace.MaxY - (menu.ContentSize.Height*0.5f) - 550;
             
             menu.Position = new CCPoint(x, y);

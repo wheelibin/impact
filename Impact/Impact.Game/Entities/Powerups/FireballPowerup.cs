@@ -4,6 +4,9 @@ using Impact.Game.Config;
 
 namespace Impact.Game.Entities.Powerups
 {
+    /// <summary>
+    /// A powerup that makes the ball cut through bricks without bouncing off them 
+    /// </summary>
     public class FireballPowerup : Powerup
     {
         private readonly List<Ball> _balls;
@@ -19,7 +22,7 @@ namespace Impact.Game.Entities.Powerups
             foreach (Ball ball in _balls)
             {
                 ball.IsFireball = true;
-                ScheduleOnce(f =>
+                ball.ScheduleOnce(f =>
                 {
                     foreach (Ball b in _balls)
                     {
