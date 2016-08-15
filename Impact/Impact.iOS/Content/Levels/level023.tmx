@@ -113,7 +113,7 @@
    <image width="57" height="19" source="../../../../SourceImages/Game/SmallBrick-E1.png"/>
   </tile>
  </tileset>
- <tileset firstgid="20" name="Powerups" tilewidth="57" tileheight="57" tilecount="5" columns="0">
+ <tileset firstgid="20" name="Powerups" tilewidth="57" tileheight="57" tilecount="6" columns="0">
   <tile id="0">
    <properties>
     <property name="PowerupType" type="int" value="3"/>
@@ -144,8 +144,14 @@
    </properties>
    <image width="57" height="57" source="../../../../SourceImages/Game/PowerupRockets.png"/>
   </tile>
+  <tile id="5">
+   <properties>
+    <property name="PowerupType" type="int" value="6"/>
+   </properties>
+   <image width="38" height="38" source="../../../../SourceImages/Game/LifeUp.png"/>
+  </tile>
  </tileset>
- <tileset firstgid="25" name="Wormholes" tilewidth="57" tileheight="57" tilecount="2" columns="0">
+ <tileset firstgid="26" name="Wormholes" tilewidth="57" tileheight="57" tilecount="2" columns="0">
   <tile id="2">
    <image width="57" height="57" source="../../../../SourceImages/Game/WormholeIn.png"/>
   </tile>
@@ -206,7 +212,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,24,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,25,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,21,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -216,7 +222,7 @@
 0,0,23,0,0,0,0,0,0,0,0,23,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,21,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,25,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,21,0,0,0,0,0,
