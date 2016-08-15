@@ -11,7 +11,7 @@ namespace Impact.Game.Entities
 
         protected Projectile(string spriteImageFilename, CCPoint position, float velocityY)
         {
-            var frame = GameManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == spriteImageFilename);
+            var frame = GameStateManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == spriteImageFilename);
             var sprite = new CCSprite(frame);
 
             AddChild(sprite);

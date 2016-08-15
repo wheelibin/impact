@@ -119,7 +119,7 @@ namespace Impact.Game.Managers
                         TmxTilesetTile powerupTilesetTile = powerupTileset.Tiles[powerupTile.Gid - powerupTileset.FirstGid];
                         string powerupImageFilename = Path.GetFileName(powerupTilesetTile.Image.Source);
 
-                        //Determine which powerup to create and initialse the appropriate powerup entity
+                        //Determine which powerup to create and initialise the appropriate powerup entity
                         PowerupType powerupType = powerupTilesetTile.Properties.GetPropertyValue(PowerupTypePropertyName, s => (PowerupType)Enum.Parse(typeof(PowerupType), s));
                         switch (powerupType)
                         {
@@ -133,10 +133,13 @@ namespace Impact.Game.Managers
                                 powerup = new FireballPowerup(powerupImageFilename, brickPosition, balls);
                                 break;
                             case PowerupType.Bullets:
-                                powerup = new BulletsPowerup(brickPosition, powerupImageFilename, paddle);
+                                powerup = new BulletsPowerup(powerupImageFilename, brickPosition, paddle);
                                 break;
                             case PowerupType.Rockets:
-                                powerup = new RocketsPowerup(brickPosition, powerupImageFilename, paddle);
+                                powerup = new RocketsPowerup(powerupImageFilename, brickPosition, paddle);
+                                break;
+                            case PowerupType.ExtraLife:
+                                powerup = new ExtraLifePowerup(powerupImageFilename, brickPosition);
                                 break;
                         }
                     }

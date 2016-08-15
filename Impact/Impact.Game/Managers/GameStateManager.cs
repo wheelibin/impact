@@ -1,23 +1,29 @@
 ﻿using System;
 using CocosSharp;
 using Impact.Game.Config;
-using Impact.Game.Scenes;
 
 namespace Impact.Game.Managers
 {
-    public class GameManager
+    /// <summary>
+    /// Stuff and things relating to the game state
+    /// </summary>
+    public class GameStateManager
     {
-        private static readonly Lazy<GameManager> SelfInstance = new Lazy<GameManager>(() => new GameManager());
-        public static GameManager Instance => SelfInstance.Value;
+        private static readonly Lazy<GameStateManager> SelfInstance = new Lazy<GameStateManager>(() => new GameStateManager());
+        public static GameStateManager Instance => SelfInstance.Value;
 
         public bool DebugMode { get; set; }
         public bool LevelHasStarted { get; private set; }
         public bool CheatModeEnabled { get; set; }
+        public int Lives { get; private set; }
+
         public CCSpriteSheet GameEntitiesSpriteSheet { get; set; }
         public CCSpriteSheet TitleScreenSpriteSheet { get; set; }
         public CCSpriteSheet LevelSelectScreenSpriteSheet { get; set; }
 
-        public GameManager()
+        public event Action LivesChanged;
+
+        public GameStateManager()
         {
             LevelHasStarted = false;
             GameEntitiesSpriteSheet = new CCSpriteSheet(GameConstants.GameEntitiesSpriteSheet, GameConstants.GameEntitiesSpriteSheetImage);
@@ -31,6 +37,24 @@ namespace Impact.Game.Managers
         {
             LevelStarted?.Invoke(start);
             LevelHasStarted = start;
+        }
+
+        public void SetLives(int lives)
+        {
+            Lives = 2;
+            LivesChanged?.Invoke();
+        }
+
+        public void AddLife()
+        {
+            Lives += 1;
+            LivesChanged?.Invoke();
+        }
+
+        public void LoseLife()
+        {
+            Lives -= 1;
+            LivesChanged?.Invoke();
         }
 
     }

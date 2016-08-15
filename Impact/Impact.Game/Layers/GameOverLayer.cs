@@ -14,7 +14,7 @@ namespace Impact.Game.Layers
         public GameOverLayer() : base(new CCColor4B(0, 0, 0, 128))
         {
             //background
-            var frame = GameManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == "GameOverPopupBackground.png");
+            var frame = GameStateManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == "GameOverPopupBackground.png");
             var sprite = new CCSprite(frame)
             {
                 AnchorPoint = CCPoint.AnchorMiddle
@@ -37,10 +37,10 @@ namespace Impact.Game.Layers
             AddChild(levelLabel);
             
             //Buttons
-            CCSpriteFrame playButtonFrame = GameManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == "GameOverPopupPlayButton.png");
+            CCSpriteFrame playButtonFrame = GameStateManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == "GameOverPopupPlayButton.png");
             CCMenuItemImage playbutton = new CCMenuItemImage(playButtonFrame, playButtonFrame, playButtonFrame, PlayButton_Action);
 
-            CCSpriteFrame levelSelectButtonFrame = GameManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == "NewLevelPopupMainMenuButton.png");
+            CCSpriteFrame levelSelectButtonFrame = GameStateManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == "NewLevelPopupMainMenuButton.png");
             CCMenuItemImage levelSelectbutton = new CCMenuItemImage(levelSelectButtonFrame, levelSelectButtonFrame, levelSelectButtonFrame, MainMenuButton_Action);
 
             CCMenu menu = new CCMenu(playbutton, levelSelectbutton)

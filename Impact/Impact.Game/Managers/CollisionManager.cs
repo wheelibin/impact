@@ -105,7 +105,7 @@ namespace Impact.Game.Managers
                 }
 
                 bool shouldReflectYVelocity = (ballTop > screenTop && ball.VelocityY > 0);
-                if (GameManager.Instance.CheatModeEnabled)
+                if (GameStateManager.Instance.CheatModeEnabled)
                 {
                     shouldReflectYVelocity = (ballTop > screenTop && ball.VelocityY > 0) || (ballTop < screenBottom && ball.VelocityY < 0);
                 }
@@ -305,7 +305,7 @@ namespace Impact.Game.Managers
                     intersectionRect.Size.Height = 1;
                 }
 
-                if (GameManager.Instance.DebugMode)
+                if (GameStateManager.Instance.DebugMode)
                 {
                     var drawNode = new CCDrawNode();
                     layer.AddChild(drawNode);

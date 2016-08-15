@@ -4,3 +4,4 @@
 	- Reset levels
 	- SFX volume
 	- Music volume
+- Fully implement LifeUps

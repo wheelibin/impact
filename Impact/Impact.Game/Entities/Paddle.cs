@@ -20,15 +20,15 @@ namespace Impact.Game.Entities
                 {
                     case ProjectileType.None:
 
-                        var frame = GameManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == GameConstants.SpriteImagePaddle);
+                        var frame = GameStateManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == GameConstants.SpriteImagePaddle);
                         _sprite.SpriteFrame = frame;
                         break;
                     case ProjectileType.Bullet:
-                        frame = GameManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == GameConstants.SpriteImagePaddleBullet);
+                        frame = GameStateManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == GameConstants.SpriteImagePaddleBullet);
                         _sprite.SpriteFrame = frame;
                         break;
                     case ProjectileType.Rocket:
-                        frame = GameManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == GameConstants.SpriteImagePaddleRocket);
+                        frame = GameStateManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == GameConstants.SpriteImagePaddleRocket);
                         _sprite.SpriteFrame = frame;
                         break;
                 }
@@ -41,7 +41,7 @@ namespace Impact.Game.Entities
 
         public Paddle()
         {
-            var frame = GameManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == GameConstants.SpriteImagePaddle);
+            var frame = GameStateManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == GameConstants.SpriteImagePaddle);
             _sprite = new CCSprite(frame)
             {
                 AnchorPoint = CCPoint.AnchorLowerLeft

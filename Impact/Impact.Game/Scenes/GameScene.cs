@@ -37,14 +37,12 @@ namespace Impact.Game.Scenes
         private readonly ScoreManager _scoreManager = new ScoreManager();
         private readonly CollisionManager _collisionManager = new CollisionManager();
 
-        private int _lives = 3;
-
         private const int PopupLayerEventPriority = 1;
         private const int DefaultEventPriority = 2;
 
         public GameScene(CCGameView gameView) : base(gameView)
         {
-            GameManager.Instance.CheatModeEnabled = false;
+            GameStateManager.Instance.CheatModeEnabled = false;
 
             //Preload the entire spritesheet
             CCSpriteFrameCache.SharedSpriteFrameCache.AddSpriteFrames(GameConstants.GameEntitiesSpriteSheet, GameConstants.GameEntitiesSpriteSheetImage);
@@ -55,7 +53,7 @@ namespace Impact.Game.Scenes
 
             AddEntities();
 
-            if (GameManager.Instance.DebugMode)
+            if (GameStateManager.Instance.DebugMode)
             {
                 LevelManager.Instance.CurrentLevel = 0;
             }
@@ -118,12 +116,18 @@ namespace Impact.Game.Scenes
             _collisionManager.ScoreUpCollected += CollisionManager_ScoreUpCollected;
             _collisionManager.MissedBall += CollisionManager_MissedBall;
 
-            GameManager.Instance.LevelStarted += GameManager_LevelStarted;
+            GameStateManager.Instance.LevelStarted += GameManager_LevelStarted;
+            GameStateManager.Instance.LivesChanged += GameStateManager_LivesChanged;
             WormholeFactory.Instance.WormholeCreated += WormholeFactory_WormholeCreated;
             ScoreUpFactory.Instance.ScoreUpCreated += ScoreUpFactory_ScoreUpCreated;
             _scoreManager.ScoreUpdated += ScoreManager_ScoreUpdated;
             ProjectileFactory.Instance.ProjectileCreated += ProjectileFactory_ProjectileCreated;
             ProjectileFactory.Instance.ProjectileDestroyed += ProjectileFactory_ProjectileDestroyed;
+        }
+
+        private void GameStateManager_LivesChanged()
+        {
+            _livesLabel.Text = $"LIVES: {GameStateManager.Instance.Lives}";
         }
 
         /// <summary>
@@ -141,7 +145,7 @@ namespace Impact.Game.Scenes
             _collisionManager.ScoreUpCollected -= CollisionManager_ScoreUpCollected;
             _collisionManager.MissedBall -= CollisionManager_MissedBall;
 
-            GameManager.Instance.LevelStarted -= GameManager_LevelStarted;
+            GameStateManager.Instance.LevelStarted -= GameManager_LevelStarted;
             WormholeFactory.Instance.WormholeCreated -= WormholeFactory_WormholeCreated;
             ScoreUpFactory.Instance.ScoreUpCreated -= ScoreUpFactory_ScoreUpCreated;
             _scoreManager.ScoreUpdated -= ScoreManager_ScoreUpdated;
@@ -175,7 +179,7 @@ namespace Impact.Game.Scenes
             };
             _hudLayer.AddChild(_levelLabel);
 
-            _livesLabel = new CCLabel($"LIVES: {_lives}", "visitor1.ttf", 48, CCLabelFormat.SystemFont)
+            _livesLabel = new CCLabel($"LIVES: {GameStateManager.Instance.Lives}", "visitor1.ttf", 48, CCLabelFormat.SystemFont)
             {
                 PositionX = _gameLayer.VisibleBoundsWorldspace.MinX + 50,
                 PositionY = _gameLayer.VisibleBoundsWorldspace.MaxY - 100,
@@ -192,7 +196,7 @@ namespace Impact.Game.Scenes
             _balls.Add(ball);
             _gameLayer.AddChild(ball, GameConstants.BallZOrder);
 
-            if (GameManager.Instance.DebugMode)
+            if (GameStateManager.Instance.DebugMode)
             {
                 var movedTouchListener = new CCEventListenerTouchAllAtOnce { OnTouchesMoved = Ball_OnTouchesMoved };
                 AddEventListener(movedTouchListener, _balls.First());
@@ -293,19 +297,18 @@ namespace Impact.Game.Scenes
             if (_balls.Count == 0)
             {
                 //Stop the level
-                GameManager.Instance.StartStopLevel(false);
+                GameStateManager.Instance.StartStopLevel(false);
 
                 //Create another ball
                 BallFactory.Instance.CreateNew();
 
                 //Reduce the lives
-                _lives -= 1;
-                _livesLabel.Text = $"LIVES: {_lives}";
+                GameStateManager.Instance.LoseLife();
 
                 //Remove any scoreUps
                 RemoveAllScoreUps();
 
-                if (_lives == 0)
+                if (GameStateManager.Instance.Lives == 0)
                 {
                     //game over
                     ShowGameOverPopup();
@@ -342,7 +345,7 @@ namespace Impact.Game.Scenes
 
         private void GameManager_LevelStarted(bool started)
         {
-            if (started || GameManager.Instance.DebugMode)
+            if (started || GameStateManager.Instance.DebugMode)
             {
                 Schedule(RunGameLogic);
                 Schedule(frameTime => {ScoreUpFactory.Instance.CreateNew();}, 10);
@@ -356,9 +359,9 @@ namespace Impact.Game.Scenes
 
         private void HandleTouchesMoved(List<CCTouch> touches, CCEvent touchEvent)
         {
-            if (!GameManager.Instance.LevelHasStarted)
+            if (!GameStateManager.Instance.LevelHasStarted)
             {
-                GameManager.Instance.StartStopLevel(!GameManager.Instance.DebugMode);
+                GameStateManager.Instance.StartStopLevel(!GameStateManager.Instance.DebugMode);
             }
         }
 
@@ -464,7 +467,7 @@ namespace Impact.Game.Scenes
 
         private void PlayRandomBrickSound()
         {
-            if (!GameManager.Instance.DebugMode)
+            if (!GameStateManager.Instance.DebugMode)
             {
 
                 string sound = GameConstants.BrickHitSounds.Dequeue();
@@ -489,16 +492,15 @@ namespace Impact.Game.Scenes
                 ball.ApplyGravity = LevelManager.Instance.CurrentLevelProperties.Gravity;
             }
 
-            _lives = 2;
-            _livesLabel.Text = $"LIVES: {_lives}";
+            GameStateManager.Instance.SetLives(2);
 
             _scoreManager.ResetScore();
 
-            GameManager.Instance.StartStopLevel(false);
+            GameStateManager.Instance.StartStopLevel(false);
 
             if (showNewLevelPopup)
             {
-                ShowNewLevelPopup(_lives);
+                ShowNewLevelPopup(GameStateManager.Instance.Lives);
             }
 
         }

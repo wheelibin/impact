@@ -20,7 +20,7 @@ namespace Impact.Game.Scenes
             AddChild(layer);
 
             //background
-            var frame = GameManager.Instance.LevelSelectScreenSpriteSheet.Frames.Find(item => item.TextureFilename == "LevelSelectBackground.png");
+            var frame = GameStateManager.Instance.LevelSelectScreenSpriteSheet.Frames.Find(item => item.TextureFilename == "LevelSelectBackground.png");
             var sprite = new CCSprite(frame)
             {
                 AnchorPoint = CCPoint.AnchorLowerLeft
@@ -29,8 +29,8 @@ namespace Impact.Game.Scenes
 
             List<CCMenuItem> menuItems = new List<CCMenuItem>();
 
-            CCSpriteFrame levelSelectButtonFrame = GameManager.Instance.LevelSelectScreenSpriteSheet.Frames.Find(item => item.TextureFilename == "LevelSelectButton.png");
-            CCSpriteFrame levelSelectButtonDisabledFrame = GameManager.Instance.LevelSelectScreenSpriteSheet.Frames.Find(item => item.TextureFilename == "LevelSelectButtonDisabled.png");
+            CCSpriteFrame levelSelectButtonFrame = GameStateManager.Instance.LevelSelectScreenSpriteSheet.Frames.Find(item => item.TextureFilename == "LevelSelectButton.png");
+            CCSpriteFrame levelSelectButtonDisabledFrame = GameStateManager.Instance.LevelSelectScreenSpriteSheet.Frames.Find(item => item.TextureFilename == "LevelSelectButtonDisabled.png");
             
             //Back button
             MenuItemImageWithText backButton = new MenuItemImageWithText(levelSelectButtonFrame, levelSelectButtonFrame, levelSelectButtonFrame, BackButton_Action, "<-", ButtonTextColour);

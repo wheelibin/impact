@@ -7,6 +7,7 @@
         Multiball = 2,
         FireBall = 3,
         Bullets = 4,
-        Rockets = 5
+        Rockets = 5,
+        ExtraLife = 6
     }
 }

@@ -15,7 +15,7 @@ namespace Impact.Game.Scenes
             AddChild(layer);
 
             //background
-            var frame = GameManager.Instance.TitleScreenSpriteSheet.Frames.Find(item => item.TextureFilename == "Impact-TitleScreen.png");
+            var frame = GameStateManager.Instance.TitleScreenSpriteSheet.Frames.Find(item => item.TextureFilename == "Impact-TitleScreen.png");
             var sprite = new CCSprite(frame)
             {
                 AnchorPoint = CCPoint.AnchorLowerLeft
@@ -23,10 +23,10 @@ namespace Impact.Game.Scenes
             layer.AddChild(sprite);
 
             //Buttons
-            CCSpriteFrame playButtonFrame = GameManager.Instance.TitleScreenSpriteSheet.Frames.Find(item => item.TextureFilename == "PlayButton.png");
+            CCSpriteFrame playButtonFrame = GameStateManager.Instance.TitleScreenSpriteSheet.Frames.Find(item => item.TextureFilename == "PlayButton.png");
             CCMenuItemImage playbutton = new CCMenuItemImage(playButtonFrame, playButtonFrame, playButtonFrame, PlayButton_Action);
 
-            CCSpriteFrame levelSelectButtonFrame = GameManager.Instance.TitleScreenSpriteSheet.Frames.Find(item => item.TextureFilename == "TitleScreenLevelSelectButton.png");
+            CCSpriteFrame levelSelectButtonFrame = GameStateManager.Instance.TitleScreenSpriteSheet.Frames.Find(item => item.TextureFilename == "TitleScreenLevelSelectButton.png");
             CCMenuItemImage levelSelectbutton = new CCMenuItemImage(levelSelectButtonFrame, levelSelectButtonFrame, levelSelectButtonFrame, LevelSelectButton_Action);
 
             CCMenu menu = new CCMenu(playbutton, levelSelectbutton)

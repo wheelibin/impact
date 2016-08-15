@@ -16,7 +16,7 @@ namespace Impact.Game.Entities
             ObjectName = objectName;
             ExitName = exitName;
             //AddChild(new CCLayerColor(CCColor4B.Yellow));
-            var frame = GameManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == spriteImageFilename);
+            var frame = GameStateManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == spriteImageFilename);
             var sprite = new CCSprite(frame)
             {
                 AnchorPoint = CCPoint.AnchorLowerLeft

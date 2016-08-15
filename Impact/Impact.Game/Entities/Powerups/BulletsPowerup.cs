@@ -11,7 +11,7 @@ namespace Impact.Game.Entities.Powerups
     {
         private readonly Paddle _paddle;
 
-        public BulletsPowerup(CCPoint initialPosition, string spriteImage, Paddle paddle) 
+        public BulletsPowerup(string spriteImage, CCPoint initialPosition, Paddle paddle) 
             : base(initialPosition, spriteImage)
         {
             _paddle = paddle;

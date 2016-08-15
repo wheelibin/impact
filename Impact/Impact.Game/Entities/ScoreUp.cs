@@ -12,7 +12,7 @@ namespace Impact.Game.Entities
         public ScoreUp(CCPoint initialPosition, int score)
         {
             Score = score;
-            CCSpriteFrame frame = GameManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == "ScoreUp.png");
+            CCSpriteFrame frame = GameStateManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == "ScoreUp.png");
             var sprite = new CCSprite(frame)
             {
                 AnchorPoint = CCPoint.AnchorMiddle

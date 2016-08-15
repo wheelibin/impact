@@ -31,7 +31,7 @@ namespace Impact.Game.Entities
 
             IsIndestructible = BrickType == BrickType.Indistructible || BrickType == BrickType.Bouncey;
 
-            var frame = GameManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == spriteImageFilename);
+            var frame = GameStateManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == spriteImageFilename);
             _sprite = new CCSprite(frame)
             {
                 AnchorPoint = CCPoint.AnchorLowerLeft

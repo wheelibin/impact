@@ -45,7 +45,7 @@ namespace Impact.Game.Entities
 
         public Ball(float? velocityY = GameConstants.BallInitialVelocityY, CCPoint? initialPosition = null, bool applyGravity = false)
         {
-            var frame = GameManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == GameConstants.SpriteImageBall);
+            var frame = GameStateManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == GameConstants.SpriteImageBall);
             var sprite = new CCSprite(frame)
             {
                 AnchorPoint = CCPoint.AnchorLowerLeft
@@ -61,14 +61,14 @@ namespace Impact.Game.Entities
             ApplyGravity = applyGravity;
 
             //If the level is already running, activate the ball, otherwise wait for an event
-            if (GameManager.Instance.LevelHasStarted)
+            if (GameStateManager.Instance.LevelHasStarted)
             {
                 Schedule(ApplyVelocity);
             }
 
-            GameManager.Instance.LevelStarted += GameManager_LevelStarted;
+            GameStateManager.Instance.LevelStarted += GameManager_LevelStarted;
 
-            if (GameManager.Instance.DebugMode)
+            if (GameStateManager.Instance.DebugMode)
             {
                 var drawNode = new CCDrawNode();
                 AddChild(drawNode);
