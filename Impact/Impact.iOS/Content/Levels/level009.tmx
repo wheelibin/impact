@@ -133,7 +133,7 @@
    <image width="57" height="57" source="../../../../SourceImages/Game/PowerupMultiBall.png"/>
   </tile>
   <tile id="3">
-   <image width="57" height="57" source="../../../../SourceImages/Game/BulletsPowerup.png"/>
+   <image width="57" height="57" source="../../../../SourceImages/Game/PowerupBullets.png"/>
   </tile>
  </tileset>
  <tileset firstgid="24" name="Wormholes" tilewidth="114" tileheight="110" tilecount="1" columns="0">

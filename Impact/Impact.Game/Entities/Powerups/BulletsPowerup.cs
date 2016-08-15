@@ -23,7 +23,7 @@ namespace Impact.Game.Entities.Powerups
         public override void Activate()
         {
             _paddle.ProjectileType = ProjectileType.Bullet;
-            ScheduleOnce(x => _paddle.ProjectileType = ProjectileType.None, GameConstants.PowerupBulletsSeconds);
+            _paddle.ScheduleOnce(x => _paddle.ProjectileType = ProjectileType.None, GameConstants.PowerupBulletsSeconds);
         }
 
         /// <summary>

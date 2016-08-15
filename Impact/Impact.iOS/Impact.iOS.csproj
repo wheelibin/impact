@@ -97,25 +97,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Content\Levels\level001.tmx">
-      <SubType>Designer</SubType>
-    </BundleResource>
-    <BundleResource Include="Content\Levels\level002.tmx" />
-    <BundleResource Include="Content\Levels\level003.tmx" />
-    <BundleResource Include="Content\Levels\level004.tmx" />
-    <BundleResource Include="Content\Levels\level000.tmx" />
-    <BundleResource Include="Content\Levels\level005.tmx" />
-    <BundleResource Include="Content\Levels\level006.tmx" />
-    <BundleResource Include="Content\Levels\level007.tmx" />
-    <BundleResource Include="Content\Levels\level008.tmx" />
-    <BundleResource Include="Content\Levels\level009.tmx" />
-    <BundleResource Include="Content\Levels\level010.tmx" />
-    <BundleResource Include="Content\Levels\level011.tmx" />
-    <BundleResource Include="Content\Levels\level012.tmx" />
     <BundleResource Include="Content\Fonts\visitor1.ttf" />
-    <BundleResource Include="Content\Levels\level013.tmx" />
-    <BundleResource Include="Content\Levels\level014.tmx" />
-    <BundleResource Include="Content\Levels\level015.tmx" />
+    <BundleResource Include="Content\Levels\level000.tmx" />
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
     <None Include="packages.config" />
@@ -127,6 +110,38 @@
     <BundleResource Include="Content\Images\Ld\Spritesheets\LevelSelectScreen.png" />
     <Content Include="Content\Images\Ld\Spritesheets\TitleScreen.plist" />
     <BundleResource Include="Content\Images\Ld\Spritesheets\TitleScreen.png" />
+    <BundleResource Include="Content\Levels\level001.tmx">
+      <SubType>Designer</SubType>
+    </BundleResource>
+    <BundleResource Include="Content\Levels\level002.tmx" />
+    <BundleResource Include="Content\Levels\level003.tmx" />
+    <BundleResource Include="Content\Levels\level004.tmx" />
+    <BundleResource Include="Content\Levels\level005.tmx" />
+    <BundleResource Include="Content\Levels\level006.tmx" />
+    <BundleResource Include="Content\Levels\level007.tmx" />
+    <BundleResource Include="Content\Levels\level008.tmx" />
+    <BundleResource Include="Content\Levels\level009.tmx" />
+    <BundleResource Include="Content\Levels\level010.tmx" />
+    <BundleResource Include="Content\Levels\level011.tmx" />
+    <BundleResource Include="Content\Levels\level012.tmx" />
+    <BundleResource Include="Content\Levels\level013.tmx" />
+    <BundleResource Include="Content\Levels\level014.tmx" />
+    <BundleResource Include="Content\Levels\level015.tmx" />
+    <BundleResource Include="Content\Levels\level016.tmx" />
+    <BundleResource Include="Content\Levels\level017.tmx" />
+    <BundleResource Include="Content\Levels\level018.tmx" />
+    <BundleResource Include="Content\Levels\level019.tmx" />
+    <BundleResource Include="Content\Levels\level020.tmx" />
+    <BundleResource Include="Content\Levels\level021.tmx" />
+    <BundleResource Include="Content\Levels\level022.tmx" />
+    <BundleResource Include="Content\Levels\level023.tmx" />
+    <BundleResource Include="Content\Levels\level024.tmx" />
+    <BundleResource Include="Content\Levels\level025.tmx" />
+    <BundleResource Include="Content\Levels\level026.tmx" />
+    <BundleResource Include="Content\Levels\level027.tmx" />
+    <BundleResource Include="Content\Levels\level028.tmx" />
+    <BundleResource Include="Content\Levels\level029.tmx" />
+    <BundleResource Include="Content\Levels\level030.tmx" />
     <BundleResource Include="Content\Sounds\massive-banzai23\A3.wav" />
     <BundleResource Include="Content\Sounds\massive-banzai23\As3.wav" />
     <BundleResource Include="Content\Sounds\massive-banzai23\C3.wav" />

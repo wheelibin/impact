@@ -60,6 +60,7 @@ namespace Impact.Game.Config
         public const float PowerupLargerPaddleSeconds = 7;
         public const float PowerupFireballSeconds = 7;
         public const float PowerupBulletsSeconds = 7;
+        public const float PowerupRocketsSeconds = 7;
         public const int PowerupZOrder = 10;
 
         //ScoreUps

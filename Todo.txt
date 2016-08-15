@@ -1,1 +1,6 @@
 - Read lives from level setting, maybe with default fallback
+- Add settings menu
+	- Reset high scores
+	- Reset levels
+	- SFX volume
+	- Music volume

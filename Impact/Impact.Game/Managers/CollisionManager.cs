@@ -6,10 +6,14 @@ using Impact.Game.Config;
 using Impact.Game.Entities;
 using Impact.Game.Entities.Powerups;
 using Impact.Game.Enums;
+using Impact.Game.Extensions;
 using Impact.Game.Factories;
 
 namespace Impact.Game.Managers
 {
+    /// <summary>
+    /// Contains the collision logic for the game, fires various events when collisions happen
+    /// </summary>
     public class CollisionManager
     {
         public event Action PaddleHit;
@@ -18,16 +22,17 @@ namespace Impact.Game.Managers
         public event Action<Powerup> PowerupCollected;
         public event Action<ScoreUp> ScoreUpCollected;
         public event Action<Ball> MissedBall;
-        
-        public void HandleCollisions(CCLayer layer, Paddle paddle, List<Ball> balls, List<Brick> bricks, List<Powerup> powerups, List<Wormhole> wormholes, List<ScoreUp> scoreUps, List<Projectile> bullets)
+
+        public void HandleCollisions(CCLayer layer, Paddle paddle, List<Ball> balls, List<Brick> bricks, List<Powerup> powerups, List<Wormhole> wormholes, List<ScoreUp> scoreUps, List<Projectile> projectiles)
         {
 
             CCRect paddleBoundingBox = paddle.BoundingBoxTransformedToWorld;
 
-            for (int b = bullets.Count - 1; b >= 0; b--)
+            //Projectile collisions
+            for (int b = projectiles.Count - 1; b >= 0; b--)
             {
-                Projectile projectile = bullets[b];
-                List<Brick> bricksHitByProjectile = BricksHitByEntity(projectile, bricks);
+                Projectile projectile = projectiles[b];
+                List<Brick> bricksHitByProjectile = projectile.BricksHitByEntity(bricks);
 
                 foreach (Brick brick in bricksHitByProjectile)
                 {
@@ -44,23 +49,27 @@ namespace Impact.Game.Managers
                 }
 
             }
-            
+
+            //Ball collisions
             for (int ballIndex = balls.Count - 1; ballIndex >= 0; ballIndex--)
             {
                 Ball ball = balls[ballIndex];
 
-                bool isMovingDownward = ball.VelocityY < 0;
-                //bool isMovingLeft = ball.VelocityX < 0;
-
                 CCRect ballBoundingBox = ball.BoundingBoxTransformedToWorld;
+                float ballRight = ballBoundingBox.MaxX;
+                float ballLeft = ballBoundingBox.MinX;
+                float ballTop = ballBoundingBox.MaxY;
+                float screenRight = layer.VisibleBoundsWorldspace.MaxX;
+                float screenLeft = layer.VisibleBoundsWorldspace.MinX;
+                float screenTop = GameConstants.WorldTop;
+                float screenBottom = layer.VisibleBoundsWorldspace.MinY;
+                bool isMovingDownward = ball.VelocityY < 0;
 
                 //Bounce off paddle
-
                 bool ballHitPaddle = ballBoundingBox.IntersectsRect(paddleBoundingBox);
 
                 if (ballHitPaddle && isMovingDownward)
                 {
-                    // Y velocity
                     if (ball.ApplyGravity)
                     {
                         //if gravity is applied then bounce off the paddle at a constant velocity (or the ball will eventually come to rest)
@@ -83,32 +92,19 @@ namespace Impact.Game.Managers
                     return;
                 }
 
-                // First let’s get the ball position:   
-                float ballRight = ballBoundingBox.MaxX;
-                float ballLeft = ballBoundingBox.MinX;
-                float ballTop = ballBoundingBox.MaxY;
-
-                // Then let’s get the screen edges
-                float screenRight = layer.VisibleBoundsWorldspace.MaxX;
-                float screenLeft = layer.VisibleBoundsWorldspace.MinX;
-                float screenTop = GameConstants.WorldTop;
-                float screenBottom = layer.VisibleBoundsWorldspace.MinY;
-
-                // Check if the ball is either too far to the right or left:    
+                //Bounce off the walls
                 bool shouldReflectXVelocity =
                     (ballRight > screenRight && ball.VelocityX > 0) ||
                     (ballLeft < screenLeft && ball.VelocityX < 0);
 
                 if (shouldReflectXVelocity)
                 {
-                    ball.VelocityX = ApplySlightVariation((int)ball.VelocityX);
+                    ball.VelocityX = ball.VelocityX.ApplyVariation();
                     ball.VelocityX *= -1;
                     return;
                 }
 
-                // Check if the ball is either too far to the top (or the player missed it)
                 bool shouldReflectYVelocity = (ballTop > screenTop && ball.VelocityY > 0);
-
                 if (GameManager.Instance.CheatModeEnabled)
                 {
                     shouldReflectYVelocity = (ballTop > screenTop && ball.VelocityY > 0) || (ballTop < screenBottom && ball.VelocityY < 0);
@@ -125,22 +121,21 @@ namespace Impact.Game.Managers
 
                 if (shouldReflectYVelocity)
                 {
-                    //ball.VelocityY = ApplySlightVariation((int)ball.VelocityY);
                     ball.VelocityY *= -1;
                     return;
                 }
 
                 //Have we hit any bricks
                 //If the ball also intersects other bricks, group them into a single brick
-                List<Brick> bricksHitByBall = BricksHitByEntity(ball, bricks);
-                
+                List<Brick> bricksHitByBall = ball.BricksHitByEntity(bricks);
+
                 bool hitAnyBricksWithBall = bricksHitByBall.Count > 0;
 
                 //Bounce logic (using all the hit bricks as a group)
                 if (hitAnyBricksWithBall)
                 {
-                    CCRect groupedBrick = GetGroupedBrickBounds(bricksHitByBall);
-                    
+                    CCRect groupedBrick = bricksHitByBall.GetGroupedBrickBounds();
+
                     CCVector2 separatingVector = GetSeparatingVector(ballBoundingBox, groupedBrick, layer);
 
                     if (!ball.IsFireball)
@@ -159,7 +154,7 @@ namespace Impact.Game.Managers
                         }
                     }
                 }
-                
+
                 //Individual brick hit functions
                 foreach (Brick brick in bricksHitByBall)
                 {
@@ -168,7 +163,7 @@ namespace Impact.Game.Managers
                     {
                         ball.VelocityY = GameConstants.PaddleGravityBounceVelocityY * brick.BounceFactor;
                     }
-                    
+
                     bool brickDestroyed = brick.Hit();
 
                     if (brickDestroyed)
@@ -180,8 +175,7 @@ namespace Impact.Game.Managers
                             if (remainingBricks > 0)
                             {
                                 float ballSpeedPercentageIncreaseFactor = (LevelManager.Instance.CurrentLevelProperties.FinalBallSpeedPercentageIncrease / (float)remainingBricks) / 100;
-                                
-                                float newBallSpeed = Math.Abs(GameConstants.BallInitialVelocityY + (GameConstants.BallInitialVelocityY*ballSpeedPercentageIncreaseFactor));
+                                float newBallSpeed = Math.Abs(GameConstants.BallInitialVelocityY + (GameConstants.BallInitialVelocityY * ballSpeedPercentageIncreaseFactor));
 
                                 if (ball.VelocityY < 0)
                                 {
@@ -226,28 +220,6 @@ namespace Impact.Game.Managers
                         Wormhole exit = wormholes.First(w => w.ObjectName == wormhole.ExitName);
 
                         ball.Position = exit.BoundingBoxTransformedToWorld.Center;
-                        //CCScaleTo scaleActionIn = new CCScaleTo(0.5f, 0);
-                        //CCScaleTo scaleActionOut = new CCScaleTo(0.5f, 1);
-                        //CCEaseExponentialIn easeActionIn = new CCEaseExponentialIn(scaleActionIn);
-                        //CCEaseExponentialIn easeActionOut = new CCEaseExponentialIn(scaleActionOut);
-                        //CCCallFunc ballMoveAction = new CCCallFunc((() =>
-                        //{
-                        //    ball.Position = exit.BoundingBoxTransformedToWorld.Center;
-                        //}));
-
-                        //if (ball.NumberOfRunningActions == 0)
-                        //{
-                        //    ball.AddActions(false, easeActionIn, ballMoveAction, easeActionOut );
-                        //}
-
-                        //if (ball.GetActionState(123) == null)
-                        //{
-                        //    CCMoveTo moveAction = new CCMoveTo(0.3f, exit.BoundingBoxTransformedToWorld.Center);
-                        //    CCAction easeAction = new CCEaseExponentialIn(moveAction);
-                        //    easeAction.Tag = 123;
-                        //    ball.AddAction(easeAction);
-                        //}
-
 
                         //todo: in order to properly handle InOut wormholes, we would need to handle the fact that once a ball has 
                         //todo: been moved to the target one, it will still be classed as being inside one, which will transport it again...in and endless loop
@@ -299,60 +271,7 @@ namespace Impact.Game.Managers
             }
 
         }
-
-        /// <summary>
-        /// Returns a list of bricks that have been hit by the specified entity
-        /// </summary>
-        private List<Brick> BricksHitByEntity(CCNode entity, List<Brick> bricks)
-        {
-            List<Brick> bricksHitByEntity = new List<Brick>();
-            foreach (Brick brick in bricks)
-            {
-                if (entity.BoundingBoxTransformedToWorld.IntersectsRect(brick.BoundingBoxTransformedToWorld))
-                {
-                    bricksHitByEntity.Add(brick);
-                }
-            }
-
-            return bricksHitByEntity;
-
-        }
-
-        private CCRect GetGroupedBrickBounds(List<Brick> entities)
-        {
-            CCRect groupedBrick;
-
-            if (entities.Count == 1)
-            {
-                groupedBrick = entities[0].BoundingBoxTransformedToWorld;
-            }
-            else
-            {
-                groupedBrick = entities[0].BoundingBoxTransformedToWorld;
-                for (int b = 1; b < entities.Count; b++)
-                {
-                    groupedBrick = CCRect.Union(groupedBrick, entities[b].BoundingBoxTransformedToWorld);
-                }
-            }
-
-            return groupedBrick;
-        }
-
-        private float ApplySlightVariation(int input)
-        {
-            const int variationPercentage = 5;
-
-            int variationAmount = (input / 100) * variationPercentage;
-
-            var rnd = new Random();
-
-            if (input < 0)
-            {
-                return rnd.Next(input + variationAmount, input - variationAmount);
-            }
-            return rnd.Next(input - variationAmount, input + variationAmount);
-        }
-
+        
         /// <summary>
         /// Returns the vector that the 'ball' should be moved by to separate the objects. 
         /// </summary>
@@ -385,8 +304,6 @@ namespace Impact.Game.Managers
                 {
                     intersectionRect.Size.Height = 1;
                 }
-
-                //Debug.WriteLine(intersectionRect.ToString());
 
                 if (GameManager.Instance.DebugMode)
                 {

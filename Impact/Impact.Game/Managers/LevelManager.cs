@@ -7,6 +7,7 @@ using Impact.Game.Config;
 using Impact.Game.Entities;
 using Impact.Game.Entities.Powerups;
 using Impact.Game.Enums;
+using Impact.Game.Extensions;
 using Impact.Game.Factories;
 using Impact.Game.Helpers;
 using Impact.Game.Models;
@@ -25,9 +26,15 @@ namespace Impact.Game.Managers
         public static LevelManager Instance => SelfInstance.Value;
 
         //Properties specified in the .tmx file
-        private const string FinalBallSpeedPercentageIncreaseProperty = "FinalBallSpeedPercentageIncrease";
-        private const string HitsToDestroyProperty = "HitsToDestroy";
-        private const string PowerupTypeProperty = "PowerupType";
+        private const string FinalBallSpeedPercentageIncreasePropertyName = "FinalBallSpeedPercentageIncrease";
+        private const string HitsToDestroyPropertyName = "HitsToDestroy";
+        private const string PowerupTypePropertyName = "PowerupType";
+        private const string GravityPropertyName = "Gravity";
+        private const string BrickTypePropertyName = "BrickType";
+        private const string BounceFactorPropertyName = "BounceFactor";
+        private const string WormholeTypePropertyName = "WormholeType";
+        private const string WormholeExitNamePropertyName = "ExitName";
+
         private const string BrickLayer = "Bricks";
         private const string BrickTileset = "Bricks";
         private const string PowerupLayer = "Powerups";
@@ -35,7 +42,8 @@ namespace Impact.Game.Managers
         private const string WormholeObjectGroup = "Wormholes";
         private const string WormholeTileset = "Wormholes";
 
-        private const string BaseLevelFolder = "Content/Levels/level";
+        private const string BaseLevelFolder = "Content/Levels/";
+        private const string LevelFilenameFormatString = "{0}/level{1}.tmx";
 
         public int NumberOfLevels { get; private set; }
         public int CurrentLevel { get; set; }
@@ -54,15 +62,13 @@ namespace Impact.Game.Managers
            var bricks = new List<Brick>();
 
             //Load the level
-            var tileMap = new TmxMap(BaseLevelFolder + level.ToString("000") + ".tmx");
+            string levelFilename = string.Format(LevelFilenameFormatString, BaseLevelFolder, level.ToString("000"));
+            var tileMap = new TmxMap(levelFilename);
 
             //Set the level properties
 
-            bool gravity = false;
-            if (tileMap.Properties.ContainsKey("Gravity"))
-            {
-                gravity = bool.Parse(tileMap.Properties["Gravity"]);
-            }
+            bool gravity = tileMap.Properties.GetPropertyValue(GravityPropertyName, bool.Parse);
+            int finalBallSpeedPercentageIncrease = tileMap.Properties.GetPropertyValue(FinalBallSpeedPercentageIncreasePropertyName, int.Parse);
 
             //Get high score
             int highScore = scoreManager.GetHighScoreForLevel(level);
@@ -70,7 +76,7 @@ namespace Impact.Game.Managers
             CurrentLevelProperties = new LevelProperties
             {
                 HighScore = highScore,
-                FinalBallSpeedPercentageIncrease = int.Parse(tileMap.Properties[FinalBallSpeedPercentageIncreaseProperty]),
+                FinalBallSpeedPercentageIncrease = finalBallSpeedPercentageIncrease,
                 Gravity = gravity
             };
 
@@ -100,18 +106,9 @@ namespace Impact.Game.Managers
                     string brickImageFilename = Path.GetFileName(brickTilesetTile.Image.Source);
 
                     //Get brick properties
-                    int hitsToDestroy = int.Parse(brickTilesetTile.Properties[HitsToDestroyProperty]);
-
-                    BrickType brickType;
-                    if (brickTilesetTile.Properties.ContainsKey("BrickType"))
-                    {
-                        brickType = (BrickType)Enum.Parse(typeof(BrickType), brickTilesetTile.Properties["BrickType"]);
-                    }
-                    else
-                    {
-                        brickType = BrickType.NotSet;
-                    }
-
+                    int hitsToDestroy = brickTilesetTile.Properties.GetPropertyValue(HitsToDestroyPropertyName, int.Parse);
+                    BrickType brickType = brickTilesetTile.Properties.GetPropertyValue(BrickTypePropertyName, s => (BrickType)Enum.Parse(typeof(BrickType), s));
+                    
                     CCPoint brickPosition = new CCPoint(brickTile.X * tileWidth, startY - (brickTile.Y * tileHeight));
 
                     //Create a powerup to add to the brick if one is defined
@@ -123,7 +120,7 @@ namespace Impact.Game.Managers
                         string powerupImageFilename = Path.GetFileName(powerupTilesetTile.Image.Source);
 
                         //Determine which powerup to create and initialse the appropriate powerup entity
-                        PowerupType powerupType = (PowerupType)Enum.Parse(typeof(PowerupType), powerupTilesetTile.Properties[PowerupTypeProperty]);
+                        PowerupType powerupType = powerupTilesetTile.Properties.GetPropertyValue(PowerupTypePropertyName, s => (PowerupType)Enum.Parse(typeof(PowerupType), s));
                         switch (powerupType)
                         {
                             case PowerupType.LargerPaddle:
@@ -144,12 +141,7 @@ namespace Impact.Game.Managers
                         }
                     }
 
-                    float bounceFactor = 0;
-                    if (brickTilesetTile.Properties.ContainsKey("BounceFactor"))
-                    {
-                        bounceFactor = float.Parse(brickTilesetTile.Properties["BounceFactor"]);
-                    }
-
+                    float bounceFactor = brickTilesetTile.Properties.GetPropertyValue(BounceFactorPropertyName, float.Parse);
                     bool doubleSizeBrick = brickTilesetTile.Image.Width == (tileMap.TileWidth*2);
 
                     //Add the brick
@@ -176,14 +168,9 @@ namespace Impact.Game.Managers
                     float yAdjustment = (int)(wormhole.Y / tileMap.TileHeight) * GameConstants.BrickGap;
 
                     CCPoint position = new CCPoint((float)wormhole.X + xAdjustment, (startY + tileHeight) - ((float)wormhole.Y + yAdjustment));
+                    WormholeType wormholeType = wormhole.Properties.GetPropertyValue(WormholeTypePropertyName, s => (WormholeType)Enum.Parse(typeof(WormholeType), s));
+                    string exitName = wormhole.Properties.GetPropertyValue(WormholeExitNamePropertyName, s => s.ToString());
 
-                    WormholeType wormholeType = (WormholeType)Enum.Parse(typeof(WormholeType), wormhole.Properties["WormholeType"]);
-
-                    string exitName = string.Empty;
-                    if (wormhole.Properties.ContainsKey("ExitName"))
-                    {
-                        exitName = wormhole.Properties["ExitName"];
-                    }
                     WormholeFactory.Instance.CreateNew(wormholeImageFilename, position, wormholeType, wormhole.Name, exitName);
                 }
             }
@@ -204,7 +191,8 @@ namespace Impact.Game.Managers
                 bool fileExists = false;
                 try
                 {
-                    using (TitleContainer.OpenStream(BaseLevelFolder + (NumberOfLevels + 1).ToString("000") + ".tmx"))
+                    string filename = string.Format(LevelFilenameFormatString, BaseLevelFolder, (NumberOfLevels + 1).ToString("000"));
+                    using (TitleContainer.OpenStream(filename))
                     {
                     }
                     // if we got here then the file exists!

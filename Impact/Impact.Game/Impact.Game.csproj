@@ -57,6 +57,9 @@
     <Compile Include="Enums\PowerUpTypeEnum.cs" />
     <Compile Include="Enums\ProjectileTypeEnum.cs" />
     <Compile Include="Enums\WormholeTypeEnum.cs" />
+    <Compile Include="Extensions\EntityExtensions.cs" />
+    <Compile Include="Extensions\NumberExtensions.cs" />
+    <Compile Include="Extensions\TileMapExtensions.cs" />
     <Compile Include="Factories\BallFactory.cs" />
     <Compile Include="Factories\BrickFactory.cs" />
     <Compile Include="Factories\LifeUpFactory.cs" />

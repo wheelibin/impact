@@ -2,9 +2,9 @@
 {
     public enum BrickType 
     {
-        NotSet = -1,
-        Indistructible = 0,
-        Normal = 1,
-        Bouncey = 2
+        NotSet = 0,
+        Indistructible = 1,
+        Normal = 2,
+        Bouncey = 3
     }
 }

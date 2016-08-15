@@ -8,9 +8,8 @@ namespace Impact.Game.Entities.Powerups
     /// </summary>
     public class LargerPaddlePowerup : Powerup
     {
+        private const float PaddleScaleAdjustment = 0.5f;
         private readonly Paddle _paddle;
-
-        private readonly CCFiniteTimeAction _scaleReset = new CCEaseBounceInOut(new CCScaleTo(1f, GameConstants.PaddleScaleX, GameConstants.PaddleScaleY));
 
         public LargerPaddlePowerup(string imageFilename, CCPoint initialPosition, Paddle paddle)
             : base(initialPosition, imageFilename)
@@ -20,14 +19,30 @@ namespace Impact.Game.Entities.Powerups
 
         public override void Activate()
         {
+            float previousPaddleScaleX = _paddle.ScaleX;
+
             //Make the paddle bigger and reset the size after a number of seconds
-            CCFiniteTimeAction scaleLarger = new CCEaseBounceInOut(new CCScaleTo(1f, _paddle.ScaleX + 0.5f, GameConstants.PaddleScaleY));
-            _paddle.RunActions(scaleLarger, new CCDelayTime(GameConstants.PowerupLargerPaddleSeconds), _scaleReset);
+            CCFiniteTimeAction scaleLarger = new CCEaseBounceInOut(new CCScaleTo(1f, _paddle.ScaleX + PaddleScaleAdjustment, GameConstants.PaddleScaleY));
+            _paddle.RunActions(scaleLarger, new CCDelayTime(GameConstants.PowerupLargerPaddleSeconds), GetResetAction(previousPaddleScaleX));
         }
 
         public override void Deactivate()
         {
-            RunActions(_scaleReset);
+            RunActions(GetResetAction(GameConstants.PaddleScaleX));
+        }
+
+        /// <summary>
+        /// Get the scale reset action.
+        /// Reduces the supplied original scale by PaddleScaleAdjustment (unless the paddle is already at it's smallest scale).
+        /// By doing this we can collect multiple copies of this powerup and scale up and down accordingly
+        /// </summary>
+        private CCFiniteTimeAction GetResetAction(float previousPaddleScaleX)
+        {
+            float newScaleX = previousPaddleScaleX > GameConstants.PaddleScaleX
+                ? previousPaddleScaleX - PaddleScaleAdjustment
+                : GameConstants.PaddleScaleX;
+            
+            return new CCEaseBounceInOut(new CCScaleTo(1f, newScaleX, GameConstants.PaddleScaleY));
         }
     }
 }
