@@ -4,6 +4,9 @@ using Impact.Game.Helpers;
 
 namespace Impact.Game.Managers
 {
+    /// <summary>
+    /// Handles everything score related
+    /// </summary>
     public sealed class ScoreManager
     {
         public int Score { get; private set; }
@@ -15,24 +18,63 @@ namespace Impact.Game.Managers
             ScoreUpdated?.Invoke();
         }
 
+        /// <summary>
+        /// Update the score for a brick being destroyed
+        /// </summary>
         public void BrickDestroyed()
         {
             Score += 10;
             ScoreUpdated?.Invoke();
         }
 
+        /// <summary>
+        /// Update the score for a powerup having been collected
+        /// </summary>
         public void PowerupCollected()
         {
             Score += 20;
             ScoreUpdated?.Invoke();
         }
 
+        /// <summary>
+        /// Update the score with the collected ScoreUp's value
+        /// </summary>
         public void ScoreUpCollected(int scoreInc)
         {
             Score += scoreInc;
             ScoreUpdated?.Invoke();
         }
 
+        /// <summary>
+        /// Add a bonus to the score based on how quickly the player completed the level
+        /// </summary>
+        /// <returns>The bonus amount</returns>
+        public int AddTimeBonus(float levelCompletedTime)
+        {
+            const float maxLevelTime = 90;
+            const float totalAvailableBonus = 200;
+
+            var percOfBonus = 1 - (levelCompletedTime / maxLevelTime);
+
+            int bonus = (int)(totalAvailableBonus * percOfBonus);
+            Score += bonus;
+            return bonus;
+        }
+
+        /// <summary>
+        /// Add a bonus to the score based on how many remaining lives the player has
+        /// </summary>
+        /// <returns>The bonus amount</returns>
+        public int AddLivesBonus(int playerLives, int startingLives)
+        {
+            int bonus = playerLives * 50;
+            Score += bonus;
+            return bonus;
+        }
+
+        /// <summary>
+        /// Get the saved high score for the specified level
+        /// </summary>
         public int GetHighScoreForLevel(int level)
         {
             int highScore = 0;
@@ -47,6 +89,9 @@ namespace Impact.Game.Managers
             return highScore;
         }
 
+        /// <summary>
+        /// Saves the high score for the current level
+        /// </summary>
         public void SaveCurrentLevelHighScore()
         {
             int currentLevel = LevelManager.Instance.CurrentLevel;
@@ -60,7 +105,7 @@ namespace Impact.Game.Managers
             {
                 scores = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<int, int>>(Settings.HighScores);
             }
-            
+
             if (scores.ContainsKey(currentLevel))
             {
                 if (scores[currentLevel] < Score)
@@ -76,29 +121,14 @@ namespace Impact.Game.Managers
             Settings.HighScores = Newtonsoft.Json.JsonConvert.SerializeObject(scores);
         }
 
+        /// <summary>
+        /// Reset to 0
+        /// </summary>
         public void ResetScore()
         {
             Score = 0;
             ScoreUpdated?.Invoke();
         }
-
-        public int AddTimeBonus(float levelCompletedTime)
-        {
-            const float maxTime = 90;
-            const float totalAvailable = 200;
-
-            var percOfBonus = 1 - (levelCompletedTime/maxTime);
-            
-            int bonus = (int)(totalAvailable * percOfBonus);
-            Score += bonus;
-            return bonus;
-        }
-
-        public int AddLivesBonus(int playerLives, int startingLives)
-        {
-            int bonus = playerLives * 50;
-            Score += bonus;
-            return bonus;
-        }
+        
     }
 }
