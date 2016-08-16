@@ -2,10 +2,12 @@
 using CocosSharp;
 using Impact.Game.Config;
 using Impact.Game.Managers;
-using Impact.Game.Scenes;
 
 namespace Impact.Game.Layers
 {
+    /// <summary>
+    /// Layer shown over the game when all lives lost
+    /// </summary>
     public class GameOverLayer : CCLayerColor
     {
         public event Action PlayButtonPressed;
@@ -32,7 +34,8 @@ namespace Impact.Game.Layers
             {
                 AnchorPoint = CCPoint.AnchorMiddle,
                 PositionX = popupX,
-                PositionY = popupTop - 50
+                PositionY = popupTop - 50,
+                Color = GameConstants.ImpactGreen
             };
             AddChild(levelLabel);
             

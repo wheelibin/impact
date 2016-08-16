@@ -2,10 +2,12 @@
 using CocosSharp;
 using Impact.Game.Config;
 using Impact.Game.Managers;
-using Impact.Game.Scenes;
 
 namespace Impact.Game.Layers
 {
+    /// <summary>
+    /// Layer shown before each level starts
+    /// </summary>
     public class NewLevelLayer : CCLayerColor
     {
         public event Action PlayButtonPressed;

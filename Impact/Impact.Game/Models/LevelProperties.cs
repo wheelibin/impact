@@ -5,5 +5,6 @@
         public int HighScore { get; set; }
         public int FinalBallSpeedPercentageIncrease { get; set; }
         public bool Gravity { get; set; }
+        public int Lives { get; set; }
     }
 }

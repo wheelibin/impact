@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CocosSharp;
 using Impact.Game.Config;
@@ -14,10 +15,12 @@ namespace Impact.Game.Scenes
 {
     public class GameScene : CCScene
     {
+        private CCLayerColor _backgroundLayer;
         private CCLayer _gameLayer;
         private CCLayer _hudLayer;
         private NewLevelLayer _newLevelLayer;
         private GameOverLayer _gameOverLayer;
+        private LevelCompleteLayer _levelCompleteLayer;
 
         private Paddle _paddle;
         private CCLabel _scoreLabel;
@@ -25,6 +28,7 @@ namespace Impact.Game.Scenes
         private CCLabel _levelLabel;
 
         private CCEventListenerTouchAllAtOnce _popupLayerEventListener;
+        private CCEventListenerTouchAllAtOnce _levelCompleteLayerEventListener;
 
         private readonly List<Brick> _bricks = new List<Brick>();
         private readonly List<Powerup> _powerups = new List<Powerup>();
@@ -32,7 +36,7 @@ namespace Impact.Game.Scenes
         private readonly List<IPowerup> _activatedPowerups = new List<IPowerup>();
         private readonly List<Ball> _balls = new List<Ball>();
         private readonly List<Wormhole> _wormholes = new List<Wormhole>();
-        private readonly List<Projectile> _projectiles = new List<Projectile>(); 
+        private readonly List<Projectile> _projectiles = new List<Projectile>();
 
         private readonly ScoreManager _scoreManager = new ScoreManager();
         private readonly CollisionManager _collisionManager = new CollisionManager();
@@ -70,9 +74,17 @@ namespace Impact.Game.Scenes
 
         private void AddLayers()
         {
-            var backgroundLayer = new CCLayerColor(GameConstants.BackgroundColour);
-            AddChild(backgroundLayer);
-            
+            //CCColor4B backgroundColour = GameConstants.BackgroundColours.Dequeue();
+            //GameConstants.BackgroundColours.Enqueue(backgroundColour);
+
+            _backgroundLayer = new CCLayerColor(GameConstants.BackgroundColour);
+            //var sprite = new CCSprite("GameBackground.png")
+            //{
+            //    AnchorPoint = CCPoint.AnchorLowerLeft
+            //};
+            //backgroundLayer.AddChild(sprite);
+            AddChild(_backgroundLayer);
+
             _gameLayer = new CCLayer();
             _hudLayer = new CCLayer();
 
@@ -97,7 +109,7 @@ namespace Impact.Game.Scenes
                 OnTouchesBegan = HandleTouchesBegan
             };
             AddEventListener(touchListener, DefaultEventPriority);
-            
+
         }
 
         /// <summary>
@@ -153,7 +165,7 @@ namespace Impact.Game.Scenes
             ProjectileFactory.Instance.ProjectileDestroyed -= ProjectileFactory_ProjectileDestroyed;
         }
 
-        
+
 
         private void AddEntities()
         {
@@ -187,7 +199,7 @@ namespace Impact.Game.Scenes
             };
             _hudLayer.AddChild(_livesLabel);
 
-            
+
         }
 
         #region Event Handlers
@@ -314,7 +326,7 @@ namespace Impact.Game.Scenes
                     ShowGameOverPopup();
                 }
             }
-            
+
         }
 
         private void ScoreUpFactory_ScoreUpCreated(ScoreUp scoreUp)
@@ -347,14 +359,20 @@ namespace Impact.Game.Scenes
         {
             if (started || GameStateManager.Instance.DebugMode)
             {
+                //Main game loop
                 Schedule(RunGameLogic);
-                Schedule(frameTime => {ScoreUpFactory.Instance.CreateNew();}, 10);
+
+                //Drop scoreUps every 10 seconds
+                Schedule(frameTime => { ScoreUpFactory.Instance.CreateNew(); }, 10);
+
+                //Track level running time
+                Schedule(frameTime => { GameStateManager.Instance.LevelRunTime += frameTime; }, 1);
             }
             else
             {
                 UnscheduleAll();
             }
-            
+
         }
 
         private void HandleTouchesMoved(List<CCTouch> touches, CCEvent touchEvent)
@@ -381,6 +399,15 @@ namespace Impact.Game.Scenes
             touchEvent.StopPropogation();
         }
 
+        private void LevelCompleteLayer_TouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
+        {
+            DisposeLevelCompleteLayer();
+            touchEvent.StopPropogation();
+
+            //Load next level
+            LoadNextLevel();
+        }
+
         #endregion
 
         /// <summary>
@@ -401,22 +428,32 @@ namespace Impact.Game.Scenes
                     _projectiles.Remove(projectile);
                 }
             }
-            
+
             //Level Complete?
             bool allBricksAreIndistructible = _bricks.All(b => b.IsIndestructible);
             if (_bricks.Count == 0 || allBricksAreIndistructible)
             {
-                //Save high score
-                _scoreManager.SaveCurrentLevelHighScore();
-
-                //Save progress
-                Settings.HighestCompletedLevel = LevelManager.Instance.CurrentLevel;
-
-                //Load next level
-                LevelManager.Instance.CurrentLevel++;
-                LoadLevel(LevelManager.Instance.CurrentLevel);
-
+                CompleteLevel();
             }
+
+        }
+
+        private void CompleteLevel()
+        {
+            GameStateManager.Instance.StartStopLevel(false);
+
+            //Save progress
+            Settings.HighestCompletedLevel = Math.Max(Settings.HighestCompletedLevel, LevelManager.Instance.CurrentLevel);
+
+            //Score bonuses
+            int timeBonus = _scoreManager.AddTimeBonus(GameStateManager.Instance.LevelRunTime);
+            int livesBonus = _scoreManager.AddLivesBonus(GameStateManager.Instance.Lives, LevelManager.Instance.CurrentLevelProperties.Lives);
+
+            //Save high score
+            _scoreManager.SaveCurrentLevelHighScore();
+
+            //Show level complete layer
+            ShowLevelCompleteLayer(timeBonus, livesBonus);
 
         }
 
@@ -484,7 +521,7 @@ namespace Impact.Game.Scenes
         {
 
             ResetEntities();
-            
+
             LevelManager.Instance.LoadLevel(level, _paddle, _balls, _scoreManager);
 
             foreach (Ball ball in _balls)
@@ -492,11 +529,15 @@ namespace Impact.Game.Scenes
                 ball.ApplyGravity = LevelManager.Instance.CurrentLevelProperties.Gravity;
             }
 
-            GameStateManager.Instance.SetLives(2);
+            GameStateManager.Instance.SetLives(LevelManager.Instance.CurrentLevelProperties.Lives);
 
             _scoreManager.ResetScore();
 
             GameStateManager.Instance.StartStopLevel(false);
+
+            //CCColor4B backgroundColour = GameConstants.BackgroundColours.Dequeue();
+            //GameConstants.BackgroundColours.Enqueue(backgroundColour);
+            //_backgroundLayer.Color = new CCColor3B(backgroundColour);
 
             if (showNewLevelPopup)
             {
@@ -505,6 +546,15 @@ namespace Impact.Game.Scenes
 
         }
 
+        private void LoadNextLevel()
+        {
+            LevelManager.Instance.CurrentLevel++;
+            LoadLevel(LevelManager.Instance.CurrentLevel);
+        }
+
+        #region Popups / Layers
+
+        //New level popup
         private void ShowNewLevelPopup(int lives)
         {
             _newLevelLayer = new NewLevelLayer(lives, LevelManager.Instance.CurrentLevelProperties.HighScore);
@@ -519,19 +569,16 @@ namespace Impact.Game.Scenes
             _newLevelLayer.PlayButtonPressed += NewLevelLayer_PlayButtonPressed;
             _newLevelLayer.MainMenuButtonPressed += NewLeveLayer_MainMenuButtonPressed;
         }
-
         private void NewLevelLayer_PlayButtonPressed()
         {
             DisposeNewLevelPopup();
             _levelLabel.Text = $"LEVEL: {LevelManager.Instance.CurrentLevel}";
         }
-
         private void NewLeveLayer_MainMenuButtonPressed()
         {
             DisposeNewLevelPopup();
             GameController.GoToScene(new TitleScene(GameView));
         }
-
         private void DisposeNewLevelPopup()
         {
             _newLevelLayer.PlayButtonPressed -= NewLevelLayer_PlayButtonPressed;
@@ -541,7 +588,7 @@ namespace Impact.Game.Scenes
             _newLevelLayer.Dispose();
         }
 
-
+        //Game over popup
         private void ShowGameOverPopup()
         {
             _gameOverLayer = new GameOverLayer();
@@ -556,19 +603,16 @@ namespace Impact.Game.Scenes
             _gameOverLayer.PlayButtonPressed += GameOverLayer_PlayButtonPressed;
             _gameOverLayer.MainMenuButtonPressed += GameOverLayer_MainMenuButtonPressed;
         }
-
         private void GameOverLayer_PlayButtonPressed()
         {
             DisposeGameOverLayer();
             LoadLevel(LevelManager.Instance.CurrentLevel, showNewLevelPopup: false);
         }
-
         private void GameOverLayer_MainMenuButtonPressed()
         {
             DisposeGameOverLayer();
             GameController.GoToScene(new TitleScene(GameView));
         }
-
         private void DisposeGameOverLayer()
         {
             _gameOverLayer.PlayButtonPressed -= GameOverLayer_PlayButtonPressed;
@@ -577,6 +621,30 @@ namespace Impact.Game.Scenes
             _gameOverLayer.RemoveFromParent();
             _gameOverLayer.Dispose();
         }
+
+        //Level complete layer
+        private void ShowLevelCompleteLayer(int timeBonus, int livesBonus)
+        {
+            _levelCompleteLayer = new LevelCompleteLayer(timeBonus, livesBonus, _scoreManager);
+            AddChild(_levelCompleteLayer);
+
+            _levelCompleteLayerEventListener = new CCEventListenerTouchAllAtOnce
+            {
+                OnTouchesMoved = PopupLayer_TouchesMoved,
+                OnTouchesBegan = LevelCompleteLayer_TouchesBegan
+            };
+            _levelCompleteLayer.AddEventListener(_levelCompleteLayerEventListener, PopupLayerEventPriority);
+        }
+        private void DisposeLevelCompleteLayer()
+        {
+            _levelCompleteLayer.RemoveEventListener(_levelCompleteLayerEventListener);
+            _levelCompleteLayer.RemoveFromParent();
+            _levelCompleteLayer.Dispose();
+        }
+
+        #endregion
+
+
 
     }
 }

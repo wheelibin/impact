@@ -4,7 +4,7 @@ using Impact.Game.Helpers;
 
 namespace Impact.Game.Managers
 {
-    public class ScoreManager : IScoreManager
+    public sealed class ScoreManager
     {
         public int Score { get; private set; }
         public event Action ScoreUpdated;
@@ -80,6 +80,25 @@ namespace Impact.Game.Managers
         {
             Score = 0;
             ScoreUpdated?.Invoke();
+        }
+
+        public int AddTimeBonus(float levelCompletedTime)
+        {
+            const float maxTime = 90;
+            const float totalAvailable = 200;
+
+            var percOfBonus = 1 - (levelCompletedTime/maxTime);
+            
+            int bonus = (int)(totalAvailable * percOfBonus);
+            Score += bonus;
+            return bonus;
+        }
+
+        public int AddLivesBonus(int playerLives, int startingLives)
+        {
+            int bonus = playerLives * 50;
+            Score += bonus;
+            return bonus;
         }
     }
 }

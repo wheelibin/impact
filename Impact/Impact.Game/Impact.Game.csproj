@@ -68,10 +68,10 @@
     <Compile Include="GameController.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Layers\GameOverLayer.cs" />
+    <Compile Include="Layers\LevelCompleteLayer.cs" />
     <Compile Include="Layers\NewLevelLayer.cs" />
     <Compile Include="Managers\CollisionManager.cs" />
     <Compile Include="Managers\GameStateManager.cs" />
-    <Compile Include="Managers\IScoreManager.cs" />
     <Compile Include="Managers\LevelManager.cs" />
     <Compile Include="Managers\ScoreManager.cs" />
     <Compile Include="Models\LevelProperties.cs" />

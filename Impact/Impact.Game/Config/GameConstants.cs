@@ -29,7 +29,16 @@ namespace Impact.Game.Config
         public const string BrickHitButNotDestroyedSound = "massive-timpanaphone/D5-Filtered.wav";
 
         //Colours
-        public static CCColor4B BackgroundColour = new CCColor4B(0, 32, 40);
+        public static CCColor4B BackgroundColour = new CCColor4B(0, 32, 40); //new CCColor4B(45, 61, 0); //new CCColor4B(49, 0, 34); 
+        public static CCColor3B ImpactGreen = new CCColor3B(178, 242, 0);
+        public static CCColor3B ImpactYellow = new CCColor3B(255, 244, 0);
+
+        ////Toying with the idea of changing background colours per level
+        //public static CCColor4B Colour1 = new CCColor4B(21, 24, 24);
+        //public static CCColor4B Colour2 = new CCColor4B(30, 26, 29);
+        //public static CCColor4B Colour3 = new CCColor4B(36, 37, 33);
+        //public static CCColor4B Colour4 = new CCColor4B(39, 37, 34);
+        //public static Queue<CCColor4B> BackgroundColours = new Queue<CCColor4B>(new List<CCColor4B> { Colour1, Colour2, Colour3, Colour4 });
 
         //Game
         public const int WorldWidth = 833;

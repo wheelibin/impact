@@ -56,7 +56,7 @@ namespace Impact.Game.Managers
             CurrentLevel = Settings.HighestCompletedLevel+1;
         }
 
-        public List<Brick> LoadLevel(int level, Paddle paddle, List<Ball> balls, IScoreManager scoreManager)
+        public List<Brick> LoadLevel(int level, Paddle paddle, List<Ball> balls, ScoreManager scoreManager)
         {
             
            var bricks = new List<Brick>();
@@ -77,7 +77,8 @@ namespace Impact.Game.Managers
             {
                 HighScore = highScore,
                 FinalBallSpeedPercentageIncrease = finalBallSpeedPercentageIncrease,
-                Gravity = gravity
+                Gravity = gravity,
+                Lives = 2
             };
 
             //Layout config

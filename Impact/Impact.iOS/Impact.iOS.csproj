@@ -104,6 +104,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <BundleResource Include="Content\Images\Ld\GameBackground.png" />
     <Content Include="Content\Images\Ld\Spritesheets\GameEntities.plist" />
     <BundleResource Include="Content\Images\Ld\Spritesheets\GameEntities.png" />
     <BundleResource Include="Content\Images\Ld\Spritesheets\LevelSelectScreen.plist" />

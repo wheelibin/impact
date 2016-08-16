@@ -17,6 +17,11 @@ namespace Impact.Game.Managers
         public bool CheatModeEnabled { get; set; }
         public int Lives { get; private set; }
 
+        /// <summary>
+        /// The time the level has been running, in seconds
+        /// </summary>
+        public float LevelRunTime { get; set; }
+
         public CCSpriteSheet GameEntitiesSpriteSheet { get; set; }
         public CCSpriteSheet TitleScreenSpriteSheet { get; set; }
         public CCSpriteSheet LevelSelectScreenSpriteSheet { get; set; }
