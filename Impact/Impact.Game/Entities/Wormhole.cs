@@ -4,6 +4,9 @@ using Impact.Game.Managers;
 
 namespace Impact.Game.Entities
 {
+    /// <summary>
+    /// Represents a wormhole, a portal the ball can travel through
+    /// </summary>
     public class Wormhole : CCNode
     {
         public WormholeType WormholeType { get; set; }
@@ -15,7 +18,7 @@ namespace Impact.Game.Entities
             WormholeType = wormholeType;
             ObjectName = objectName;
             ExitName = exitName;
-            //AddChild(new CCLayerColor(CCColor4B.Yellow));
+
             var frame = GameStateManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == spriteImageFilename);
             var sprite = new CCSprite(frame)
             {

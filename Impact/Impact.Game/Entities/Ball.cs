@@ -4,7 +4,9 @@ using Impact.Game.Managers;
 
 namespace Impact.Game.Entities
 {
-
+    /// <summary>
+    /// Represents a ball in the game
+    /// </summary>
     public sealed class Ball : CCNode
     {
         public bool ApplyGravity { get; set; }
@@ -14,6 +16,9 @@ namespace Impact.Game.Entities
 
         private CCParticleSun _fireball;
 
+        /// <summary>
+        /// If set, a fireball effect is added
+        /// </summary>
         public bool IsFireball
         {
             get { return _isFireball; }
@@ -26,7 +31,7 @@ namespace Impact.Game.Entities
                         new CCParticleSun(new CCPoint(0, 0), CCEmitterMode.Radius)
                         {
                             StartRadius = 0,
-                            EndRadius = 24,
+                            EndRadius = 12,
                             AnchorPoint = CCPoint.AnchorLowerLeft
                         };
                     AddChild(_fireball);
@@ -82,9 +87,11 @@ namespace Impact.Game.Entities
             VelocityY = GameConstants.BallInitialVelocityY;
         }
 
+        /// <summary>
+        /// Start and stop the ball movement if the game is running or not
+        /// </summary>
         private void GameManager_LevelStarted(bool started)
         {
-
             if (started)
             {
                 Schedule(ApplyVelocity);
@@ -93,7 +100,6 @@ namespace Impact.Game.Entities
             {
                 Unschedule(ApplyVelocity);
             }
-            
         }
 
         private void ApplyVelocity(float frameTimeInSeconds)

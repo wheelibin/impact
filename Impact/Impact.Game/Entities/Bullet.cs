@@ -3,10 +3,13 @@ using Impact.Game.Config;
 
 namespace Impact.Game.Entities
 {
+    /// <summary>
+    /// Represents a bullet projectile
+    /// </summary>
     public class Bullet : Projectile
     {
-        public override sealed bool IsSingleShot { get; set; }
-        public override sealed bool IsDestroyedByBrickCollision { get; set; }
+        public sealed override bool IsSingleShot { get; set; }
+        public sealed override bool IsDestroyedByBrickCollision { get; set; }
         
         public Bullet(CCPoint position) : base(GameConstants.SpriteImageBullet, position, GameConstants.BulletVelocity)
         {

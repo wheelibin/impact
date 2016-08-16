@@ -11,6 +11,7 @@ namespace Impact.Game.Entities.Powerups
     /// </summary>
     public class MultiBallPowerup : Powerup
     {
+        private const int NumberOfBalls = 3;
         private readonly List<Ball> _balls;
 
         public MultiBallPowerup(string imageFilename, CCPoint initialPosition, List<Ball> balls)
@@ -20,14 +21,14 @@ namespace Impact.Game.Entities.Powerups
         }
 
         /// <summary>
-        /// Creates extra balls
+        /// Create extra balls
         /// </summary>
         public override void Activate()
         {
             Ball firstBall = _balls.First();
 
             //create some balls
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < NumberOfBalls; i++)
             {
                 BallFactory.Instance.CreateNew(CCRandom.GetRandomFloat(firstBall.VelocityX - 100, firstBall.VelocityX + 100), GameConstants.BallInitialVelocityY * -1, Position);
             }

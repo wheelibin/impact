@@ -3,6 +3,9 @@ using Impact.Game.Managers;
 
 namespace Impact.Game.Entities
 {
+    /// <summary>
+    /// Base class for projectiles
+    /// </summary>
     public abstract class Projectile : CCNode
     {
         public float VelocityY { get; set; }

@@ -4,6 +4,9 @@ using Impact.Game.Managers;
 
 namespace Impact.Game.Entities
 {
+    /// <summary>
+    /// Represents a ScoreUp, a collectible item that falls from the top of the screen
+    /// </summary>
     public class ScoreUp : CCNode
     {
         public int Score { get; set; }

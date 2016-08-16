@@ -7,6 +7,9 @@ using Impact.Game.Managers;
 
 namespace Impact.Game.Entities
 {
+    /// <summary>
+    /// Represents a brick in the game
+    /// </summary>
     public sealed class Brick : CCNode
     {
         private readonly CCSprite _sprite;
@@ -41,26 +44,9 @@ namespace Impact.Game.Entities
             {
                 _sprite.ContentSize = new CCSize(_sprite.ContentSize.Width + GameConstants.BrickGap, _sprite.ContentSize.Height + GameConstants.BrickGap);
             }
-
             AddChild(_sprite);
 
-            //if (BrickType == BrickType.Indistructible)
-            //{
-            //    //hack to prevent balls from squeezing through indestructable brick gaps
-            //    var size = _sprite.ContentSize;
-            //    size.Width += GameConstants.BrickGap;
-            //    ContentSize = size;
-
-            //    var drawNode = new CCDrawNode();
-            //    AddChild(drawNode);
-            //    drawNode.DrawRect(new CCRect(PositionX, PositionY, ContentSize.Width, ContentSize.Height), CCColor4B.Transparent, 1, CCColor4B.Red);
-
-            //}
-            //else
-            //{
             ContentSize = _sprite.ContentSize;
-            //}
-
             AnchorPoint = CCPoint.AnchorLowerLeft;
             PositionX = position.X;
             PositionY = position.Y;
@@ -73,6 +59,10 @@ namespace Impact.Game.Entities
             HitsTaken = 0;
         }
 
+        /// <summary>
+        /// Fired when the brick is hit
+        /// </summary>
+        /// <returns>Returns whether or not the brick has been destroyed</returns>
         public bool Hit()
         {
             if (IsIndestructible)
@@ -81,15 +71,15 @@ namespace Impact.Game.Entities
             }
 
             HitsTaken += 1;
-
-            double opacity = 1 - HitsTaken / (double)HitsToDestroy;
-
+            
             if (HitsTaken >= HitsToDestroy)
             {
                 BrickFactory.Instance.DestroyBrick(this);
                 return true;
             }
 
+            //Fade the brick slightly if hit but not destroyed
+            double opacity = 1 - HitsTaken / (double)HitsToDestroy;
             _sprite.Opacity = (byte)(255 * opacity);
 
             return false;

@@ -3,6 +3,9 @@ using CocosSharp;
 
 namespace Impact.Game.Entities
 {
+    /// <summary>
+    /// Extends the CCMenuItemImage and adds a label
+    /// </summary>
     public class MenuItemImageWithText : CCMenuItemImage
     {
 
@@ -13,8 +16,8 @@ namespace Impact.Game.Entities
             var label = new CCLabel(text, "visitor1.ttf", 72, CCLabelFormat.SystemFont)
             {
                 Color = textColour,
-                PositionX = ContentSize.Width/2,
-                PositionY = ContentSize.Height/2
+                PositionX = ContentSize.Width / 2,
+                PositionY = ContentSize.Height / 2
             };
             AddChild(label);
 

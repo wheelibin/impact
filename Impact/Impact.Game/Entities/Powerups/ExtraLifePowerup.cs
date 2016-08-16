@@ -4,7 +4,7 @@ using Impact.Game.Managers;
 namespace Impact.Game.Entities.Powerups
 {
     /// <summary>
-    /// A powerup that grants the player and extra life
+    /// A powerup that grants the player an extra life
     /// </summary>
     public class ExtraLifePowerup : Powerup
     {
@@ -14,11 +14,17 @@ namespace Impact.Game.Entities.Powerups
             
         }
 
+        /// <summary>
+        /// Add an extra life
+        /// </summary>
         public override void Activate()
         {
             GameStateManager.Instance.AddLife();
         }
 
+        /// <summary>
+        /// Not applicable in this powerup
+        /// </summary>
         public override void Deactivate()
         {
             return;

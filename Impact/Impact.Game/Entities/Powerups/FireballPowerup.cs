@@ -17,6 +17,9 @@ namespace Impact.Game.Entities.Powerups
             _balls = balls;
         }
 
+        /// <summary>
+        /// Change all the balls to be fireballs, reset them after a period of time
+        /// </summary>
         public override void Activate()
         {
             foreach (Ball ball in _balls)
@@ -24,14 +27,15 @@ namespace Impact.Game.Entities.Powerups
                 ball.IsFireball = true;
                 ball.ScheduleOnce(f =>
                 {
-                    foreach (Ball b in _balls)
-                    {
-                        b.IsFireball = false;
-                    }
+                    ball.IsFireball = false;
+                 
                 }, GameConstants.PowerupFireballSeconds);
             }
         }
 
+        /// <summary>
+        /// Change all balls to not be fireballs
+        /// </summary>
         public override void Deactivate()
         {
             foreach (Ball ball in _balls)

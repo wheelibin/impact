@@ -7,8 +7,15 @@ using Impact.Game.Managers;
 
 namespace Impact.Game.Entities
 {
+    /// <summary>
+    /// Represents the paddle
+    /// </summary>
     public sealed class Paddle : CCNode
     {
+        /// <summary>
+        /// The optional projectile type the paddle is currently capable of firing.
+        /// The sprite will be changed depending on the type of projectile.
+        /// </summary>
         public ProjectileType ProjectileType
         {
             get { return _projectileType; }
@@ -47,7 +54,6 @@ namespace Impact.Game.Entities
                 AnchorPoint = CCPoint.AnchorLowerLeft
             };
 
-            //AddChild(new CCLayerColor(CCColor4B.Yellow));
             AddChild(_sprite);
 
             ContentSize = _sprite.ContentSize;
@@ -61,6 +67,9 @@ namespace Impact.Game.Entities
 
         }
 
+        /// <summary>
+        /// Fires a projectile of the defined type
+        /// </summary>
         public void FireProjectile()
         {
             int gunHeight = ProjectileType == ProjectileType.Bullet ? 35 : 22;
@@ -73,20 +82,7 @@ namespace Impact.Game.Entities
             if (touches.Count > 0)
             {
                 CCTouch firstTouch = touches[0];
-              
                 PositionX = firstTouch.Location.X;
-
-                ////Don't allow paddle to go off the left side of the screen
-                //if (PositionX - (ContentSize.Width/2) <= 0)
-                //{
-                //    PositionX = ContentSize.Width/2;
-                //}
-                ////or the right
-                //if (PositionX + (ContentSize.Width / 2) >= GameConstants.WorldWidth)
-                //{
-                //    PositionX = GameConstants.WorldWidth - ContentSize.Width / 2;
-                //}
-
             }
         }
 

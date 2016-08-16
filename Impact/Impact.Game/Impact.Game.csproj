@@ -41,7 +41,6 @@
     <Compile Include="Entities\Powerups\ExtraLifePowerup.cs" />
     <Compile Include="Entities\Powerups\RocketsPowerup.cs" />
     <Compile Include="Entities\Projectile.cs" />
-    <Compile Include="Entities\MenuButton.cs" />
     <Compile Include="Entities\MenuItemImageWithText.cs" />
     <Compile Include="Entities\Paddle.cs" />
     <Compile Include="Entities\Powerups\BulletsPowerup.cs" />

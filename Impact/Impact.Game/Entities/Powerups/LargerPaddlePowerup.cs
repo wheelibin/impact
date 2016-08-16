@@ -17,15 +17,20 @@ namespace Impact.Game.Entities.Powerups
             _paddle = paddle;
         }
 
+        /// <summary>
+        /// Make the paddle bigger and reset the size after a number of seconds
+        /// </summary>
         public override void Activate()
         {
             float previousPaddleScaleX = _paddle.ScaleX;
-
-            //Make the paddle bigger and reset the size after a number of seconds
+            
             CCFiniteTimeAction scaleLarger = new CCEaseBounceInOut(new CCScaleTo(1f, _paddle.ScaleX + PaddleScaleAdjustment, GameConstants.PaddleScaleY));
             _paddle.RunActions(scaleLarger, new CCDelayTime(GameConstants.PowerupLargerPaddleSeconds), GetResetAction(previousPaddleScaleX));
         }
 
+        /// <summary>
+        /// Reset the paddle to it's previous size
+        /// </summary>
         public override void Deactivate()
         {
             RunActions(GetResetAction(GameConstants.PaddleScaleX));
