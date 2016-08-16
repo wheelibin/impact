@@ -11,6 +11,7 @@ namespace Impact.Game.Entities
         public float VelocityY { get; set; }
         public abstract bool IsSingleShot { get; set; }
         public abstract bool IsDestroyedByBrickCollision { get; set; }
+        public abstract string FireSound { get; set; }
 
         protected Projectile(string spriteImageFilename, CCPoint position, float velocityY)
         {

@@ -39,11 +39,14 @@ namespace Impact.Game
             contentSearchPaths.Add("Images/Ld");
             CCSprite.DefaultTexelToContentSizeRatio = 1.0f;
             //}
-
+            
             gameView.ContentManager.SearchPaths = contentSearchPaths;
             //gameView.Stats.Enabled = true;
-
             //GameManager.Instance.DebugMode = true;
+
+            CCAudioEngine.SharedEngine.BackgroundMusicVolume = 0.3f;
+            CCAudioEngine.SharedEngine.PlayBackgroundMusic("BackgroundMusic.mp3", loop: true);
+            
             gameView.RunWithScene(new TitleScene(gameView));
         }
 

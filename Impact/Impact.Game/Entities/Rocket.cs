@@ -10,11 +10,13 @@ namespace Impact.Game.Entities
     {
         public sealed override bool IsSingleShot { get; set; }
         public sealed override bool IsDestroyedByBrickCollision { get; set; }
+        public sealed override string FireSound { get; set; }
 
         public Rocket(CCPoint position) : base(GameConstants.SpriteImageRocket, position, GameConstants.RocketVelocity)
         {
             IsSingleShot = true;
             IsDestroyedByBrickCollision = false;
+            FireSound = GameConstants.BulletSound;
         }
     }
 }

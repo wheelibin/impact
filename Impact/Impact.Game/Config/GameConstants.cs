@@ -21,12 +21,13 @@ namespace Impact.Game.Config
 
         public static Queue<string> BrickHitSounds = new Queue<string>(new List<string>
         {
-            "massive-banzai23/E3.wav",
-            "massive-banzai23/A3.wav",
-            "massive-banzai23/F3.wav"
+            "massive-timpanaphone/D5.wav",
+            "massive-timpanaphone/G5.wav"
         });
         public const string PaddleHitSound = "massive-banzai23/D3.wav";
         public const string BrickHitButNotDestroyedSound = "massive-timpanaphone/D5-Filtered.wav";
+        public const string ScoreUpSound = "ScoreUp.wav";
+        public const string BulletSound = "Bullet.wav";
 
         //Colours
         public static CCColor4B BackgroundColour = new CCColor4B(0, 32, 40); //new CCColor4B(45, 61, 0); //new CCColor4B(49, 0, 34); 

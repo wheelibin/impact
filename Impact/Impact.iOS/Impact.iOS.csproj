@@ -156,6 +156,9 @@
     <BundleResource Include="Content\Sounds\massive-timpanaphone\D5-Filtered.wav" />
     <BundleResource Include="Content\Sounds\massive-timpanaphone\E5.wav" />
     <BundleResource Include="Content\Sounds\massive-timpanaphone\G5.wav" />
+    <BundleResource Include="Content\Sounds\BackgroundMusic.mp3" />
+    <BundleResource Include="Content\Sounds\Bullet.wav" />
+    <BundleResource Include="Content\Sounds\ScoreUp.wav" />
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
   </ItemGroup>

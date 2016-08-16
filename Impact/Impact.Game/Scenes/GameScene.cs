@@ -248,6 +248,8 @@ namespace Impact.Game.Scenes
 
         private void ProjectileFactory_ProjectileCreated(Projectile projectile)
         {
+            CCAudioEngine.SharedEngine.PlayEffect(projectile.FireSound);
+
             if (projectile.IsSingleShot)
             {
                 if (_projectiles.Any())
@@ -283,8 +285,8 @@ namespace Impact.Game.Scenes
 
         private void CollisionManager_ScoreUpCollected(ScoreUp scoreUp)
         {
+            CCAudioEngine.SharedEngine.PlayEffect(GameConstants.ScoreUpSound);
             _scoreManager.ScoreUpCollected(scoreUp.Score);
-
             scoreUp.RemoveFromParent();
             _scoreUps.Remove(scoreUp);
         }
@@ -367,6 +369,7 @@ namespace Impact.Game.Scenes
 
                 //Track level running time
                 Schedule(frameTime => { GameStateManager.Instance.LevelRunTime += frameTime; }, 1);
+                
             }
             else
             {
