@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using CocosSharp;
 using Impact.Game.Config;
+using Impact.Game.Helpers;
 using Impact.Game.Managers;
 using Impact.Game.Scenes;
 
@@ -44,15 +45,30 @@ namespace Impact.Game
             //gameView.Stats.Enabled = true;
             //GameManager.Instance.DebugMode = true;
 
-            CCAudioEngine.SharedEngine.BackgroundMusicVolume = 0.3f;
+            CCAudioEngine.SharedEngine.BackgroundMusicVolume = (float) Settings.MusicVolume/10;
             CCAudioEngine.SharedEngine.PlayBackgroundMusic("BackgroundMusic.mp3", loop: true);
             
+            GameStateManager.Instance.MusicVolumeChanged += GameStateManager_MusicVolumeChanged;
+            GameStateManager.Instance.SfxVolumeChanged += GameStateManager_SfxVolumeChanged;
+
             gameView.RunWithScene(new TitleScene(gameView));
         }
 
         public static void GoToScene(CCScene scene)
         {
             GameView.Director.ReplaceScene(new CCTransitionFade(1,scene));
+        }
+
+        private static void GameStateManager_SfxVolumeChanged(int volume)
+        {
+            CCAudioEngine.SharedEngine.EffectsVolume = (float)volume / 10;
+            //play a sound to hear the effect of the change
+            CCAudioEngine.SharedEngine.PlayEffect(GameConstants.PaddleHitSound);
+        }
+
+        private static void GameStateManager_MusicVolumeChanged(int volume)
+        {
+            CCAudioEngine.SharedEngine.BackgroundMusicVolume = (float)volume / 10;
         }
     }
 }

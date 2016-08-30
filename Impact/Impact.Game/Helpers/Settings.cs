@@ -1,4 +1,8 @@
 // Helpers/Settings.cs
+
+using System;
+using Impact.Game.Config;
+using Impact.Game.Managers;
 using Plugin.Settings;
 using Plugin.Settings.Abstractions;
 
@@ -12,42 +16,43 @@ namespace Impact.Game.Helpers
     public static class Settings
     {
 
-        private const string HighScoresSetting = "HighScores";
-        private const string HighestCompletedLevelSetting = "HighestCompletedLevel";
+        private const string HighScoresSettingKey = "HighScores";
+        private const string HighestCompletedLevelSettingKey = "HighestCompletedLevel";
+        private const string MusicVolumeSettingKey = "MusicVolume";
+        private const string SfxVolumeSettingKey = "SfxVolume";
 
         private static ISettings AppSettings => CrossSettings.Current;
 
-        #region Setting Constants
-
-        private const string SettingsKey = "settings_key";
-        private static readonly string SettingsDefault = string.Empty;
-
-        #endregion
-
-
-        public static string GeneralSettings
-        {
-            get
-            {
-                return AppSettings.GetValueOrDefault(SettingsKey, SettingsDefault);
-            }
-            set
-            {
-                AppSettings.AddOrUpdateValue(SettingsKey, value);
-            }
-        }
-
-
         public static string HighScores
         {
-            get { return AppSettings.GetValueOrDefault(HighScoresSetting, string.Empty); }
-            set { AppSettings.AddOrUpdateValue(HighScoresSetting, value); }
+            get { return AppSettings.GetValueOrDefault(HighScoresSettingKey, string.Empty); }
+            set { AppSettings.AddOrUpdateValue(HighScoresSettingKey, value); }
         }
 
         public static int HighestCompletedLevel
         {
-            get { return AppSettings.GetValueOrDefault(HighestCompletedLevelSetting, 0); }
-            set { AppSettings.AddOrUpdateValue(HighestCompletedLevelSetting, value); }
+            get { return AppSettings.GetValueOrDefault(HighestCompletedLevelSettingKey, 0); }
+            set { AppSettings.AddOrUpdateValue(HighestCompletedLevelSettingKey, value); }
+        }
+
+        public static int MusicVolume
+        {
+            get { return AppSettings.GetValueOrDefault(MusicVolumeSettingKey, GameConstants.MusicVolumeDefault); }
+            set
+            {
+                AppSettings.AddOrUpdateValue(MusicVolumeSettingKey, value);
+                GameStateManager.Instance.SetMusicVolume(value);
+            }
+        }
+
+        public static int SfxVolume
+        {
+            get { return AppSettings.GetValueOrDefault(SfxVolumeSettingKey, GameConstants.SfxVolumeDefault); }
+            set
+            {
+                AppSettings.AddOrUpdateValue(SfxVolumeSettingKey, value);
+                GameStateManager.Instance.SetSfxVolume(value);
+            }
         }
 
     }

@@ -27,6 +27,8 @@ namespace Impact.Game.Managers
         public CCSpriteSheet LevelSelectScreenSpriteSheet { get; set; }
 
         public event Action LivesChanged;
+        public event Action<int> MusicVolumeChanged;
+        public event Action<int> SfxVolumeChanged;
 
         public GameStateManager()
         {
@@ -60,6 +62,16 @@ namespace Impact.Game.Managers
         {
             Lives -= 1;
             LivesChanged?.Invoke();
+        }
+
+        public void SetMusicVolume(int volume)
+        {
+            MusicVolumeChanged?.Invoke(volume);
+        }
+
+        public void SetSfxVolume(int volume)
+        {
+            SfxVolumeChanged?.Invoke(volume);
         }
 
     }

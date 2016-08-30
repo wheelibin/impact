@@ -128,7 +128,7 @@ namespace Impact.Game.Scenes
             _collisionManager.ScoreUpCollected += CollisionManager_ScoreUpCollected;
             _collisionManager.MissedBall += CollisionManager_MissedBall;
 
-            GameStateManager.Instance.LevelStarted += GameManager_LevelStarted;
+            GameStateManager.Instance.LevelStarted += GameStateManager_LevelStarted;
             GameStateManager.Instance.LivesChanged += GameStateManager_LivesChanged;
             WormholeFactory.Instance.WormholeCreated += WormholeFactory_WormholeCreated;
             ScoreUpFactory.Instance.ScoreUpCreated += ScoreUpFactory_ScoreUpCreated;
@@ -157,16 +157,16 @@ namespace Impact.Game.Scenes
             _collisionManager.ScoreUpCollected -= CollisionManager_ScoreUpCollected;
             _collisionManager.MissedBall -= CollisionManager_MissedBall;
 
-            GameStateManager.Instance.LevelStarted -= GameManager_LevelStarted;
+            GameStateManager.Instance.LevelStarted -= GameStateManager_LevelStarted;
+            GameStateManager.Instance.LivesChanged -= GameStateManager_LivesChanged;
+            
             WormholeFactory.Instance.WormholeCreated -= WormholeFactory_WormholeCreated;
             ScoreUpFactory.Instance.ScoreUpCreated -= ScoreUpFactory_ScoreUpCreated;
             _scoreManager.ScoreUpdated -= ScoreManager_ScoreUpdated;
             ProjectileFactory.Instance.ProjectileCreated -= ProjectileFactory_ProjectileCreated;
             ProjectileFactory.Instance.ProjectileDestroyed -= ProjectileFactory_ProjectileDestroyed;
         }
-
-
-
+        
         private void AddEntities()
         {
             _paddle = new Paddle();
@@ -357,7 +357,7 @@ namespace Impact.Game.Scenes
             }
         }
 
-        private void GameManager_LevelStarted(bool started)
+        private void GameStateManager_LevelStarted(bool started)
         {
             if (started || GameStateManager.Instance.DebugMode)
             {
@@ -377,7 +377,7 @@ namespace Impact.Game.Scenes
             }
 
         }
-
+        
         private void HandleTouchesMoved(List<CCTouch> touches, CCEvent touchEvent)
         {
             if (!GameStateManager.Instance.LevelHasStarted)

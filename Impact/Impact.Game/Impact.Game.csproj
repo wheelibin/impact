@@ -76,6 +76,7 @@
     <Compile Include="Models\LevelProperties.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scenes\GameScene.cs" />
+    <Compile Include="Scenes\SettingsScene.cs" />
     <Compile Include="Scenes\LevelSelectScene.cs" />
     <Compile Include="Scenes\TitleScene.cs" />
   </ItemGroup>

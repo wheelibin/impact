@@ -79,5 +79,11 @@ namespace Impact.Game.Config
         //LifeUps
         public const float LifeUpGravity = 270;
 
+        //Settings
+        public const int MusicVolumeDefault = 3;
+        public const int SfxVolumeDefault = 10;
+        public const int MusicVolumeMax = 10;
+        public const int SfxVolumeMax = 10;
+
     }
 }
