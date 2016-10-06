@@ -190,6 +190,7 @@
         <map type="IndividualSpriteSettingsMap">
             <key type="filename">SourceImages/Title Screen/Impact-TitleScreen.png</key>
             <key type="filename">SourceImages/Title Screen/PlayButton.png</key>
+            <key type="filename">SourceImages/Title Screen/SettingsButton.png</key>
             <key type="filename">SourceImages/Title Screen/TitleScreenLevelSelectButton.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -198,9 +199,10 @@
         </map>
         <key>fileList</key>
         <array>
-            <filename>SourceImages/Title Screen/Impact-TitleScreen.png</filename>
             <filename>SourceImages/Title Screen/PlayButton.png</filename>
             <filename>SourceImages/Title Screen/TitleScreenLevelSelectButton.png</filename>
+            <filename>SourceImages/Title Screen/SettingsButton.png</filename>
+            <filename>SourceImages/Title Screen/Impact-TitleScreen.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

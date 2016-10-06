@@ -26,11 +26,26 @@
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
+                <string>{536,130}</string>
+                <key>spriteSourceSize</key>
+                <string>{536,130}</string>
+                <key>textureRect</key>
+                <string>{{0,1481},{536,130}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>SettingsButton.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
                 <string>{536,94}</string>
                 <key>spriteSourceSize</key>
                 <string>{536,94}</string>
                 <key>textureRect</key>
-                <string>{{0,1481},{536,94}}</string>
+                <string>{{0,1611},{536,94}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -45,7 +60,7 @@
                 <key>spriteSourceSize</key>
                 <string>{536,94}</string>
                 <key>textureRect</key>
-                <string>{{0,1575},{536,94}}</string>
+                <string>{{0,1705},{536,94}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -61,9 +76,9 @@
             <key>realTextureFileName</key>
             <string>TitleScreen.png</string>
             <key>size</key>
-            <string>{833,1669}</string>
+            <string>{833,1799}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:69e2d7fee6edcb517133cb8bbdba871f:7ec0cc3bd2004ae6ca15712d5d5530c5:ce1cf9e4b38a47c9cd3acd50187bf94d$</string>
+            <string>$TexturePacker:SmartUpdate:d2d3a8bda8191877ac655f4d63d3f823:df3d23bb13c22dcf85d9a68eadf5df3d:ce1cf9e4b38a47c9cd3acd50187bf94d$</string>
             <key>textureFileName</key>
             <string>TitleScreen.png</string>
         </dict>

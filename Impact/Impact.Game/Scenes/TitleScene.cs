@@ -29,14 +29,14 @@ namespace Impact.Game.Scenes
             CCSpriteFrame levelSelectButtonFrame = GameStateManager.Instance.TitleScreenSpriteSheet.Frames.Find(item => item.TextureFilename == "TitleScreenLevelSelectButton.png");
             CCMenuItemImage levelSelectbutton = new CCMenuItemImage(levelSelectButtonFrame, levelSelectButtonFrame, levelSelectButtonFrame, LevelSelectButton_Action);
 
-            CCSpriteFrame settingsButtonFrame = GameStateManager.Instance.TitleScreenSpriteSheet.Frames.Find(item => item.TextureFilename == "TitleScreenLevelSelectButton.png");
+            CCSpriteFrame settingsButtonFrame = GameStateManager.Instance.TitleScreenSpriteSheet.Frames.Find(item => item.TextureFilename == "SettingsButton.png");
             CCMenuItemImage settingsbutton = new CCMenuItemImage(settingsButtonFrame, settingsButtonFrame, settingsButtonFrame, SettingsButton_Action);
 
             CCMenu menu = new CCMenu(playbutton, levelSelectbutton, settingsbutton)
             {
-                Position = new CCPoint(layer.VisibleBoundsWorldspace.Size.Width / 2, layer.VisibleBoundsWorldspace.Size.Height - 950)
+                Position = new CCPoint(layer.VisibleBoundsWorldspace.Size.Width / 2, layer.VisibleBoundsWorldspace.Size.Height - 975)
             };
-            menu.AlignItemsVertically(75);
+            menu.AlignItemsVertically(37);
             layer.AddChild(menu);
             
         }
