@@ -538,10 +538,6 @@ namespace Impact.Game.Scenes
 
             GameStateManager.Instance.StartStopLevel(false);
 
-            //CCColor4B backgroundColour = GameConstants.BackgroundColours.Dequeue();
-            //GameConstants.BackgroundColours.Enqueue(backgroundColour);
-            //_backgroundLayer.Color = new CCColor3B(backgroundColour);
-
             if (showNewLevelPopup)
             {
                 ShowNewLevelPopup(GameStateManager.Instance.Lives);
@@ -551,7 +547,7 @@ namespace Impact.Game.Scenes
 
         private void LoadNextLevel()
         {
-            LevelManager.Instance.CurrentLevel++;
+            LevelManager.Instance.CurrentLevel = LevelManager.Instance.GetNextPlayableLevel();
             LoadLevel(LevelManager.Instance.CurrentLevel);
         }
 
@@ -646,8 +642,6 @@ namespace Impact.Game.Scenes
         }
 
         #endregion
-
-
-
+        
     }
 }

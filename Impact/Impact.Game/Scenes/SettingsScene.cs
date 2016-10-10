@@ -14,11 +14,11 @@ namespace Impact.Game.Scenes
         private static readonly CCColor3B ButtonTextColour = GameConstants.ImpactGreen;
 
         private readonly CCLabel _musicVolumeLabel;
-        private CCLabel _sfxVolumeLabel;
+        private readonly CCLabel _sfxVolumeLabel;
         private readonly MenuItemImageWithText _musicVolumeMinusButton;
         private readonly MenuItemImageWithText _musicVolumePlusButton;
-        private MenuItemImageWithText _sfxVolumeMinusButton;
-        private MenuItemImageWithText _sfxVolumePlusButton;
+        private readonly MenuItemImageWithText _sfxVolumeMinusButton;
+        private readonly MenuItemImageWithText _sfxVolumePlusButton;
 
         public SettingsScene(CCGameView gameView) : base(gameView)
         {

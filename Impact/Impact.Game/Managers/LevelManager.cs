@@ -53,7 +53,17 @@ namespace Impact.Game.Managers
         public LevelManager()
         {
             DetermineAvailableLevels();
-            CurrentLevel = Settings.HighestCompletedLevel+1;
+            CurrentLevel = GetNextPlayableLevel();
+        }
+
+        public int GetNextPlayableLevel()
+        {
+            //Choose the next level to play, if the game is complete then just replay the last level
+            if (Settings.HighestCompletedLevel + 1 > NumberOfLevels)
+            {
+                return NumberOfLevels;
+            }
+            return Settings.HighestCompletedLevel + 1;
         }
 
         public List<Brick> LoadLevel(int level, Paddle paddle, List<Ball> balls, ScoreManager scoreManager)
