@@ -1,17 +1,14 @@
 ﻿using CocosSharp;
 using Impact.Game.Config;
-using Impact.Game.Enums;
+using Impact.Game.Weapons;
 
 namespace Impact.Game.Entities.Powerups
 {
-    /// <summary>
-    /// A powerup that causes the paddle to fire bullets for a period of time
-    /// </summary>
-    public class BulletsPowerup : Powerup
+    public class GunPowerup : Powerup
     {
         private readonly Paddle _paddle;
 
-        public BulletsPowerup(string spriteImage, CCPoint initialPosition, Paddle paddle) 
+        public GunPowerup(string spriteImage, CCPoint initialPosition, Paddle paddle) 
             : base(initialPosition, spriteImage)
         {
             _paddle = paddle;
@@ -22,8 +19,8 @@ namespace Impact.Game.Entities.Powerups
         /// </summary>
         public override void Activate()
         {
-            _paddle.ProjectileType = ProjectileType.Bullet;
-            _paddle.ScheduleOnce(x => _paddle.ProjectileType = ProjectileType.None, GameConstants.PowerupBulletsSeconds);
+            _paddle.Weapon = new Gun();
+            _paddle.ScheduleOnce(x => _paddle.Weapon = null, GameConstants.PowerupBulletsSeconds);
         }
 
         /// <summary>
@@ -31,7 +28,7 @@ namespace Impact.Game.Entities.Powerups
         /// </summary>
         public override void Deactivate()
         {
-            _paddle.ProjectileType = ProjectileType.None;
+            _paddle.Weapon = null;
         }
 
     }

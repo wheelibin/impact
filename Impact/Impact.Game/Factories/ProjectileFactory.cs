@@ -18,7 +18,7 @@ namespace Impact.Game.Factories
         public event Action<Projectile> ProjectileDestroyed;
 
         /// <summary>
-        /// Creates a new projectile of the specified type
+        /// Creates a new weapon of the specified type
         /// </summary>
         public Projectile CreateNew(ProjectileType projectileType, CCPoint position)
         {

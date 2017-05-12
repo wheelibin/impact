@@ -9,13 +9,11 @@ namespace Impact.Game.Entities
     public abstract class Projectile : CCNode
     {
         public float VelocityY { get; set; }
-        public abstract bool IsSingleShot { get; set; }
         public abstract bool IsDestroyedByBrickCollision { get; set; }
-        public abstract string FireSound { get; set; }
 
         protected Projectile(string spriteImageFilename, CCPoint position, float velocityY)
         {
-            var frame = GameStateManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == spriteImageFilename);
+            CCSpriteFrame frame = GameStateManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == spriteImageFilename);
             var sprite = new CCSprite(frame);
 
             AddChild(sprite);

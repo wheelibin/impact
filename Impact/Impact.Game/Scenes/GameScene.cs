@@ -5,7 +5,6 @@ using CocosSharp;
 using Impact.Game.Config;
 using Impact.Game.Entities;
 using Impact.Game.Entities.Powerups;
-using Impact.Game.Enums;
 using Impact.Game.Factories;
 using Impact.Game.Helpers;
 using Impact.Game.Layers;
@@ -46,7 +45,7 @@ namespace Impact.Game.Scenes
 
         public GameScene(CCGameView gameView) : base(gameView)
         {
-            GameStateManager.Instance.CheatModeEnabled = false;
+            GameStateManager.Instance.CheatModeEnabled = true;
 
             //Preload the entire spritesheet
             CCSpriteFrameCache.SharedSpriteFrameCache.AddSpriteFrames(GameConstants.GameEntitiesSpriteSheet, GameConstants.GameEntitiesSpriteSheetImage);
@@ -248,9 +247,7 @@ namespace Impact.Game.Scenes
 
         private void ProjectileFactory_ProjectileCreated(Projectile projectile)
         {
-            CCAudioEngine.SharedEngine.PlayEffect(projectile.FireSound);
-
-            if (projectile.IsSingleShot)
+            if (_paddle.Weapon.IsSingleShot)
             {
                 if (_projectiles.Any())
                 {
@@ -259,6 +256,8 @@ namespace Impact.Game.Scenes
             }
             _projectiles.Add(projectile);
             _gameLayer.AddChild(projectile);
+
+            CCAudioEngine.SharedEngine.PlayEffect(_paddle.Weapon.FireSound);
         }
 
         private void ProjectileFactory_ProjectileDestroyed(Projectile bullet)
@@ -388,7 +387,7 @@ namespace Impact.Game.Scenes
 
         private void HandleTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
         {
-            if (_paddle.ProjectileType != ProjectileType.None)
+            if (_paddle.Weapon != null)
             {
                 _paddle.FireProjectile();
             }
@@ -547,7 +546,7 @@ namespace Impact.Game.Scenes
 
         private void LoadNextLevel()
         {
-            LevelManager.Instance.CurrentLevel = LevelManager.Instance.GetNextPlayableLevel();
+            LevelManager.Instance.CurrentLevel = LevelManager.Instance.GetNextLevel(LevelManager.Instance.CurrentLevel);
             LoadLevel(LevelManager.Instance.CurrentLevel);
         }
 

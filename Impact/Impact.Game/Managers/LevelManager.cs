@@ -53,10 +53,15 @@ namespace Impact.Game.Managers
         public LevelManager()
         {
             DetermineAvailableLevels();
-            CurrentLevel = GetNextPlayableLevel();
+            CurrentLevel = GetHighestPlayableLevel();
         }
 
-        public int GetNextPlayableLevel()
+        public int GetNextLevel(int currentLevel)
+        {
+            return currentLevel + 1;
+        }
+
+        public int GetHighestPlayableLevel()
         {
             //Choose the next level to play, if the game is complete then just replay the last level
             if (Settings.HighestCompletedLevel + 1 > NumberOfLevels)
@@ -144,10 +149,10 @@ namespace Impact.Game.Managers
                                 powerup = new FireballPowerup(powerupImageFilename, brickPosition, balls);
                                 break;
                             case PowerupType.Bullets:
-                                powerup = new BulletsPowerup(powerupImageFilename, brickPosition, paddle);
+                                powerup = new GunPowerup(powerupImageFilename, brickPosition, paddle);
                                 break;
                             case PowerupType.Rockets:
-                                powerup = new RocketsPowerup(powerupImageFilename, brickPosition, paddle);
+                                powerup = new RocketLauncherPowerup(powerupImageFilename, brickPosition, paddle);
                                 break;
                             case PowerupType.ExtraLife:
                                 powerup = new ExtraLifePowerup(powerupImageFilename, brickPosition);

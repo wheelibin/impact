@@ -28,29 +28,18 @@ namespace Impact.Game.Managers
 
             CCRect paddleBoundingBox = paddle.BoundingBoxTransformedToWorld;
 
-            //Projectile collisions
-            for (int b = projectiles.Count - 1; b >= 0; b--)
-            {
-                Projectile projectile = projectiles[b];
-                List<Brick> bricksHitByProjectile = projectile.BricksHitByEntity(bricks);
+            HandleProjectileCollisions(bricks, projectiles);
 
-                foreach (Brick brick in bricksHitByProjectile)
-                {
-                    bool brickDestroyed = brick.Hit();
-                    if (!brickDestroyed)
-                    {
-                        BrickHitButNotDestroyed?.Invoke();
-                    }
-                }
+            HandleBallCollisions(layer, paddle, balls, bricks, wormholes, paddleBoundingBox);
+            
+            HandlePowerupCollisions(powerups, paddleBoundingBox);
 
-                if (bricksHitByProjectile.Any() && projectile.IsDestroyedByBrickCollision)
-                {
-                    ProjectileFactory.Instance.DestroyBullet(projectile);
-                }
+            HandleScoreupCollisions(scoreUps, paddleBoundingBox);
 
-            }
+        }
 
-            //Ball collisions
+        private bool HandleBallCollisions(CCLayer layer, Paddle paddle, IReadOnlyList<Ball> balls, List<Brick> bricks, List<Wormhole> wormholes, CCRect paddleBoundingBox)
+        {
             for (int ballIndex = balls.Count - 1; ballIndex >= 0; ballIndex--)
             {
                 Ball ball = balls[ballIndex];
@@ -89,7 +78,7 @@ namespace Impact.Game.Managers
 
                     PaddleHit?.Invoke();
 
-                    return;
+                    return true;
                 }
 
                 //Bounce off the walls
@@ -101,13 +90,14 @@ namespace Impact.Game.Managers
                 {
                     ball.VelocityX = ball.VelocityX.ApplyVariation();
                     ball.VelocityX *= -1;
-                    return;
+                    return true;
                 }
 
                 bool shouldReflectYVelocity = (ballTop > screenTop && ball.VelocityY > 0);
                 if (GameStateManager.Instance.CheatModeEnabled)
                 {
-                    shouldReflectYVelocity = (ballTop > screenTop && ball.VelocityY > 0) || (ballTop < screenBottom && ball.VelocityY < 0);
+                    shouldReflectYVelocity = (ballTop > screenTop && ball.VelocityY > 0) ||
+                                             (ballTop < screenBottom && ball.VelocityY < 0);
                 }
                 else
                 {
@@ -115,14 +105,14 @@ namespace Impact.Game.Managers
                     {
                         //missed the ball lose a life
                         MissedBall?.Invoke(ball);
-                        return;
+                        return true;
                     }
                 }
 
                 if (shouldReflectYVelocity)
                 {
                     ball.VelocityY *= -1;
-                    return;
+                    return true;
                 }
 
                 //Have we hit any bricks
@@ -158,7 +148,6 @@ namespace Impact.Game.Managers
                 //Individual brick hit functions
                 foreach (Brick brick in bricksHitByBall)
                 {
-
                     if (brick.BrickType == BrickType.Bouncey)
                     {
                         ball.VelocityY = GameConstants.PaddleGravityBounceVelocityY * brick.BounceFactor;
@@ -174,8 +163,12 @@ namespace Impact.Game.Managers
                             int remainingBricks = bricks.Count(b => !b.IsIndestructible);
                             if (remainingBricks > 0)
                             {
-                                float ballSpeedPercentageIncreaseFactor = (LevelManager.Instance.CurrentLevelProperties.FinalBallSpeedPercentageIncrease / (float)remainingBricks) / 100;
-                                float newBallSpeed = Math.Abs(GameConstants.BallInitialVelocityY + (GameConstants.BallInitialVelocityY * ballSpeedPercentageIncreaseFactor));
+                                float ballSpeedPercentageIncreaseFactor =
+                                (LevelManager.Instance.CurrentLevelProperties.FinalBallSpeedPercentageIncrease /
+                                 (float)remainingBricks) / 100;
+                                float newBallSpeed = Math.Abs(GameConstants.BallInitialVelocityY +
+                                                              (GameConstants.BallInitialVelocityY *
+                                                               ballSpeedPercentageIncreaseFactor));
 
                                 if (ball.VelocityY < 0)
                                 {
@@ -194,7 +187,6 @@ namespace Impact.Game.Managers
 
                         //Drop powerup if there is one
                         brick.Powerup?.Drop();
-
                     }
                     else
                     {
@@ -208,9 +200,9 @@ namespace Impact.Game.Managers
                 }
 
                 //Wormholes
-                foreach (Wormhole wormhole in wormholes.Where(w => w.WormholeType == WormholeType.In || w.WormholeType == WormholeType.InOut))
+                foreach (Wormhole wormhole in wormholes.Where(w => w.WormholeType == WormholeType.In ||
+                                                                   w.WormholeType == WormholeType.InOut))
                 {
-
                     CCRect wormholeBoundingBox = wormhole.BoundingBoxTransformedToWorld;
                     bool enteredWormhole = ballBoundingBox.IntersectsRect(wormholeBoundingBox);
 
@@ -241,25 +233,15 @@ namespace Impact.Game.Managers
                         //    ball.PositionX += exit.ContentSize.Width/2;
                         //}
 
-                        return;
+                        return true;
                     }
-
-                }
-
-            }
-
-            //Have we caught a powerup?
-            for (int p = powerups.Count - 1; p >= 0; p--)
-            {
-                Powerup powerup = powerups[p];
-                bool powerupHitPaddle = powerup.BoundingBoxTransformedToWorld.IntersectsRect(paddleBoundingBox);
-                if (powerupHitPaddle)
-                {
-                    PowerupCollected?.Invoke(powerup);
                 }
             }
+            return false;
+        }
 
-            //Have we caught a scoreUp?
+        private void HandleScoreupCollisions(List<ScoreUp> scoreUps, CCRect paddleBoundingBox)
+        {
             for (int s = scoreUps.Count - 1; s >= 0; s--)
             {
                 ScoreUp scoreUp = scoreUps[s];
@@ -269,9 +251,46 @@ namespace Impact.Game.Managers
                     ScoreUpCollected?.Invoke(scoreUp);
                 }
             }
-
         }
+
+        private void HandlePowerupCollisions(List<Powerup> powerups, CCRect paddleBoundingBox)
+        {
+            for (int p = powerups.Count - 1; p >= 0; p--)
+            {
+                Powerup powerup = powerups[p];
+                bool powerupHitPaddle = powerup.BoundingBoxTransformedToWorld.IntersectsRect(paddleBoundingBox);
+                if (powerupHitPaddle)
+                {
+                    PowerupCollected?.Invoke(powerup);
+                }
+            }
+        }
+
+        private void HandleProjectileCollisions(List<Brick> bricks, List<Projectile> projectiles)
+        {
+            for (int b = projectiles.Count - 1; b >= 0; b--)
+            {
+                Projectile projectile = projectiles[b];
+                List<Brick> bricksHitByProjectile = projectile.BricksHitByEntity(bricks);
+
+                foreach (Brick brick in bricksHitByProjectile)
+                {
+                    bool brickDestroyed = brick.Hit();
+                    if (!brickDestroyed)
+                    {
+                        BrickHitButNotDestroyed?.Invoke();
+                    }
+                }
+
+                if (bricksHitByProjectile.Any() && projectile.IsDestroyedByBrickCollision)
+                {
+                    ProjectileFactory.Instance.DestroyBullet(projectile);
+                }
+            }
+        }
+
         
+
         /// <summary>
         /// Returns the vector that the 'ball' should be moved by to separate the objects. 
         /// </summary>

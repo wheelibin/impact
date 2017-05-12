@@ -38,12 +38,15 @@
     <Compile Include="Entities\Ball.cs" />
     <Compile Include="Entities\Brick.cs" />
     <Compile Include="Entities\Bullet.cs" />
+    <Compile Include="Weapons\RocketLauncher.cs" />
+    <Compile Include="Weapons\Gun.cs" />
+    <Compile Include="Weapons\IWeapon.cs" />
     <Compile Include="Entities\Powerups\ExtraLifePowerup.cs" />
-    <Compile Include="Entities\Powerups\RocketsPowerup.cs" />
+    <Compile Include="Entities\Powerups\RocketLauncherPowerup.cs" />
     <Compile Include="Entities\Projectile.cs" />
     <Compile Include="Entities\MenuItemImageWithText.cs" />
     <Compile Include="Entities\Paddle.cs" />
-    <Compile Include="Entities\Powerups\BulletsPowerup.cs" />
+    <Compile Include="Entities\Powerups\GunPowerup.cs" />
     <Compile Include="Entities\Powerups\FireballPowerup.cs" />
     <Compile Include="Entities\Powerups\IPowerup.cs" />
     <Compile Include="Entities\Powerups\LargerPaddlePowerup.cs" />

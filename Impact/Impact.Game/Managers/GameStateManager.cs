@@ -48,7 +48,7 @@ namespace Impact.Game.Managers
 
         public void SetLives(int lives)
         {
-            Lives = 2;
+            Lives = lives;
             LivesChanged?.Invoke();
         }
 

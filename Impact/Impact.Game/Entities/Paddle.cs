@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using CocosSharp;
 using Impact.Game.Config;
-using Impact.Game.Enums;
 using Impact.Game.Factories;
 using Impact.Game.Managers;
+using Impact.Game.Weapons;
 
 namespace Impact.Game.Entities
 {
@@ -12,43 +12,30 @@ namespace Impact.Game.Entities
     /// </summary>
     public sealed class Paddle : CCNode
     {
-        /// <summary>
-        /// The optional projectile type the paddle is currently capable of firing.
-        /// The sprite will be changed depending on the type of projectile.
-        /// </summary>
-        public ProjectileType ProjectileType
+        public IWeapon Weapon
         {
-            get { return _projectileType; }
+            get { return _weapon; }
             set
             {
-                _projectileType = value;
+                _weapon = value;
 
-                switch (value)
+                string paddleImageTexture = GameConstants.SpriteImagePaddle;
+                if (_weapon != null)
                 {
-                    case ProjectileType.None:
-
-                        var frame = GameStateManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == GameConstants.SpriteImagePaddle);
-                        _sprite.SpriteFrame = frame;
-                        break;
-                    case ProjectileType.Bullet:
-                        frame = GameStateManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == GameConstants.SpriteImagePaddleBullet);
-                        _sprite.SpriteFrame = frame;
-                        break;
-                    case ProjectileType.Rocket:
-                        frame = GameStateManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == GameConstants.SpriteImagePaddleRocket);
-                        _sprite.SpriteFrame = frame;
-                        break;
+                    paddleImageTexture = _weapon.PaddleImage;
                 }
-                
+
+                CCSpriteFrame frame = GameStateManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == paddleImageTexture);
+                _sprite.SpriteFrame = frame;
             }
         }
 
         private readonly CCSprite _sprite;
-        private ProjectileType _projectileType;
+        private IWeapon _weapon;
 
         public Paddle()
         {
-            var frame = GameStateManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == GameConstants.SpriteImagePaddle);
+            CCSpriteFrame frame = GameStateManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == GameConstants.SpriteImagePaddle);
             _sprite = new CCSprite(frame)
             {
                 AnchorPoint = CCPoint.AnchorLowerLeft
@@ -68,13 +55,12 @@ namespace Impact.Game.Entities
         }
 
         /// <summary>
-        /// Fires a projectile of the defined type
+        /// Fires a weapon of the defined type
         /// </summary>
         public void FireProjectile()
         {
-            int gunHeight = ProjectileType == ProjectileType.Bullet ? 35 : 22;
-            CCPoint bulletStartPosition = new CCPoint(Position.X, Position.Y + gunHeight);
-            ProjectileFactory.Instance.CreateNew(ProjectileType, bulletStartPosition);
+            CCPoint bulletStartPosition = new CCPoint(Position.X, Position.Y + Weapon.YOffset);
+            ProjectileFactory.Instance.CreateNew(Weapon.ProjectileType, bulletStartPosition);
         }
 
         private void HandleInput(List<CCTouch> touches, CCEvent touchEvent)

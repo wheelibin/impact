@@ -42,15 +42,16 @@ namespace Impact.Game
             //}
             
             gameView.ContentManager.SearchPaths = contentSearchPaths;
-            //gameView.Stats.Enabled = true;
-            //GameManager.Instance.DebugMode = true;
+            gameView.Stats.Enabled = true;
+            //GameStateManager.Instance.DebugMode = true;
+            Settings.HighestCompletedLevel = 99;
 
             CCAudioEngine.SharedEngine.BackgroundMusicVolume = (float) Settings.MusicVolume/10;
             CCAudioEngine.SharedEngine.PlayBackgroundMusic("BackgroundMusic.mp3", loop: true);
             
             GameStateManager.Instance.MusicVolumeChanged += GameStateManager_MusicVolumeChanged;
             GameStateManager.Instance.SfxVolumeChanged += GameStateManager_SfxVolumeChanged;
-
+            
             gameView.RunWithScene(new TitleScene(gameView));
         }
 

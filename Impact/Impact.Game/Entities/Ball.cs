@@ -14,7 +14,8 @@ namespace Impact.Game.Entities
         public float VelocityX { get; set; }
         public float VelocityY { get; set; }
 
-        private CCParticleSun _fireball;
+        private readonly CCSprite _ballSprite;
+        private readonly CCColor3B _originalBallColour;
 
         /// <summary>
         /// If set, a fireball effect is added
@@ -25,40 +26,21 @@ namespace Impact.Game.Entities
             set
             {
                 _isFireball = value;
-                if (value)
-                {
-                    _fireball =
-                        new CCParticleSun(new CCPoint(0, 0), CCEmitterMode.Radius)
-                        {
-                            StartRadius = 0,
-                            EndRadius = 12,
-                            AnchorPoint = CCPoint.AnchorLowerLeft
-                        };
-                    AddChild(_fireball);
-                }
-                else
-                {
-                    if (_fireball != null)
-                    {
-                        _fireball.RemoveFromParent();
-                        _fireball.Dispose();
-                    }
-                }
-                
+                _ballSprite.Color = _isFireball ? CCColor3B.Orange : _originalBallColour;
             }
         }
 
         public Ball(float? velocityY = GameConstants.BallInitialVelocityY, CCPoint? initialPosition = null, bool applyGravity = false)
         {
-            var frame = GameStateManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == GameConstants.SpriteImageBall);
-            var sprite = new CCSprite(frame)
+            CCSpriteFrame frame = GameStateManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == GameConstants.SpriteImageBall);
+            _ballSprite = new CCSprite(frame)
             {
                 AnchorPoint = CCPoint.AnchorLowerLeft
             };
+            _originalBallColour = _ballSprite.Color;
+            AddChild(_ballSprite);
 
-            AddChild(sprite);
-
-            ContentSize = sprite.ContentSize;
+            ContentSize = _ballSprite.ContentSize;
             
             PositionX = initialPosition.HasValue ? initialPosition.Value.X : GameConstants.BallInitialPosition.X;
             PositionY = initialPosition.HasValue ? initialPosition.Value.Y : GameConstants.BallInitialPosition.Y;

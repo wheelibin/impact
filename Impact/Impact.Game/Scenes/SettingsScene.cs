@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using CocosSharp;
+﻿using CocosSharp;
 using Impact.Game.Config;
 using Impact.Game.Entities;
 using Impact.Game.Helpers;
