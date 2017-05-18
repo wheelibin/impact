@@ -115,6 +115,10 @@
   <ItemGroup>
     <BundleResource Include="Content\Fonts\visitor1.ttf" />
     <BundleResource Include="Content\Levels\level000.tmx" />
+    <BundleResource Include="Content\Levels\level031.tmx" />
+    <BundleResource Include="Content\Levels\level032.tmx" />
+    <BundleResource Include="Content\Levels\level033.tmx" />
+    <BundleResource Include="Content\Levels\level034.tmx" />
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
     <None Include="packages.config" />

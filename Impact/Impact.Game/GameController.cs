@@ -42,7 +42,7 @@ namespace Impact.Game
             //}
             
             gameView.ContentManager.SearchPaths = contentSearchPaths;
-            gameView.Stats.Enabled = true;
+            //gameView.Stats.Enabled = true;
             //GameStateManager.Instance.DebugMode = true;
             Settings.HighestCompletedLevel = 99;
 

@@ -22,6 +22,8 @@ namespace Impact.Game.Managers
         public event Action<Powerup> PowerupCollected;
         public event Action<ScoreUp> ScoreUpCollected;
         public event Action<Ball> MissedBall;
+        public event Action<Wormhole> WormholeInUse;
+        public event Action BallIsOutsideWormholes;
 
         public void HandleCollisions(CCLayer layer, Paddle paddle, List<Ball> balls, List<Brick> bricks, List<Powerup> powerups, List<Wormhole> wormholes, List<ScoreUp> scoreUps, List<Projectile> projectiles)
         {
@@ -31,7 +33,7 @@ namespace Impact.Game.Managers
             HandleProjectileCollisions(bricks, projectiles);
 
             HandleBallCollisions(layer, paddle, balls, bricks, wormholes, paddleBoundingBox);
-            
+
             HandlePowerupCollisions(powerups, paddleBoundingBox);
 
             HandleScoreupCollisions(scoreUps, paddleBoundingBox);
@@ -163,9 +165,7 @@ namespace Impact.Game.Managers
                             int remainingBricks = bricks.Count(b => !b.IsIndestructible);
                             if (remainingBricks > 0)
                             {
-                                float ballSpeedPercentageIncreaseFactor =
-                                (LevelManager.Instance.CurrentLevelProperties.FinalBallSpeedPercentageIncrease /
-                                 (float)remainingBricks) / 100;
+                                float ballSpeedPercentageIncreaseFactor = (LevelManager.Instance.CurrentLevelProperties.FinalBallSpeedPercentageIncrease / (float)remainingBricks) / 100;
                                 float newBallSpeed = Math.Abs(GameConstants.BallInitialVelocityY +
                                                               (GameConstants.BallInitialVelocityY *
                                                                ballSpeedPercentageIncreaseFactor));
@@ -200,41 +200,31 @@ namespace Impact.Game.Managers
                 }
 
                 //Wormholes
+                bool inAnyWormholes = false;
                 foreach (Wormhole wormhole in wormholes.Where(w => w.WormholeType == WormholeType.In ||
                                                                    w.WormholeType == WormholeType.InOut))
                 {
                     CCRect wormholeBoundingBox = wormhole.BoundingBoxTransformedToWorld;
                     bool enteredWormhole = ballBoundingBox.IntersectsRect(wormholeBoundingBox);
 
-                    if (enteredWormhole)
+                    inAnyWormholes = inAnyWormholes || enteredWormhole;
+
+                    if (enteredWormhole && !wormhole.InUse)
                     {
                         //Get the exit wormhole
                         Wormhole exit = wormholes.First(w => w.ObjectName == wormhole.ExitName);
+                        WormholeInUse?.Invoke(exit);
 
                         ball.Position = exit.BoundingBoxTransformedToWorld.Center;
 
-                        //todo: in order to properly handle InOut wormholes, we would need to handle the fact that once a ball has 
-                        //todo: been moved to the target one, it will still be classed as being inside one, which will transport it again...in and endless loop
-                        //if (!isMovingDownward)
-                        //{
-                        //    ball.PositionY -= exit.ContentSize.Height/2; 
-                        //}
-                        //else
-                        //{
-                        //    ball.PositionY += exit.ContentSize.Height/2;
-                        //}
-
-                        //if (isMovingLeft)
-                        //{
-                        //    ball.PositionX -= exit.ContentSize.Width/2;
-                        //}
-                        //else
-                        //{
-                        //    ball.PositionX += exit.ContentSize.Width/2;
-                        //}
-
                         return true;
                     }
+                }
+
+                //The ball isn't in any wormholes, so clear all InUse flags
+                if (!inAnyWormholes)
+                {
+                    BallIsOutsideWormholes?.Invoke();
                 }
             }
             return false;
@@ -289,7 +279,7 @@ namespace Impact.Game.Managers
             }
         }
 
-        
+
 
         /// <summary>
         /// Returns the vector that the 'ball' should be moved by to separate the objects. 

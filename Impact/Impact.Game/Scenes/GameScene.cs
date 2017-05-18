@@ -126,6 +126,9 @@ namespace Impact.Game.Scenes
             _collisionManager.PowerupCollected += CollisionManager_PowerupCollected;
             _collisionManager.ScoreUpCollected += CollisionManager_ScoreUpCollected;
             _collisionManager.MissedBall += CollisionManager_MissedBall;
+            _collisionManager.WormholeInUse += CollisionManager_WormholeInUse;
+            _collisionManager.BallIsOutsideWormholes += CollisionManager_BallIsOutsideWormholes;
+
 
             GameStateManager.Instance.LevelStarted += GameStateManager_LevelStarted;
             GameStateManager.Instance.LivesChanged += GameStateManager_LivesChanged;
@@ -134,11 +137,7 @@ namespace Impact.Game.Scenes
             _scoreManager.ScoreUpdated += ScoreManager_ScoreUpdated;
             ProjectileFactory.Instance.ProjectileCreated += ProjectileFactory_ProjectileCreated;
             ProjectileFactory.Instance.ProjectileDestroyed += ProjectileFactory_ProjectileDestroyed;
-        }
 
-        private void GameStateManager_LivesChanged()
-        {
-            _livesLabel.Text = $"LIVES: {GameStateManager.Instance.Lives}";
         }
 
         /// <summary>
@@ -328,6 +327,24 @@ namespace Impact.Game.Scenes
                 }
             }
 
+        }
+
+        private void CollisionManager_WormholeInUse(Wormhole wormhole)
+        {
+            _wormholes.Single(w => w.ObjectName == wormhole.ObjectName).InUse = true;
+        }
+
+        private void CollisionManager_BallIsOutsideWormholes()
+        {
+            foreach (Wormhole wormhole in _wormholes.Where(w => w.InUse))
+            {
+                wormhole.InUse = false;
+            }
+        }
+
+        private void GameStateManager_LivesChanged()
+        {
+            _livesLabel.Text = $"LIVES: {GameStateManager.Instance.Lives}";
         }
 
         private void ScoreUpFactory_ScoreUpCreated(ScoreUp scoreUp)

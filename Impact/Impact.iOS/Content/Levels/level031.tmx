@@ -8,109 +8,109 @@
    <properties>
     <property name="HitsToDestroy" type="int" value="1"/>
    </properties>
-   <image width="114" height="38" source="../../../../../SourceImages/Game/Brick-A1.png"/>
+   <image width="114" height="38" source="../../../../SourceImages/Game/Brick-A1.png"/>
   </tile>
   <tile id="1">
    <properties>
     <property name="HitsToDestroy" type="int" value="2"/>
    </properties>
-   <image width="114" height="38" source="../../../../../SourceImages/Game/Brick-A2.png"/>
+   <image width="114" height="38" source="../../../../SourceImages/Game/Brick-A2.png"/>
   </tile>
   <tile id="2">
    <properties>
     <property name="HitsToDestroy" type="int" value="1"/>
    </properties>
-   <image width="114" height="38" source="../../../../../SourceImages/Game/Brick-B1.png"/>
+   <image width="114" height="38" source="../../../../SourceImages/Game/Brick-B1.png"/>
   </tile>
   <tile id="3">
    <properties>
     <property name="HitsToDestroy" type="int" value="2"/>
    </properties>
-   <image width="114" height="38" source="../../../../../SourceImages/Game/Brick-B2.png"/>
+   <image width="114" height="38" source="../../../../SourceImages/Game/Brick-B2.png"/>
   </tile>
   <tile id="4">
    <properties>
     <property name="HitsToDestroy" type="int" value="1"/>
    </properties>
-   <image width="114" height="38" source="../../../../../SourceImages/Game/Brick-C1.png"/>
+   <image width="114" height="38" source="../../../../SourceImages/Game/Brick-C1.png"/>
   </tile>
   <tile id="5">
    <properties>
     <property name="HitsToDestroy" type="int" value="2"/>
    </properties>
-   <image width="114" height="38" source="../../../../../SourceImages/Game/Brick-C2.png"/>
+   <image width="114" height="38" source="../../../../SourceImages/Game/Brick-C2.png"/>
   </tile>
   <tile id="6">
    <properties>
     <property name="HitsToDestroy" type="int" value="1"/>
    </properties>
-   <image width="114" height="38" source="../../../../../SourceImages/Game/Brick-D1.png"/>
+   <image width="114" height="38" source="../../../../SourceImages/Game/Brick-D1.png"/>
   </tile>
   <tile id="7">
    <properties>
     <property name="HitsToDestroy" type="int" value="2"/>
    </properties>
-   <image width="114" height="38" source="../../../../../SourceImages/Game/Brick-D2.png"/>
+   <image width="114" height="38" source="../../../../SourceImages/Game/Brick-D2.png"/>
   </tile>
   <tile id="8">
    <properties>
     <property name="HitsToDestroy" type="int" value="-1"/>
    </properties>
-   <image width="114" height="38" source="../../../../../SourceImages/Game/Brick-E1.png"/>
+   <image width="114" height="38" source="../../../../SourceImages/Game/Brick-E1.png"/>
   </tile>
   <tile id="9">
    <properties>
     <property name="HitsToDestroy" type="int" value="1"/>
    </properties>
-   <image width="57" height="19" source="../../../../../SourceImages/Game/SmallBrick-A1.png"/>
+   <image width="57" height="19" source="../../../../SourceImages/Game/SmallBrick-A1.png"/>
   </tile>
   <tile id="10">
    <properties>
     <property name="HitsToDestroy" type="int" value="2"/>
    </properties>
-   <image width="57" height="19" source="../../../../../SourceImages/Game/SmallBrick-A2.png"/>
+   <image width="57" height="19" source="../../../../SourceImages/Game/SmallBrick-A2.png"/>
   </tile>
   <tile id="11">
    <properties>
     <property name="HitsToDestroy" type="int" value="1"/>
    </properties>
-   <image width="57" height="19" source="../../../../../SourceImages/Game/SmallBrick-B1.png"/>
+   <image width="57" height="19" source="../../../../SourceImages/Game/SmallBrick-B1.png"/>
   </tile>
   <tile id="12">
    <properties>
     <property name="HitsToDestroy" type="int" value="2"/>
    </properties>
-   <image width="57" height="19" source="../../../../../SourceImages/Game/SmallBrick-B2.png"/>
+   <image width="57" height="19" source="../../../../SourceImages/Game/SmallBrick-B2.png"/>
   </tile>
   <tile id="14">
    <properties>
     <property name="HitsToDestroy" type="int" value="1"/>
    </properties>
-   <image width="57" height="19" source="../../../../../SourceImages/Game/SmallBrick-C1.png"/>
+   <image width="57" height="19" source="../../../../SourceImages/Game/SmallBrick-C1.png"/>
   </tile>
   <tile id="15">
    <properties>
     <property name="HitsToDestroy" type="int" value="2"/>
    </properties>
-   <image width="57" height="19" source="../../../../../SourceImages/Game/SmallBrick-C2.png"/>
+   <image width="57" height="19" source="../../../../SourceImages/Game/SmallBrick-C2.png"/>
   </tile>
   <tile id="16">
    <properties>
     <property name="HitsToDestroy" type="int" value="1"/>
    </properties>
-   <image width="57" height="19" source="../../../../../SourceImages/Game/SmallBrick-D1.png"/>
+   <image width="57" height="19" source="../../../../SourceImages/Game/SmallBrick-D1.png"/>
   </tile>
   <tile id="17">
    <properties>
     <property name="HitsToDestroy" type="int" value="2"/>
    </properties>
-   <image width="57" height="19" source="../../../../../SourceImages/Game/SmallBrick-D2.png"/>
+   <image width="57" height="19" source="../../../../SourceImages/Game/SmallBrick-D2.png"/>
   </tile>
   <tile id="18">
    <properties>
     <property name="HitsToDestroy" type="int" value="-1"/>
    </properties>
-   <image width="57" height="19" source="../../../../../SourceImages/Game/SmallBrick-E1.png"/>
+   <image width="57" height="19" source="../../../../SourceImages/Game/SmallBrick-E1.png"/>
   </tile>
  </tileset>
  <tileset firstgid="20" name="Powerups" tilewidth="57" tileheight="57" tilecount="5" columns="0">
@@ -118,45 +118,45 @@
    <properties>
     <property name="PowerupType" type="int" value="3"/>
    </properties>
-   <image width="57" height="57" source="../../../../../SourceImages/Game/PowerupFireball.png"/>
+   <image width="57" height="57" source="../../../../SourceImages/Game/PowerupFireball.png"/>
   </tile>
   <tile id="1">
    <properties>
     <property name="PowerupType" type="int" value="1"/>
    </properties>
-   <image width="57" height="57" source="../../../../../SourceImages/Game/PowerupLargerPaddle.png"/>
+   <image width="57" height="57" source="../../../../SourceImages/Game/PowerupLargerPaddle.png"/>
   </tile>
   <tile id="2">
    <properties>
     <property name="PowerupType" type="int" value="2"/>
    </properties>
-   <image width="57" height="57" source="../../../../../SourceImages/Game/PowerupMultiBall.png"/>
+   <image width="57" height="57" source="../../../../SourceImages/Game/PowerupMultiBall.png"/>
   </tile>
   <tile id="3">
    <properties>
     <property name="PowerupType" type="int" value="4"/>
    </properties>
-   <image width="57" height="57" source="../../../../../SourceImages/Game/PowerupBullets.png"/>
+   <image width="57" height="57" source="../../../../SourceImages/Game/PowerupBullets.png"/>
   </tile>
   <tile id="4">
    <properties>
     <property name="PowerupType" type="int" value="5"/>
    </properties>
-   <image width="57" height="57" source="../../../../../SourceImages/Game/PowerupRockets.png"/>
+   <image width="57" height="57" source="../../../../SourceImages/Game/PowerupRockets.png"/>
   </tile>
  </tileset>
  <tileset firstgid="25" name="Wormholes" tilewidth="57" tileheight="57" tilecount="2" columns="0">
   <tile id="2">
-   <image width="57" height="57" source="../../../../../SourceImages/Game/WormholeIn.png"/>
+   <image width="57" height="57" source="../../../../SourceImages/Game/WormholeIn.png"/>
   </tile>
   <tile id="3">
-   <image width="57" height="57" source="../../../../../SourceImages/Game/WormholeOut.png"/>
+   <image width="57" height="57" source="../../../../SourceImages/Game/WormholeOut.png"/>
   </tile>
  </tileset>
  <layer name="Bricks" width="14" height="38">
   <data encoding="csv">
 0,0,0,19,19,19,19,19,19,19,19,0,0,0,
-0,0,0,19,19,19,19,19,19,19,19,0,0,0,
+0,0,0,19,0,19,0,19,0,19,19,0,0,0,
 0,0,0,19,0,0,0,0,0,0,19,0,0,0,
 0,0,0,19,0,0,0,0,0,0,19,0,0,0,
 0,0,0,19,0,0,0,0,0,0,19,0,0,0,
@@ -175,7 +175,7 @@
 0,0,0,19,0,4,0,4,0,0,19,0,0,0,
 0,0,0,19,0,0,0,0,0,0,19,0,0,0,
 0,0,0,19,0,0,0,0,0,0,19,0,0,0,
-0,0,0,19,19,19,19,19,19,19,19,0,0,0,
+0,0,0,19,19,0,19,0,19,0,19,0,0,0,
 0,0,0,19,19,19,19,19,19,19,19,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -249,7 +249,7 @@
     <property name="WormholeType" type="int" value="0"/>
    </properties>
   </object>
-  <object id="12" name="C" gid="27" x="512" y="93" width="57" height="57">
+  <object id="12" name="C" gid="27" x="512" y="379" width="57" height="57">
    <properties>
     <property name="ExitName" value="D"/>
     <property name="WormholeType" type="int" value="0"/>

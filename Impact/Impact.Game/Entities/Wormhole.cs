@@ -12,6 +12,7 @@ namespace Impact.Game.Entities
         public WormholeType WormholeType { get; set; }
         public string ObjectName { get; set; }
         public string ExitName { get; set; }
+        public bool InUse { get; set; }
 
         public Wormhole(string spriteImageFilename, CCPoint position, WormholeType wormholeType, string objectName, string exitName)
         {
