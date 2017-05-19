@@ -12,13 +12,15 @@ namespace Impact.Game.Entities
         public WormholeType WormholeType { get; set; }
         public string ObjectName { get; set; }
         public string ExitName { get; set; }
+        public WormholeExitDirection ExitDirection { get; }
         public bool InUse { get; set; }
 
-        public Wormhole(string spriteImageFilename, CCPoint position, WormholeType wormholeType, string objectName, string exitName)
+        public Wormhole(string spriteImageFilename, CCPoint position, WormholeType wormholeType, string objectName, string exitName, WormholeExitDirection exitDirection)
         {
             WormholeType = wormholeType;
             ObjectName = objectName;
             ExitName = exitName;
+            ExitDirection = exitDirection;
 
             var frame = GameStateManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == spriteImageFilename);
             var sprite = new CCSprite(frame)

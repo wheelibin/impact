@@ -34,6 +34,7 @@ namespace Impact.Game.Managers
         private const string BounceFactorPropertyName = "BounceFactor";
         private const string WormholeTypePropertyName = "WormholeType";
         private const string WormholeExitNamePropertyName = "ExitName";
+        private const string WormholeExitDirectionPropertyName = "ExitDirection";
 
         private const string BrickLayer = "Bricks";
         private const string BrickTileset = "Bricks";
@@ -41,6 +42,8 @@ namespace Impact.Game.Managers
         private const string PowerupTileset = "Powerups";
         private const string WormholeObjectGroup = "Wormholes";
         private const string WormholeTileset = "Wormholes";
+        private const string PaddlesLayer = "Paddles";
+        private const string PaddlesObjectGroup = "Paddles";
 
         private const string BaseLevelFolder = "Content/Levels/";
         private const string LevelFilenameFormatString = "{0}/level{1}.tmx";
@@ -73,8 +76,8 @@ namespace Impact.Game.Managers
 
         public List<Brick> LoadLevel(int level, Paddle paddle, List<Ball> balls, ScoreManager scoreManager)
         {
-            
-           var bricks = new List<Brick>();
+
+            var bricks = new List<Brick>();
 
             //Load the level
             string levelFilename = string.Format(LevelFilenameFormatString, BaseLevelFolder, level.ToString("000"));
@@ -87,7 +90,7 @@ namespace Impact.Game.Managers
 
             //Get high score
             int highScore = scoreManager.GetHighScoreForLevel(level);
-            
+
             CurrentLevelProperties = new LevelProperties
             {
                 HighScore = highScore,
@@ -124,7 +127,7 @@ namespace Impact.Game.Managers
                     //Get brick properties
                     int hitsToDestroy = brickTilesetTile.Properties.GetPropertyValue(HitsToDestroyPropertyName, int.Parse);
                     BrickType brickType = brickTilesetTile.Properties.GetPropertyValue(BrickTypePropertyName, s => (BrickType)Enum.Parse(typeof(BrickType), s));
-                    
+
                     CCPoint brickPosition = new CCPoint(brickTile.X * tileWidth, startY - (brickTile.Y * tileHeight));
 
                     //Create a powerup to add to the brick if one is defined
@@ -161,7 +164,7 @@ namespace Impact.Game.Managers
                     }
 
                     float bounceFactor = brickTilesetTile.Properties.GetPropertyValue(BounceFactorPropertyName, float.Parse);
-                    bool doubleSizeBrick = brickTilesetTile.Image.Width == (tileMap.TileWidth*2);
+                    bool doubleSizeBrick = brickTilesetTile.Image.Width == (tileMap.TileWidth * 2);
 
                     //Add the brick
                     var brick = BrickFactory.Instance.CreateNew(brickImageFilename, brickPosition, 1, hitsToDestroy, powerup, bounceFactor, brickType, doubleSizeBrick);
@@ -189,8 +192,25 @@ namespace Impact.Game.Managers
                     CCPoint position = new CCPoint((float)wormhole.X + xAdjustment, (startY + tileHeight) - ((float)wormhole.Y + yAdjustment));
                     WormholeType wormholeType = wormhole.Properties.GetPropertyValue(WormholeTypePropertyName, s => (WormholeType)Enum.Parse(typeof(WormholeType), s));
                     string exitName = wormhole.Properties.GetPropertyValue(WormholeExitNamePropertyName, s => s.ToString());
+                    WormholeExitDirection exitDirection = wormhole.Properties.GetPropertyValue(WormholeExitDirectionPropertyName, s => (WormholeExitDirection)Enum.Parse(typeof(WormholeExitDirection), s));
 
-                    WormholeFactory.Instance.CreateNew(wormholeImageFilename, position, wormholeType, wormhole.Name, exitName);
+                    WormholeFactory.Instance.CreateNew(wormholeImageFilename, position, wormholeType, wormhole.Name, exitName, exitDirection);
+                }
+            }
+
+            if (tileMap.ObjectGroups.Contains(PaddlesObjectGroup))
+            {
+                TmxObjectGroup paddles = tileMap.ObjectGroups[PaddlesObjectGroup];
+
+                foreach (TmxObject extraPaddle in paddles.Objects)
+                {
+                    //Because we draw the bricks manually, with a gap, the coordinates for objects on the map need adjusting to our level coordinates.
+                    //The coordinates will be out by the number of brick gaps between the point and 0,0
+                    float xAdjustment = (int)(extraPaddle.X / tileMap.TileWidth) * GameConstants.BrickGap;
+                    float yAdjustment = (int)(extraPaddle.Y / tileMap.TileHeight) * GameConstants.BrickGap;
+
+                    CCPoint position = new CCPoint((float)extraPaddle.X + xAdjustment, (startY + tileHeight) - ((float)extraPaddle.Y + yAdjustment));
+                    PaddleFactory.Instance.CreateNew(position);
                 }
             }
 

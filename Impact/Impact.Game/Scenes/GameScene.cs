@@ -21,7 +21,7 @@ namespace Impact.Game.Scenes
         private GameOverLayer _gameOverLayer;
         private LevelCompleteLayer _levelCompleteLayer;
 
-        private Paddle _paddle;
+        private List<Paddle> _paddles = new List<Paddle>();
         private CCLabel _scoreLabel;
         private CCLabel _livesLabel;
         private CCLabel _levelLabel;
@@ -107,7 +107,7 @@ namespace Impact.Game.Scenes
                 OnTouchesMoved = HandleTouchesMoved,
                 OnTouchesBegan = HandleTouchesBegan
             };
-            AddEventListener(touchListener, DefaultEventPriority);
+            _gameLayer.AddEventListener(touchListener, DefaultEventPriority);
 
         }
 
@@ -138,8 +138,10 @@ namespace Impact.Game.Scenes
             ProjectileFactory.Instance.ProjectileCreated += ProjectileFactory_ProjectileCreated;
             ProjectileFactory.Instance.ProjectileDestroyed += ProjectileFactory_ProjectileDestroyed;
 
-        }
+            PaddleFactory.Instance.PaddleCreated += PaddleFactory_PaddleCreated;
 
+        }
+        
         /// <summary>
         /// Unsubscribe from our various game events
         /// </summary>
@@ -163,13 +165,17 @@ namespace Impact.Game.Scenes
             _scoreManager.ScoreUpdated -= ScoreManager_ScoreUpdated;
             ProjectileFactory.Instance.ProjectileCreated -= ProjectileFactory_ProjectileCreated;
             ProjectileFactory.Instance.ProjectileDestroyed -= ProjectileFactory_ProjectileDestroyed;
+
+            PaddleFactory.Instance.PaddleCreated -= PaddleFactory_PaddleCreated;
+            _gameLayer.RemoveAllListeners();
         }
         
         private void AddEntities()
         {
-            _paddle = new Paddle();
-            _gameLayer.AddChild(_paddle);
 
+            //Create main paddle (others may be created during level load)
+            PaddleFactory.Instance.CreateNew(GameConstants.PaddleInitialPosition);
+            
             //Create one ball
             BallFactory.Instance.CreateNew();
 
@@ -246,17 +252,21 @@ namespace Impact.Game.Scenes
 
         private void ProjectileFactory_ProjectileCreated(Projectile projectile)
         {
-            if (_paddle.Weapon.IsSingleShot)
+            foreach (Paddle paddle in _paddles)
             {
-                if (_projectiles.Any())
+                if (paddle.Weapon.IsSingleShot)
                 {
-                    return;
+                    if (_projectiles.Any())
+                    {
+                        return;
+                    }
                 }
             }
+            
             _projectiles.Add(projectile);
             _gameLayer.AddChild(projectile);
 
-            CCAudioEngine.SharedEngine.PlayEffect(_paddle.Weapon.FireSound);
+            CCAudioEngine.SharedEngine.PlayEffect(_paddles[0].Weapon.FireSound);
         }
 
         private void ProjectileFactory_ProjectileDestroyed(Projectile bullet)
@@ -400,14 +410,34 @@ namespace Impact.Game.Scenes
             {
                 GameStateManager.Instance.StartStopLevel(!GameStateManager.Instance.DebugMode);
             }
+
+            if (touches.Count > 0)
+            {
+                CCTouch firstTouch = touches[0];
+
+                foreach (Paddle paddle in _paddles)
+                {
+                    paddle.PositionX = firstTouch.Location.X;
+                }
+                
+            }
         }
 
         private void HandleTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
         {
-            if (_paddle.Weapon != null)
+            foreach (Paddle paddle in _paddles)
             {
-                _paddle.FireProjectile();
+                if (paddle.Weapon != null)
+                {
+                    paddle.FireProjectile();
+                }
             }
+        }
+
+        private void PaddleFactory_PaddleCreated(Paddle paddle)
+        {
+            _paddles.Add(paddle);
+            _gameLayer.AddChild(paddle);
         }
 
         /// <summary>
@@ -435,7 +465,7 @@ namespace Impact.Game.Scenes
         private void RunGameLogic(float frameTimeInSeconds)
         {
             //Collision logic
-            _collisionManager.HandleCollisions(_gameLayer, _paddle, _balls, _bricks, _powerups, _wormholes, _scoreUps, _projectiles);
+            _collisionManager.HandleCollisions(_gameLayer, _paddles, _balls, _bricks, _powerups, _wormholes, _scoreUps, _projectiles);
 
             //Remove projectiles if they go off screen
             for (int p = _projectiles.Count - 1; p >= 0; p--)
@@ -541,7 +571,7 @@ namespace Impact.Game.Scenes
 
             ResetEntities();
 
-            LevelManager.Instance.LoadLevel(level, _paddle, _balls, _scoreManager);
+            LevelManager.Instance.LoadLevel(level, _paddles[0], _balls, _scoreManager);
 
             foreach (Ball ball in _balls)
             {

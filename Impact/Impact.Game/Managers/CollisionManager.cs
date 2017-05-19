@@ -25,22 +25,20 @@ namespace Impact.Game.Managers
         public event Action<Wormhole> WormholeInUse;
         public event Action BallIsOutsideWormholes;
 
-        public void HandleCollisions(CCLayer layer, Paddle paddle, List<Ball> balls, List<Brick> bricks, List<Powerup> powerups, List<Wormhole> wormholes, List<ScoreUp> scoreUps, List<Projectile> projectiles)
+        public void HandleCollisions(CCLayer layer, List<Paddle> paddles, List<Ball> balls, List<Brick> bricks, List<Powerup> powerups, List<Wormhole> wormholes, List<ScoreUp> scoreUps, List<Projectile> projectiles)
         {
-
-            CCRect paddleBoundingBox = paddle.BoundingBoxTransformedToWorld;
-
+            
             HandleProjectileCollisions(bricks, projectiles);
 
-            HandleBallCollisions(layer, paddle, balls, bricks, wormholes, paddleBoundingBox);
+            HandleBallCollisions(layer, paddles, balls, bricks, wormholes);
 
-            HandlePowerupCollisions(powerups, paddleBoundingBox);
+            HandlePowerupCollisions(powerups, paddles);
 
-            HandleScoreupCollisions(scoreUps, paddleBoundingBox);
+            HandleScoreupCollisions(scoreUps, paddles);
 
         }
 
-        private bool HandleBallCollisions(CCLayer layer, Paddle paddle, IReadOnlyList<Ball> balls, List<Brick> bricks, List<Wormhole> wormholes, CCRect paddleBoundingBox)
+        private bool HandleBallCollisions(CCLayer layer, List<Paddle> paddles, IReadOnlyList<Ball> balls, List<Brick> bricks, List<Wormhole> wormholes)
         {
             for (int ballIndex = balls.Count - 1; ballIndex >= 0; ballIndex--)
             {
@@ -56,10 +54,21 @@ namespace Impact.Game.Managers
                 float screenBottom = layer.VisibleBoundsWorldspace.MinY;
                 bool isMovingDownward = ball.VelocityY < 0;
 
-                //Bounce off paddle
-                bool ballHitPaddle = ballBoundingBox.IntersectsRect(paddleBoundingBox);
+                //Bounce off paddles
+                Paddle paddleHit = null;
+                foreach (Paddle paddle in paddles)
+                {
+                    CCRect paddleBoundingBox = paddle.BoundingBoxTransformedToWorld;
+                    bool ballHitPaddle = ballBoundingBox.IntersectsRect(paddleBoundingBox);
+                    if (ballHitPaddle)
+                    {
+                        paddleHit = paddle;
+                        break;
+                    }
+                }
+                
 
-                if (ballHitPaddle && isMovingDownward)
+                if (paddleHit != null && isMovingDownward)
                 {
                     if (ball.ApplyGravity)
                     {
@@ -72,9 +81,10 @@ namespace Impact.Game.Managers
                     }
 
                     // Bounce off the paddle based on how far from the centre the ball hit
+                    CCRect paddleBoundingBox = paddleHit.BoundingBoxTransformedToWorld;
                     float distanceFromCentre = (ballBoundingBox.Center.X -
                                                 paddleBoundingBox.Center.X) /
-                                               (paddle.BoundingBox.Size.Width / 2);
+                                               (paddleHit.BoundingBox.Size.Width / 2);
 
                     ball.VelocityX = GameConstants.BallMaxVelocityX * distanceFromCentre;
 
@@ -217,6 +227,44 @@ namespace Impact.Game.Managers
 
                         ball.Position = exit.BoundingBoxTransformedToWorld.Center;
 
+                        float exitVelocityX = (GameConstants.BallMaxVelocityX / 1.75f).ApplyVariation();
+
+                        switch (exit.ExitDirection)
+                        {
+                            case WormholeExitDirection.N:
+                                ball.VelocityX = 0;
+                                ball.VelocityY = +ball.VelocityY;
+                                break;
+                            case WormholeExitDirection.S:
+                                ball.VelocityX = 0;
+                                ball.VelocityY = -ball.VelocityY;
+                                break;
+                            case WormholeExitDirection.E:
+                                ball.VelocityX = +exitVelocityX;
+                                ball.VelocityY = 0;
+                                break;
+                            case WormholeExitDirection.W:
+                                ball.VelocityX = -exitVelocityX;
+                                ball.VelocityY = 0;
+                                break;
+                            case WormholeExitDirection.NW:
+                                ball.VelocityX = -exitVelocityX;
+                                ball.VelocityY = +ball.VelocityY;
+                                break;
+                            case WormholeExitDirection.NE:
+                                ball.VelocityX = +exitVelocityX;
+                                ball.VelocityY = +ball.VelocityY;
+                                break;
+                            case WormholeExitDirection.SW:
+                                ball.VelocityX = -exitVelocityX;
+                                ball.VelocityY = -ball.VelocityY;
+                                break;
+                            case WormholeExitDirection.SE:
+                                ball.VelocityX = +exitVelocityX;
+                                ball.VelocityY = -ball.VelocityY;
+                                break;
+                        }
+
                         return true;
                     }
                 }
@@ -230,28 +278,40 @@ namespace Impact.Game.Managers
             return false;
         }
 
-        private void HandleScoreupCollisions(List<ScoreUp> scoreUps, CCRect paddleBoundingBox)
+        private void HandleScoreupCollisions(List<ScoreUp> scoreUps, List<Paddle> paddles)
         {
             for (int s = scoreUps.Count - 1; s >= 0; s--)
             {
                 ScoreUp scoreUp = scoreUps[s];
-                bool scoreUpHitPaddle = scoreUp.BoundingBoxTransformedToWorld.IntersectsRect(paddleBoundingBox);
-                if (scoreUpHitPaddle)
+
+                foreach (Paddle paddle in paddles)
                 {
-                    ScoreUpCollected?.Invoke(scoreUp);
+                    CCRect paddleBoundingBox = paddle.BoundingBoxTransformedToWorld;
+                    bool scoreUpHitPaddle = scoreUp.BoundingBoxTransformedToWorld.IntersectsRect(paddleBoundingBox);
+                    if (scoreUpHitPaddle)
+                    {
+                        ScoreUpCollected?.Invoke(scoreUp);
+                    }
                 }
+                
             }
         }
 
-        private void HandlePowerupCollisions(List<Powerup> powerups, CCRect paddleBoundingBox)
+        private void HandlePowerupCollisions(List<Powerup> powerups, List<Paddle> paddles)
         {
             for (int p = powerups.Count - 1; p >= 0; p--)
             {
                 Powerup powerup = powerups[p];
-                bool powerupHitPaddle = powerup.BoundingBoxTransformedToWorld.IntersectsRect(paddleBoundingBox);
-                if (powerupHitPaddle)
+
+                foreach (Paddle paddle in paddles)
                 {
-                    PowerupCollected?.Invoke(powerup);
+                    CCRect paddleBoundingBox = paddle.BoundingBoxTransformedToWorld;
+                    bool powerupHitPaddle = powerup.BoundingBoxTransformedToWorld.IntersectsRect(paddleBoundingBox);
+                    if (powerupHitPaddle)
+                    {
+                        PowerupCollected?.Invoke(powerup);
+                        break;
+                    }
                 }
             }
         }

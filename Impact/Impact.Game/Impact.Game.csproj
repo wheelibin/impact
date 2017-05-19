@@ -38,6 +38,8 @@
     <Compile Include="Entities\Ball.cs" />
     <Compile Include="Entities\Brick.cs" />
     <Compile Include="Entities\Bullet.cs" />
+    <Compile Include="Enums\WormholeExitDirectionEnum.cs" />
+    <Compile Include="Factories\PaddleFactory.cs" />
     <Compile Include="Weapons\RocketLauncher.cs" />
     <Compile Include="Weapons\Gun.cs" />
     <Compile Include="Weapons\IWeapon.cs" />

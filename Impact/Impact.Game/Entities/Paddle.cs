@@ -33,7 +33,7 @@ namespace Impact.Game.Entities
         private readonly CCSprite _sprite;
         private IWeapon _weapon;
 
-        public Paddle()
+        public Paddle(CCPoint position)
         {
             CCSpriteFrame frame = GameStateManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == GameConstants.SpriteImagePaddle);
             _sprite = new CCSprite(frame)
@@ -44,14 +44,9 @@ namespace Impact.Game.Entities
             AddChild(_sprite);
 
             ContentSize = _sprite.ContentSize;
-            PositionX = GameConstants.PaddleInitialPosition.X;
-            PositionY = GameConstants.PaddleInitialPosition.Y;
+            Position = position;
             ScaleX = GameConstants.PaddleScaleX;
             AnchorPoint = CCPoint.AnchorMiddle;
-
-            var touchListener = new CCEventListenerTouchAllAtOnce {OnTouchesMoved = HandleInput};
-            AddEventListener(touchListener, this);
-
         }
 
         /// <summary>
@@ -61,15 +56,6 @@ namespace Impact.Game.Entities
         {
             CCPoint bulletStartPosition = new CCPoint(Position.X, Position.Y + Weapon.YOffset);
             ProjectileFactory.Instance.CreateNew(Weapon.ProjectileType, bulletStartPosition);
-        }
-
-        private void HandleInput(List<CCTouch> touches, CCEvent touchEvent)
-        {
-            if (touches.Count > 0)
-            {
-                CCTouch firstTouch = touches[0];
-                PositionX = firstTouch.Location.X;
-            }
         }
 
     }

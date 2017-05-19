@@ -13,9 +13,9 @@ namespace Impact.Game.Factories
 
         public event Action<Wormhole> WormholeCreated;
 
-        public Wormhole CreateNew(string spriteImageFilename, CCPoint position, WormholeType wormholeType, string objectName, string exitName)
+        public Wormhole CreateNew(string spriteImageFilename, CCPoint position, WormholeType wormholeType, string objectName, string exitName, WormholeExitDirection exitDirection)
         {
-            Wormhole newWormhole = new Wormhole(spriteImageFilename, position, wormholeType, objectName, exitName);
+            Wormhole newWormhole = new Wormhole(spriteImageFilename, position, wormholeType, objectName, exitName, exitDirection);
             WormholeCreated?.Invoke(newWormhole);
             return newWormhole;
         }
