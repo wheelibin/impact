@@ -233,35 +233,35 @@ namespace Impact.Game.Managers
                         {
                             case WormholeExitDirection.N:
                                 ball.VelocityX = 0;
-                                ball.VelocityY = +ball.VelocityY;
+                                ball.VelocityY = Math.Abs(ball.VelocityY);
                                 break;
                             case WormholeExitDirection.S:
                                 ball.VelocityX = 0;
-                                ball.VelocityY = -ball.VelocityY;
+                                ball.VelocityY = Math.Abs(ball.VelocityY) * -1;
                                 break;
                             case WormholeExitDirection.E:
-                                ball.VelocityX = +exitVelocityX;
+                                ball.VelocityX = Math.Abs(exitVelocityX);
                                 ball.VelocityY = 0;
                                 break;
                             case WormholeExitDirection.W:
-                                ball.VelocityX = -exitVelocityX;
+                                ball.VelocityX = Math.Abs(exitVelocityX) *-1;
                                 ball.VelocityY = 0;
                                 break;
                             case WormholeExitDirection.NW:
-                                ball.VelocityX = -exitVelocityX;
-                                ball.VelocityY = +ball.VelocityY;
+                                ball.VelocityX = Math.Abs(exitVelocityX) * -1;
+                                ball.VelocityY = Math.Abs(ball.VelocityY);
                                 break;
                             case WormholeExitDirection.NE:
-                                ball.VelocityX = +exitVelocityX;
-                                ball.VelocityY = +ball.VelocityY;
+                                ball.VelocityX = Math.Abs(exitVelocityX);
+                                ball.VelocityY = Math.Abs(ball.VelocityY);
                                 break;
                             case WormholeExitDirection.SW:
-                                ball.VelocityX = -exitVelocityX;
-                                ball.VelocityY = -ball.VelocityY;
+                                ball.VelocityX = Math.Abs(exitVelocityX) * -1;
+                                ball.VelocityY = Math.Abs(ball.VelocityY) * -1;
                                 break;
                             case WormholeExitDirection.SE:
-                                ball.VelocityX = +exitVelocityX;
-                                ball.VelocityY = -ball.VelocityY;
+                                ball.VelocityX = Math.Abs(exitVelocityX);
+                                ball.VelocityY = Math.Abs(ball.VelocityY) * -1;
                                 break;
                         }
 
