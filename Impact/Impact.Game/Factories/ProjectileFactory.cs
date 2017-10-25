@@ -41,9 +41,9 @@ namespace Impact.Game.Factories
             return projectile;
         }
 
-        public void DestroyBullet(Projectile bullet)
+        public void DestroyProjectile(Projectile projectile)
         {
-            ProjectileDestroyed?.Invoke(bullet);
+            ProjectileDestroyed?.Invoke(projectile);
         }
 
     }

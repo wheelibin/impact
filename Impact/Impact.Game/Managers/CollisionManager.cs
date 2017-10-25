@@ -284,6 +284,13 @@ namespace Impact.Game.Managers
             {
                 ScoreUp scoreUp = scoreUps[s];
 
+                // Destroy if gone off screen
+                if (scoreUp.PositionY < 0)
+                {
+                    ScoreUpFactory.Instance.DestroyScoreUp(scoreUp);
+                    continue;
+                }
+
                 foreach (Paddle paddle in paddles)
                 {
                     CCRect paddleBoundingBox = paddle.BoundingBoxTransformedToWorld;
@@ -321,6 +328,13 @@ namespace Impact.Game.Managers
             for (int b = projectiles.Count - 1; b >= 0; b--)
             {
                 Projectile projectile = projectiles[b];
+
+                // Destroy if gone off screen
+                if (projectile.PositionY > GameConstants.WorldTop) {
+                    ProjectileFactory.Instance.DestroyProjectile(projectile);
+                    continue;
+                }
+
                 List<Brick> bricksHitByProjectile = projectile.BricksHitByEntity(bricks);
 
                 foreach (Brick brick in bricksHitByProjectile)
@@ -334,7 +348,7 @@ namespace Impact.Game.Managers
 
                 if (bricksHitByProjectile.Any() && projectile.IsDestroyedByBrickCollision)
                 {
-                    ProjectileFactory.Instance.DestroyBullet(projectile);
+                    ProjectileFactory.Instance.DestroyProjectile(projectile);
                 }
             }
         }

@@ -45,7 +45,7 @@ namespace Impact.Game.Scenes
 
         public GameScene(CCGameView gameView) : base(gameView)
         {
-            GameStateManager.Instance.CheatModeEnabled = true;
+            //GameStateManager.Instance.CheatModeEnabled = true;
 
             //Preload the entire spritesheet
             CCSpriteFrameCache.SharedSpriteFrameCache.AddSpriteFrames(GameConstants.GameEntitiesSpriteSheet, GameConstants.GameEntitiesSpriteSheetImage);
@@ -77,11 +77,11 @@ namespace Impact.Game.Scenes
             //GameConstants.BackgroundColours.Enqueue(backgroundColour);
 
             _backgroundLayer = new CCLayerColor(GameConstants.BackgroundColour);
-            //var sprite = new CCSprite("GameBackground.png")
-            //{
-            //    AnchorPoint = CCPoint.AnchorLowerLeft
-            //};
-            //backgroundLayer.AddChild(sprite);
+            var sprite = new CCSprite("GameBackground.png")
+            {
+                AnchorPoint = CCPoint.AnchorLowerLeft
+            };
+            _backgroundLayer.AddChild(sprite);
             AddChild(_backgroundLayer);
 
             _gameLayer = new CCLayer();
@@ -134,6 +134,7 @@ namespace Impact.Game.Scenes
             GameStateManager.Instance.LivesChanged += GameStateManager_LivesChanged;
             WormholeFactory.Instance.WormholeCreated += WormholeFactory_WormholeCreated;
             ScoreUpFactory.Instance.ScoreUpCreated += ScoreUpFactory_ScoreUpCreated;
+            ScoreUpFactory.Instance.ScoreUpDestroyed += ScoreUpFactory_ScoreUpDestroyed;
             _scoreManager.ScoreUpdated += ScoreManager_ScoreUpdated;
             ProjectileFactory.Instance.ProjectileCreated += ProjectileFactory_ProjectileCreated;
             ProjectileFactory.Instance.ProjectileDestroyed += ProjectileFactory_ProjectileDestroyed;
@@ -162,12 +163,12 @@ namespace Impact.Game.Scenes
             
             WormholeFactory.Instance.WormholeCreated -= WormholeFactory_WormholeCreated;
             ScoreUpFactory.Instance.ScoreUpCreated -= ScoreUpFactory_ScoreUpCreated;
+            ScoreUpFactory.Instance.ScoreUpDestroyed -= ScoreUpFactory_ScoreUpDestroyed;
             _scoreManager.ScoreUpdated -= ScoreManager_ScoreUpdated;
             ProjectileFactory.Instance.ProjectileCreated -= ProjectileFactory_ProjectileCreated;
             ProjectileFactory.Instance.ProjectileDestroyed -= ProjectileFactory_ProjectileDestroyed;
 
             PaddleFactory.Instance.PaddleCreated -= PaddleFactory_PaddleCreated;
-            _gameLayer.RemoveAllListeners();
         }
         
         private void AddEntities()
@@ -361,6 +362,12 @@ namespace Impact.Game.Scenes
         {
             _scoreUps.Add(scoreUp);
             _gameLayer.AddChild(scoreUp);
+        }
+
+        private void ScoreUpFactory_ScoreUpDestroyed(ScoreUp scoreUp)
+        {
+            _scoreUps.Remove(scoreUp);
+            scoreUp.RemoveFromParent();
         }
 
         private void ScoreManager_ScoreUpdated()

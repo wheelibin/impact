@@ -15,6 +15,7 @@ namespace Impact.Game.Factories
         public static ScoreUpFactory Instance => SelfInstance.Value;
 
         public event Action<ScoreUp> ScoreUpCreated;
+        public event Action<ScoreUp> ScoreUpDestroyed;
 
         /// <summary>
         /// Creates a new ScoreUp at the top of the screen at a random X position and gives it a random score value
@@ -30,6 +31,11 @@ namespace Impact.Game.Factories
             ScoreUp newScoreUp = new ScoreUp(new CCPoint(randomX, GameConstants.WorldHeight), randomScore);
             ScoreUpCreated?.Invoke(newScoreUp);
             return newScoreUp;
+        }
+
+        public void DestroyScoreUp(ScoreUp scoreUp)
+        {
+            ScoreUpDestroyed?.Invoke(scoreUp);
         }
 
     }
