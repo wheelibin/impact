@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="left-up" width="14" height="38" tilewidth="57" tileheight="19" backgroundcolor="#002028" nextobjectid="25">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="left-up" width="14" height="38" tilewidth="57" tileheight="19" backgroundcolor="#002028" nextobjectid="25">
  <properties>
   <property name="FinalBallSpeedPercentageIncrease" type="int" value="25"/>
  </properties>
@@ -150,32 +150,32 @@
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,5,0,5,0,5,0,5,0,5,0,
+0,0,0,0,0,0,5,0,5,0,5,0,5,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,3,0,3,0,3,0,3,0,3,0,
+0,0,0,0,0,0,3,0,3,0,0,0,3,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,7,0,7,0,7,0,7,0,7,0,
+0,0,0,0,0,0,7,0,7,0,0,0,7,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,1,0,1,0,1,0,1,0,1,0,
+0,0,0,0,0,0,1,0,1,0,0,0,1,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,5,0,5,0,5,0,5,0,5,0,
+0,0,0,0,0,0,5,0,5,0,0,0,5,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,3,0,3,0,3,0,3,0,3,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,3,0,3,0,0,0,3,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 19,19,19,19,19,19,19,19,19,19,19,19,19,19,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-4,0,4,0,4,0,4,0,4,0,4,0,4,0,
+4,0,4,0,4,0,0,0,4,0,4,0,4,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -231,20 +231,20 @@
 </data>
  </layer>
  <objectgroup name="Wormholes">
-  <object id="11" name="A" gid="25" x="370" y="649" width="57" height="57">
+  <object id="11" name="A" gid="25" x="371" y="499" width="57" height="57">
    <properties>
     <property name="ExitDirection" value="S"/>
     <property name="ExitName" value="B"/>
     <property name="WormholeType" type="int" value="2"/>
    </properties>
   </object>
-  <object id="13" name="B" gid="26" x="111" y="191" width="57" height="55">
+  <object id="13" name="B" gid="26" x="597" y="342" width="57" height="55">
    <properties>
-    <property name="ExitDirection" value="SE"/>
+    <property name="ExitDirection" value="NE"/>
     <property name="WormholeType" type="int" value="1"/>
    </properties>
   </object>
-  <object id="21" name="C" gid="25" x="26" y="451" width="57" height="57">
+  <object id="21" name="C" gid="25" x="26" y="317" width="57" height="57">
    <properties>
     <property name="ExitName" value="A"/>
     <property name="WormholeType" type="int" value="0"/>
@@ -252,6 +252,6 @@
   </object>
  </objectgroup>
  <objectgroup name="Paddles">
-  <object id="23" gid="27" x="343" y="455" width="114" height="16"/>
+  <object id="23" gid="27" x="343" y="398" width="114" height="16"/>
  </objectgroup>
 </map>

@@ -76,7 +76,7 @@
     <CodesignKey>iPhone Developer: Jon Wheeler (E377NE4KJ9)</CodesignKey>
     <MtouchDebug>True</MtouchDebug>
     <CodesignProvision>Impact Dev</CodesignProvision>
-    <MtouchSdkVersion>9.3</MtouchSdkVersion>
+    <MtouchSdkVersion></MtouchSdkVersion>
     <MtouchLink>None</MtouchLink>
     <MtouchFastDev>True</MtouchFastDev>
     <MtouchUseLlvm>False</MtouchUseLlvm>
@@ -97,7 +97,8 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <ConsolePause>false</ConsolePause>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Developer: Jon Wheeler (E377NE4KJ9)</CodesignKey>
+    <CodesignProvision>Impact Dev</CodesignProvision>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Content\Fonts\MarkerFelt-22.xnb" />
@@ -241,6 +242,22 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ITunesArtwork Include="iTunesArtwork" />
+    <ITunesArtwork Include="iTunesArtwork%402x" />
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-App-20x20%402x.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-App-20x20%403x.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-App-29x29%402x.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-App-29x29%403x.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-App-40x40%402x.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-App-40x40%403x.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-App-60x60%402x.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-App-60x60%403x.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\Contents.json" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

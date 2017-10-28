@@ -4,9 +4,9 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.2.2</string>
+        <string>4.5.0</string>
         <key>fileName</key>
-        <string>C:/Users/jon/Dropbox/dev/Impact/Impact-GameScreen.tps</string>
+        <string>/Users/jon/dev/impact/Impact-GameScreen.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -47,6 +47,8 @@
         <uint>32768</uint>
         <key>etc1CompressionQuality</key>
         <enum type="SettingsBase::Etc1CompressionQuality">ETC1_QUALITY_LOW_PERCEPTUAL</enum>
+        <key>etc2CompressionQuality</key>
+        <enum type="SettingsBase::Etc2CompressionQuality">ETC2_QUALITY_LOW_PERCEPTUAL</enum>
         <key>dxtCompressionMode</key>
         <enum type="SettingsBase::DxtCompressionMode">DXT_PERCEPTUAL</enum>
         <key>jxrColorFormat</key>
@@ -78,6 +80,8 @@
         <key>webpQualityLevel</key>
         <uint>101</uint>
         <key>textureSubPath</key>
+        <string></string>
+        <key>atfFormats</key>
         <string></string>
         <key>textureFormat</key>
         <enum type="SettingsBase::TextureFormat">png</enum>
@@ -118,6 +122,11 @@
                 <enum type="AlgorithmBasicSettings::SortBy">Best</enum>
                 <key>order</key>
                 <enum type="AlgorithmBasicSettings::Order">Ascending</enum>
+            </struct>
+            <key>polygon</key>
+            <struct type="AlgorithmPolygonSettings">
+                <key>alignToGrid</key>
+                <uint>1</uint>
             </struct>
         </struct>
         <key>andEngine</key>
@@ -163,6 +172,8 @@
         <false/>
         <key>prependSmartFolderName</key>
         <false/>
+        <key>autodetectAnimations</key>
+        <true/>
         <key>globalSpriteSettings</key>
         <struct type="SpriteSettings">
             <key>scale</key>
@@ -189,48 +200,212 @@
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
             <key type="filename">SourceImages/Game/Ball.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>208,370,417,741</rect>
+                <key>scale9Paddings</key>
+                <rect>208,370,417,741</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">SourceImages/Game/Brick-A1.png</key>
             <key type="filename">SourceImages/Game/Brick-A2.png</key>
             <key type="filename">SourceImages/Game/Brick-B1.png</key>
             <key type="filename">SourceImages/Game/Brick-B2.png</key>
-            <key type="filename">SourceImages/Game/Brick-Bounce1.png</key>
             <key type="filename">SourceImages/Game/Brick-C1.png</key>
             <key type="filename">SourceImages/Game/Brick-C2.png</key>
             <key type="filename">SourceImages/Game/Brick-D1.png</key>
             <key type="filename">SourceImages/Game/Brick-D2.png</key>
             <key type="filename">SourceImages/Game/Brick-E1.png</key>
+            <key type="filename">SourceImages/Game/PaddleRocket.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>29,10,57,19</rect>
+                <key>scale9Paddings</key>
+                <rect>29,10,57,19</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">SourceImages/Game/Brick-Bounce1.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>29,5,57,10</rect>
+                <key>scale9Paddings</key>
+                <rect>29,5,57,10</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">SourceImages/Game/Bullet.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>2,6,4,12</rect>
+                <key>scale9Paddings</key>
+                <rect>2,6,4,12</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">SourceImages/Game/GameOverPopupBackground.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>176,103,352,205</rect>
+                <key>scale9Paddings</key>
+                <rect>176,103,352,205</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">SourceImages/Game/GameOverPopupPlayButton.png</key>
-            <key type="filename">SourceImages/Game/LifeUp.png</key>
-            <key type="filename">SourceImages/Game/NewLevelPopupBackground.png</key>
             <key type="filename">SourceImages/Game/NewLevelPopupMainMenuButton.png</key>
             <key type="filename">SourceImages/Game/NewLevelPopupPlayButton.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>126,24,253,47</rect>
+                <key>scale9Paddings</key>
+                <rect>126,24,253,47</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">SourceImages/Game/LifeUp.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>10,10,19,19</rect>
+                <key>scale9Paddings</key>
+                <rect>10,10,19,19</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">SourceImages/Game/NewLevelPopupBackground.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>176,136,352,272</rect>
+                <key>scale9Paddings</key>
+                <rect>176,136,352,272</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">SourceImages/Game/Paddle.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>29,4,57,8</rect>
+                <key>scale9Paddings</key>
+                <rect>29,4,57,8</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">SourceImages/Game/PaddleBullet.png</key>
-            <key type="filename">SourceImages/Game/PaddleRocket.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>29,13,57,26</rect>
+                <key>scale9Paddings</key>
+                <rect>29,13,57,26</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">SourceImages/Game/PowerupBullets.png</key>
             <key type="filename">SourceImages/Game/PowerupFireball.png</key>
             <key type="filename">SourceImages/Game/PowerupLargerPaddle.png</key>
             <key type="filename">SourceImages/Game/PowerupMultiBall.png</key>
             <key type="filename">SourceImages/Game/PowerupRockets.png</key>
-            <key type="filename">SourceImages/Game/Rocket.png</key>
             <key type="filename">SourceImages/Game/ScoreUp.png</key>
-            <key type="filename">SourceImages/Game/SmallBrick-A1.png</key>
-            <key type="filename">SourceImages/Game/SmallBrick-A2.png</key>
-            <key type="filename">SourceImages/Game/SmallBrick-B1.png</key>
-            <key type="filename">SourceImages/Game/SmallBrick-B2.png</key>
-            <key type="filename">SourceImages/Game/SmallBrick-Bounce1.png</key>
-            <key type="filename">SourceImages/Game/SmallBrick-C1.png</key>
-            <key type="filename">SourceImages/Game/SmallBrick-C2.png</key>
-            <key type="filename">SourceImages/Game/SmallBrick-D1.png</key>
-            <key type="filename">SourceImages/Game/SmallBrick-D2.png</key>
-            <key type="filename">SourceImages/Game/SmallBrick-E1.png</key>
             <key type="filename">SourceImages/Game/WormholeIn.png</key>
             <key type="filename">SourceImages/Game/WormholeOut.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>14,14,29,29</rect>
+                <key>scale9Paddings</key>
+                <rect>14,14,29,29</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">SourceImages/Game/Rocket.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>6,13,12,26</rect>
+                <key>scale9Paddings</key>
+                <rect>6,13,12,26</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">SourceImages/Game/SmallBrick-A1.png</key>
+            <key type="filename">SourceImages/Game/SmallBrick-A2.png</key>
+            <key type="filename">SourceImages/Game/SmallBrick-B1.png</key>
+            <key type="filename">SourceImages/Game/SmallBrick-B2.png</key>
+            <key type="filename">SourceImages/Game/SmallBrick-C1.png</key>
+            <key type="filename">SourceImages/Game/SmallBrick-C2.png</key>
+            <key type="filename">SourceImages/Game/SmallBrick-D1.png</key>
+            <key type="filename">SourceImages/Game/SmallBrick-D2.png</key>
+            <key type="filename">SourceImages/Game/SmallBrick-E1.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>14,5,29,10</rect>
+                <key>scale9Paddings</key>
+                <rect>14,5,29,10</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">SourceImages/Game/SmallBrick-Bounce1.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>14,3,29,5</rect>
+                <key>scale9Paddings</key>
+                <rect>14,3,29,5</rect>
+                <key>scale9FromFile</key>
+                <false/>
             </struct>
         </map>
         <key>fileList</key>
@@ -238,7 +413,6 @@
             <filename>SourceImages/Game/NewLevelPopupBackground.png</filename>
             <filename>SourceImages/Game/NewLevelPopupMainMenuButton.png</filename>
             <filename>SourceImages/Game/NewLevelPopupPlayButton.png</filename>
-            <filename>SourceImages/Game/Ball.png</filename>
             <filename>SourceImages/Game/Brick-A1.png</filename>
             <filename>SourceImages/Game/Brick-A2.png</filename>
             <filename>SourceImages/Game/Brick-B1.png</filename>
@@ -275,6 +449,7 @@
             <filename>SourceImages/Game/PowerupRockets.png</filename>
             <filename>SourceImages/Game/Rocket.png</filename>
             <filename>SourceImages/Game/PaddleRocket.png</filename>
+            <filename>SourceImages/Game/Ball.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
@@ -296,5 +471,7 @@
         <string></string>
         <key>normalMapSheetFileName</key>
         <filename></filename>
+        <key>exporterProperties</key>
+        <map type="ExporterProperties"/>
     </struct>
 </data>

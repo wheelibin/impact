@@ -310,6 +310,13 @@ namespace Impact.Game.Managers
             {
                 Powerup powerup = powerups[p];
 
+                // Destroy if gone off screen
+                if (powerup.PositionY < 0)
+                {
+                    PowerUpFactory.Instance.DestroyPowerup(powerup);
+                    continue;
+                }
+
                 foreach (Paddle paddle in paddles)
                 {
                     CCRect paddleBoundingBox = paddle.BoundingBoxTransformedToWorld;

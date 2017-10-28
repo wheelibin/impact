@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Impact.Game.Config;
 using Impact.Game.Helpers;
 
 namespace Impact.Game.Managers
@@ -23,7 +24,7 @@ namespace Impact.Game.Managers
         /// </summary>
         public void BrickDestroyed()
         {
-            Score += 10;
+            Score += GameConstants.ScoreBonusForDestroyingBrick;
             ScoreUpdated?.Invoke();
         }
 
@@ -32,7 +33,7 @@ namespace Impact.Game.Managers
         /// </summary>
         public void PowerupCollected()
         {
-            Score += 20;
+            Score += GameConstants.ScoreBonusForCollectingPowerUp;
             ScoreUpdated?.Invoke();
         }
 
@@ -51,12 +52,12 @@ namespace Impact.Game.Managers
         /// <returns>The bonus amount</returns>
         public int AddTimeBonus(float levelCompletedTime)
         {
-            const float maxLevelTime = 90;
-            const float totalAvailableBonus = 200;
+            const float maxLevelTime = GameConstants.MaxLevelTimeForBonus;
+            const float totalAvailableBonus = GameConstants.MaxTimeBonus;
 
             var percOfBonus = 1 - (levelCompletedTime / maxLevelTime);
 
-            int bonus = (int)(totalAvailableBonus * percOfBonus);
+            int bonus = percOfBonus > 0 ? (int)(totalAvailableBonus * percOfBonus) : 0;
             Score += bonus;
             return bonus;
         }
@@ -67,7 +68,7 @@ namespace Impact.Game.Managers
         /// <returns>The bonus amount</returns>
         public int AddLivesBonus(int playerLives, int startingLives)
         {
-            int bonus = playerLives * 50;
+            int bonus = playerLives * GameConstants.ScoreBonusPerRemainingLife;
             Score += bonus;
             return bonus;
         }

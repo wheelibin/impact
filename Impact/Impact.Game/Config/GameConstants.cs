@@ -58,7 +58,7 @@ namespace Impact.Game.Config
         
         //Paddle
         public static CCPoint PaddleInitialPosition => new CCPoint(320, 200);
-        public const float PaddleScaleX = 1;
+        public const float PaddleScaleX = 1.2f;
         public const float PaddleScaleY = 1;
         public const float PaddleGravityBounceVelocityY = 1000;
         public const float BulletVelocity = 750;
@@ -67,8 +67,8 @@ namespace Impact.Game.Config
         //Powerups
         public const float PowerupVelocityY = -300;
         public const float PowerupGravity = 210;
-        public const float PowerupLargerPaddleSeconds = 7;
-        public const float PowerupFireballSeconds = 7;
+        public const float PowerupLargerPaddleSeconds = 10;
+        public const float PowerupFireballSeconds = 4;
         public const float PowerupBulletsSeconds = 7;
         public const float PowerupRocketsSeconds = 7;
         public const int PowerupZOrder = 10;
@@ -84,6 +84,13 @@ namespace Impact.Game.Config
         public const int SfxVolumeDefault = 10;
         public const int MusicVolumeMax = 10;
         public const int SfxVolumeMax = 10;
+
+        //Score related
+        public const float MaxLevelTimeForBonus = 120;
+        public const float MaxTimeBonus = 200;
+        public const int ScoreBonusForDestroyingBrick = 10;
+        public const int ScoreBonusForCollectingPowerUp = 20;
+        public const int ScoreBonusPerRemainingLife = 50;
 
     }
 }

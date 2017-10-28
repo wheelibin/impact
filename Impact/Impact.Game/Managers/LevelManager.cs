@@ -96,7 +96,7 @@ namespace Impact.Game.Managers
                 HighScore = highScore,
                 FinalBallSpeedPercentageIncrease = finalBallSpeedPercentageIncrease,
                 Gravity = gravity,
-                Lives = 2
+                Lives = 3
             };
 
             //Layout config
@@ -140,27 +140,7 @@ namespace Impact.Game.Managers
 
                         //Determine which powerup to create and initialise the appropriate powerup entity
                         PowerupType powerupType = powerupTilesetTile.Properties.GetPropertyValue(PowerupTypePropertyName, s => (PowerupType)Enum.Parse(typeof(PowerupType), s));
-                        switch (powerupType)
-                        {
-                            case PowerupType.LargerPaddle:
-                                powerup = new LargerPaddlePowerup(powerupImageFilename, brickPosition, paddle);
-                                break;
-                            case PowerupType.Multiball:
-                                powerup = new MultiBallPowerup(powerupImageFilename, brickPosition, balls);
-                                break;
-                            case PowerupType.FireBall:
-                                powerup = new FireballPowerup(powerupImageFilename, brickPosition, balls);
-                                break;
-                            case PowerupType.Bullets:
-                                powerup = new GunPowerup(powerupImageFilename, brickPosition, paddle);
-                                break;
-                            case PowerupType.Rockets:
-                                powerup = new RocketLauncherPowerup(powerupImageFilename, brickPosition, paddle);
-                                break;
-                            case PowerupType.ExtraLife:
-                                powerup = new ExtraLifePowerup(powerupImageFilename, brickPosition);
-                                break;
-                        }
+                        powerup = PowerUpFactory.Instance.CreateNew(powerupType, powerupImageFilename, brickPosition, paddle, balls);
                     }
 
                     float bounceFactor = brickTilesetTile.Properties.GetPropertyValue(BounceFactorPropertyName, float.Parse);

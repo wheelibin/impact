@@ -84,6 +84,7 @@
     <Compile Include="Scenes\SettingsScene.cs" />
     <Compile Include="Scenes\LevelSelectScene.cs" />
     <Compile Include="Scenes\TitleScene.cs" />
+    <Compile Include="Factories\PowerUpFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="box2d, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">

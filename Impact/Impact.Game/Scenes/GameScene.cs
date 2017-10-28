@@ -90,7 +90,12 @@ namespace Impact.Game.Scenes
             //Draw a line under the hud
             CCDrawNode hudDrawNode = new CCDrawNode();
             _hudLayer.AddChild(hudDrawNode);
-            hudDrawNode.DrawLine(new CCPoint(0, GameConstants.WorldTop), new CCPoint(GameConstants.WorldWidth, GameConstants.WorldTop), CCColor4B.White);
+
+
+            var rect = new CCRect(0, _backgroundLayer.VisibleBoundsWorldspace.MaxY - (_backgroundLayer.VisibleBoundsWorldspace.MaxY - GameConstants.WorldTop), _backgroundLayer.VisibleBoundsWorldspace.MaxX, _backgroundLayer.VisibleBoundsWorldspace.MaxY - GameConstants.WorldTop);
+
+            hudDrawNode.DrawRect(rect, new CCColor4B(0, 0, 0, 64));
+            hudDrawNode.DrawLine(new CCPoint(0, GameConstants.WorldTop), new CCPoint(GameConstants.WorldWidth, GameConstants.WorldTop), new CCColor4B(255, 255, 255, 1));
 
             AddChild(_gameLayer);
             AddChild(_hudLayer);
@@ -135,6 +140,7 @@ namespace Impact.Game.Scenes
             WormholeFactory.Instance.WormholeCreated += WormholeFactory_WormholeCreated;
             ScoreUpFactory.Instance.ScoreUpCreated += ScoreUpFactory_ScoreUpCreated;
             ScoreUpFactory.Instance.ScoreUpDestroyed += ScoreUpFactory_ScoreUpDestroyed;
+            PowerUpFactory.Instance.PowerupDestroyed += PowerupFactory_PowerupDestroyed;
             _scoreManager.ScoreUpdated += ScoreManager_ScoreUpdated;
             ProjectileFactory.Instance.ProjectileCreated += ProjectileFactory_ProjectileCreated;
             ProjectileFactory.Instance.ProjectileDestroyed += ProjectileFactory_ProjectileDestroyed;
@@ -142,7 +148,7 @@ namespace Impact.Game.Scenes
             PaddleFactory.Instance.PaddleCreated += PaddleFactory_PaddleCreated;
 
         }
-        
+
         /// <summary>
         /// Unsubscribe from our various game events
         /// </summary>
@@ -160,30 +166,31 @@ namespace Impact.Game.Scenes
 
             GameStateManager.Instance.LevelStarted -= GameStateManager_LevelStarted;
             GameStateManager.Instance.LivesChanged -= GameStateManager_LivesChanged;
-            
+
             WormholeFactory.Instance.WormholeCreated -= WormholeFactory_WormholeCreated;
             ScoreUpFactory.Instance.ScoreUpCreated -= ScoreUpFactory_ScoreUpCreated;
             ScoreUpFactory.Instance.ScoreUpDestroyed -= ScoreUpFactory_ScoreUpDestroyed;
+            PowerUpFactory.Instance.PowerupDestroyed -= PowerupFactory_PowerupDestroyed;
             _scoreManager.ScoreUpdated -= ScoreManager_ScoreUpdated;
             ProjectileFactory.Instance.ProjectileCreated -= ProjectileFactory_ProjectileCreated;
             ProjectileFactory.Instance.ProjectileDestroyed -= ProjectileFactory_ProjectileDestroyed;
 
             PaddleFactory.Instance.PaddleCreated -= PaddleFactory_PaddleCreated;
         }
-        
+
         private void AddEntities()
         {
 
             //Create main paddle (others may be created during level load)
             PaddleFactory.Instance.CreateNew(GameConstants.PaddleInitialPosition);
-            
+
             //Create one ball
             BallFactory.Instance.CreateNew();
 
             _scoreLabel = new CCLabel("000000", "visitor1.ttf", 48, CCLabelFormat.SystemFont)
             {
                 PositionX = _gameLayer.VisibleBoundsWorldspace.MaxX - 50,
-                PositionY = _gameLayer.VisibleBoundsWorldspace.MaxY - 50,
+                PositionY = _gameLayer.VisibleBoundsWorldspace.MaxY - 35,
                 AnchorPoint = CCPoint.AnchorUpperRight
             };
             _hudLayer.AddChild(_scoreLabel);
@@ -191,7 +198,7 @@ namespace Impact.Game.Scenes
             _levelLabel = new CCLabel($"LEVEL: {LevelManager.Instance.CurrentLevel}", "visitor1.ttf", 48, CCLabelFormat.SystemFont)
             {
                 PositionX = _gameLayer.VisibleBoundsWorldspace.MinX + 50,
-                PositionY = _gameLayer.VisibleBoundsWorldspace.MaxY - 50,
+                PositionY = _gameLayer.VisibleBoundsWorldspace.MaxY - 35,
                 AnchorPoint = CCPoint.AnchorUpperLeft
             };
             _hudLayer.AddChild(_levelLabel);
@@ -199,7 +206,7 @@ namespace Impact.Game.Scenes
             _livesLabel = new CCLabel($"LIVES: {GameStateManager.Instance.Lives}", "visitor1.ttf", 48, CCLabelFormat.SystemFont)
             {
                 PositionX = _gameLayer.VisibleBoundsWorldspace.MinX + 50,
-                PositionY = _gameLayer.VisibleBoundsWorldspace.MaxY - 100,
+                PositionY = _gameLayer.VisibleBoundsWorldspace.MaxY - 85,
                 AnchorPoint = CCPoint.AnchorUpperLeft
             };
             _hudLayer.AddChild(_livesLabel);
@@ -263,7 +270,7 @@ namespace Impact.Game.Scenes
                     }
                 }
             }
-            
+
             _projectiles.Add(projectile);
             _gameLayer.AddChild(projectile);
 
@@ -402,7 +409,7 @@ namespace Impact.Game.Scenes
 
                 //Track level running time
                 Schedule(frameTime => { GameStateManager.Instance.LevelRunTime += frameTime; }, 1);
-                
+
             }
             else
             {
@@ -410,7 +417,7 @@ namespace Impact.Game.Scenes
             }
 
         }
-        
+
         private void HandleTouchesMoved(List<CCTouch> touches, CCEvent touchEvent)
         {
             if (!GameStateManager.Instance.LevelHasStarted)
@@ -426,7 +433,7 @@ namespace Impact.Game.Scenes
                 {
                     paddle.PositionX = firstTouch.Location.X;
                 }
-                
+
             }
         }
 
@@ -463,6 +470,13 @@ namespace Impact.Game.Scenes
             //Load next level
             LoadNextLevel();
         }
+
+        private void PowerupFactory_PowerupDestroyed(Powerup powerup)
+        {
+            _powerups.Remove(powerup);
+            powerup.RemoveFromParent();
+        }
+
 
         #endregion
 
@@ -695,6 +709,6 @@ namespace Impact.Game.Scenes
         }
 
         #endregion
-        
+
     }
 }
