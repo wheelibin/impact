@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using CocosSharp;
 using Impact.Game.Config;
 using Impact.Game.Entities;
@@ -25,6 +26,7 @@ namespace Impact.Game.Scenes
         private CCLabel _scoreLabel;
         private CCLabel _livesLabel;
         private CCLabel _levelLabel;
+        private CCLabel _infoLabel;
 
         private CCEventListenerTouchAllAtOnce _popupLayerEventListener;
         private CCEventListenerTouchAllAtOnce _levelCompleteLayerEventListener;
@@ -36,6 +38,8 @@ namespace Impact.Game.Scenes
         private readonly List<Ball> _balls = new List<Ball>();
         private readonly List<Wormhole> _wormholes = new List<Wormhole>();
         private readonly List<Projectile> _projectiles = new List<Projectile>();
+        private readonly List<Switch> _switches = new List<Switch>();
+        private readonly List<SwitchableElement> _switchableElements = new List<SwitchableElement>();
 
         private readonly ScoreManager _scoreManager = new ScoreManager();
         private readonly CollisionManager _collisionManager = new CollisionManager();
@@ -81,6 +85,8 @@ namespace Impact.Game.Scenes
             {
                 AnchorPoint = CCPoint.AnchorLowerLeft
             };
+
+            //_backgroundLayer = new CCLayerGradient(GameConstants.BackgroundColour, )
             _backgroundLayer.AddChild(sprite);
             AddChild(_backgroundLayer);
 
@@ -110,7 +116,8 @@ namespace Impact.Game.Scenes
             var touchListener = new CCEventListenerTouchAllAtOnce
             {
                 OnTouchesMoved = HandleTouchesMoved,
-                OnTouchesBegan = HandleTouchesBegan
+                OnTouchesBegan = HandleTouchesBegan,
+                OnTouchesEnded = HandleTouchesEnded
             };
             _gameLayer.AddEventListener(touchListener, DefaultEventPriority);
 
@@ -133,7 +140,8 @@ namespace Impact.Game.Scenes
             _collisionManager.MissedBall += CollisionManager_MissedBall;
             _collisionManager.WormholeInUse += CollisionManager_WormholeInUse;
             _collisionManager.BallIsOutsideWormholes += CollisionManager_BallIsOutsideWormholes;
-
+            _collisionManager.SwitchableElementToggle += CollisionManager_SwitchableElementToggle;
+            _collisionManager.SwitchHit += CollisionManager_SwitchHit;
 
             GameStateManager.Instance.LevelStarted += GameStateManager_LevelStarted;
             GameStateManager.Instance.LivesChanged += GameStateManager_LivesChanged;
@@ -144,9 +152,9 @@ namespace Impact.Game.Scenes
             _scoreManager.ScoreUpdated += ScoreManager_ScoreUpdated;
             ProjectileFactory.Instance.ProjectileCreated += ProjectileFactory_ProjectileCreated;
             ProjectileFactory.Instance.ProjectileDestroyed += ProjectileFactory_ProjectileDestroyed;
-
             PaddleFactory.Instance.PaddleCreated += PaddleFactory_PaddleCreated;
-
+            SwitchFactory.Instance.SwitchCreated += SwitchFactory_SwitchCreated;
+            SwitchableElementFactory.Instance.SwitchableElementCreated += SwitchableElementFactory_SwitchableElementCreated;
         }
 
         /// <summary>
@@ -163,6 +171,10 @@ namespace Impact.Game.Scenes
             _collisionManager.PowerupCollected -= CollisionManager_PowerupCollected;
             _collisionManager.ScoreUpCollected -= CollisionManager_ScoreUpCollected;
             _collisionManager.MissedBall -= CollisionManager_MissedBall;
+            _collisionManager.WormholeInUse -= CollisionManager_WormholeInUse;
+            _collisionManager.BallIsOutsideWormholes -= CollisionManager_BallIsOutsideWormholes;
+            _collisionManager.SwitchableElementToggle -= CollisionManager_SwitchableElementToggle;
+            _collisionManager.SwitchHit -= CollisionManager_SwitchHit;
 
             GameStateManager.Instance.LevelStarted -= GameStateManager_LevelStarted;
             GameStateManager.Instance.LivesChanged -= GameStateManager_LivesChanged;
@@ -176,6 +188,9 @@ namespace Impact.Game.Scenes
             ProjectileFactory.Instance.ProjectileDestroyed -= ProjectileFactory_ProjectileDestroyed;
 
             PaddleFactory.Instance.PaddleCreated -= PaddleFactory_PaddleCreated;
+            _paddles[0].WeaponRemoved -= Paddle_WeaponRemoved;
+            SwitchFactory.Instance.SwitchCreated -= SwitchFactory_SwitchCreated;
+            SwitchableElementFactory.Instance.SwitchableElementCreated -= SwitchableElementFactory_SwitchableElementCreated;
         }
 
         private void AddEntities()
@@ -194,6 +209,20 @@ namespace Impact.Game.Scenes
                 AnchorPoint = CCPoint.AnchorUpperRight
             };
             _hudLayer.AddChild(_scoreLabel);
+
+            _infoLabel = new CCLabel("", "visitor1.ttf", 40, CCLabelFormat.SystemFont)
+            {
+                PositionX = _gameLayer.VisibleBoundsWorldspace.MaxX - 50,
+                PositionY = _gameLayer.VisibleBoundsWorldspace.MaxY - 90,
+                AnchorPoint = CCPoint.AnchorUpperRight,
+                Color = GameConstants.ImpactYellow
+            };
+            var fadeOut = new CCFadeOut(1);
+            var fadeIn = new CCFadeIn(1);
+            var seq = new CCSequence(fadeOut, fadeIn);
+            var fadeForever = new CCRepeatForever(seq);
+            _infoLabel.RunAction(fadeForever);
+            _hudLayer.AddChild(_infoLabel);
 
             _levelLabel = new CCLabel($"LEVEL: {LevelManager.Instance.CurrentLevel}", "visitor1.ttf", 48, CCLabelFormat.SystemFont)
             {
@@ -230,6 +259,13 @@ namespace Impact.Game.Scenes
 
         private void BrickFactory_BrickCreated(Brick brick)
         {
+            //const float movementAmount = 25;
+            //var moveDown = new CCEaseExponentialOut(new CCMoveBy(5, new CCPoint(0, movementAmount)));
+            //var moveUp = new CCEaseExponentialIn(new CCMoveBy(5, new CCPoint(0, -movementAmount)));
+
+            //var seq = new CCSequence(moveUp, moveDown);
+            //brick.RunAction(new CCRepeatForever(seq));
+
             _bricks.Add(brick);
             _gameLayer.AddChild(brick);
 
@@ -289,6 +325,18 @@ namespace Impact.Game.Scenes
             _gameLayer.AddChild(wormhole);
         }
 
+        private void SwitchFactory_SwitchCreated(Switch newSwitch)
+        {
+            _switches.Add(newSwitch);
+            _gameLayer.AddChild(newSwitch);
+        }
+
+        private void SwitchableElementFactory_SwitchableElementCreated(SwitchableElement element)
+        {
+            _switchableElements.Add(element);
+            _gameLayer.AddChild(element);
+        }
+
         private void CollisionManager_PaddleHit()
         {
             CCAudioEngine.SharedEngine.PlayEffect(GameConstants.PaddleHitSound);
@@ -316,6 +364,12 @@ namespace Impact.Game.Scenes
             _powerups.Remove(powerup);
 
             _scoreManager.PowerupCollected();
+
+            if (_paddles[0].Weapon != null)
+            {
+                _infoLabel.Text = _paddles[0].Weapon.InfoText;
+            }
+
         }
 
         private void CollisionManager_MissedBall(Ball ball)
@@ -331,6 +385,12 @@ namespace Impact.Game.Scenes
 
                 //Create another ball
                 BallFactory.Instance.CreateNew();
+
+                //Reset the paddle(s)
+                foreach (Paddle paddle in _paddles)
+                {
+                    paddle.PositionX = GameConstants.PaddleInitialPosition.X;
+                }
 
                 //Reduce the lives
                 GameStateManager.Instance.LoseLife();
@@ -358,6 +418,27 @@ namespace Impact.Game.Scenes
             {
                 wormhole.InUse = false;
             }
+        }
+
+        private void CollisionManager_SwitchableElementToggle(SwitchableElement switchableElement)
+        {
+            if (switchableElement.ElementVisible)
+            {
+                var fadeOut = new CCEaseElasticIn(new CCFadeOut(1));
+                switchableElement.Children.First().RunAction(fadeOut);
+            }
+            else
+            {
+                var fadeIn = new CCEaseElasticOut(new CCFadeIn(1));
+                switchableElement.Children.First().RunAction(fadeIn);
+            }
+
+            switchableElement.ElementVisible = !switchableElement.ElementVisible;
+        }
+
+        private void CollisionManager_SwitchHit()
+        {
+            CCAudioEngine.SharedEngine.PlayEffect(GameConstants.SwitchHitSound);
         }
 
         private void GameStateManager_LivesChanged()
@@ -407,6 +488,35 @@ namespace Impact.Game.Scenes
                 //Drop scoreUps every 10 seconds
                 Schedule(frameTime => { ScoreUpFactory.Instance.CreateNew(); }, 10);
 
+                //Schedule(frameTime =>
+                //{
+                //    var explosion = new CCParticleExplosion(new CCPoint(GameConstants.WorldWidth / 2, GameConstants.WorldHeight / 2))
+                //    {
+                //        StartRadius = 50,
+                //        TotalParticles = 100,
+                //        Color = new CCColor3B(255,0,0),
+                //        AutoRemoveOnFinish = true
+                //    };
+                //    _gameLayer.AddChild(explosion);
+                //}, 5);
+
+
+                //var snow = new CCParticleSnow(new CCPoint(GameConstants.WorldWidth, 20))
+                //{
+                //    Position = new CCPoint(GameConstants.WorldWidth / 2, GameConstants.WorldHeight + 1),
+                //    StartColor = new CCColor4F(CCColor4B.White),
+                //    EndColor = new CCColor4F(CCColor4B.LightGray),
+                //    StartSize = 10f,
+                //    StartSizeVar = 2f,
+                //    EndSize = 8f,
+                //    EndSizeVar = 1f,
+                //    Speed = 2f,
+                //    Gravity = new CCPoint(0.5f, -2),
+                //    EmissionRate = 2.5f,
+                //    Life = 50f
+                //};
+                //_gameLayer.AddChild(snow);
+
                 //Track level running time
                 Schedule(frameTime => { GameStateManager.Instance.LevelRunTime += frameTime; }, 1);
 
@@ -420,11 +530,6 @@ namespace Impact.Game.Scenes
 
         private void HandleTouchesMoved(List<CCTouch> touches, CCEvent touchEvent)
         {
-            if (!GameStateManager.Instance.LevelHasStarted)
-            {
-                GameStateManager.Instance.StartStopLevel(!GameStateManager.Instance.DebugMode);
-            }
-
             if (touches.Count > 0)
             {
                 CCTouch firstTouch = touches[0];
@@ -432,16 +537,42 @@ namespace Impact.Game.Scenes
                 foreach (Paddle paddle in _paddles)
                 {
                     paddle.PositionX = firstTouch.Location.X;
+                    if (!GameStateManager.Instance.LevelHasStarted)
+                    {
+                        //game hasn't started, so move ball with paddle for aiming
+                        _balls.First().PositionX = paddle.PositionX;
+                    }
                 }
 
             }
         }
 
+        private void HandleTouchesEnded(List<CCTouch> touches, CCEvent touchEvent)
+        {
+            if (!GameStateManager.Instance.LevelHasStarted)
+            {
+                GameStateManager.Instance.StartStopLevel(!GameStateManager.Instance.DebugMode);
+            }
+        }
+
         private void HandleTouchesBegan(List<CCTouch> touches, CCEvent touchEvent)
         {
-            foreach (Paddle paddle in _paddles)
+            bool justActivatedProjectile = false;
+
+            for (int i = _projectiles.Count - 1; i >= 0; i--)
             {
-                if (paddle.Weapon != null)
+                Projectile projectile = _projectiles[i];
+                if (projectile.IsManuallyActivated)
+                {
+                    projectile.Activate(_gameLayer, _bricks);
+                    CCAudioEngine.SharedEngine.PlayEffect(projectile.ActivationSound);
+                    justActivatedProjectile = true;
+                }
+            }
+
+            if (!justActivatedProjectile)
+            {
+                foreach (Paddle paddle in _paddles.Where(paddle => paddle.Weapon != null))
                 {
                     paddle.FireProjectile();
                 }
@@ -452,12 +583,27 @@ namespace Impact.Game.Scenes
         {
             _paddles.Add(paddle);
             _gameLayer.AddChild(paddle);
+
+            if (_paddles.Count == 1)
+            {
+                _paddles[0].WeaponRemoved += Paddle_WeaponRemoved;
+            }
+
+        }
+
+        private void Paddle_WeaponRemoved()
+        {
+            _infoLabel.Text = "";
         }
 
         /// <summary>
         /// This higher priority event prevents event propogation from triggering the GameScene TouchesMoved event
         /// </summary>
         private void PopupLayer_TouchesMoved(List<CCTouch> touches, CCEvent touchEvent)
+        {
+            touchEvent.StopPropogation();
+        }
+        private void PopupLayer_TouchesEnded(List<CCTouch> touches, CCEvent touchEvent)
         {
             touchEvent.StopPropogation();
         }
@@ -486,7 +632,7 @@ namespace Impact.Game.Scenes
         private void RunGameLogic(float frameTimeInSeconds)
         {
             //Collision logic
-            _collisionManager.HandleCollisions(_gameLayer, _paddles, _balls, _bricks, _powerups, _wormholes, _scoreUps, _projectiles);
+            _collisionManager.HandleCollisions(_gameLayer, _paddles, _balls, _bricks, _powerups, _wormholes, _scoreUps, _projectiles, _switches, _switchableElements);
 
             //Remove projectiles if they go off screen
             for (int p = _projectiles.Count - 1; p >= 0; p--)
@@ -628,7 +774,8 @@ namespace Impact.Game.Scenes
 
             _popupLayerEventListener = new CCEventListenerTouchAllAtOnce
             {
-                OnTouchesMoved = PopupLayer_TouchesMoved
+                OnTouchesMoved = PopupLayer_TouchesMoved,
+                OnTouchesEnded = PopupLayer_TouchesEnded
             };
 
             _newLevelLayer.AddEventListener(_popupLayerEventListener, PopupLayerEventPriority);
@@ -662,7 +809,8 @@ namespace Impact.Game.Scenes
 
             _popupLayerEventListener = new CCEventListenerTouchAllAtOnce
             {
-                OnTouchesMoved = PopupLayer_TouchesMoved
+                OnTouchesMoved = PopupLayer_TouchesMoved,
+                OnTouchesEnded = PopupLayer_TouchesEnded
             };
 
             _gameOverLayer.AddEventListener(_popupLayerEventListener, PopupLayerEventPriority);
@@ -697,6 +845,7 @@ namespace Impact.Game.Scenes
             _levelCompleteLayerEventListener = new CCEventListenerTouchAllAtOnce
             {
                 OnTouchesMoved = PopupLayer_TouchesMoved,
+                OnTouchesEnded = PopupLayer_TouchesEnded,
                 OnTouchesBegan = LevelCompleteLayer_TouchesBegan
             };
             _levelCompleteLayer.AddEventListener(_levelCompleteLayerEventListener, PopupLayerEventPriority);

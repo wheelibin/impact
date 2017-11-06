@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="left-up" width="14" height="38" tilewidth="57" tileheight="19" backgroundcolor="#002028" nextobjectid="25">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="left-up" width="14" height="42" tilewidth="57" tileheight="19" backgroundcolor="#002028" nextobjectid="25">
  <properties>
   <property name="FinalBallSpeedPercentageIncrease" type="int" value="25"/>
  </properties>
@@ -141,12 +141,13 @@
    <image width="57" height="57" source="../../../../SourceImages/Game/WormholeOut.png"/>
   </tile>
  </tileset>
- <tileset firstgid="27" name="Misc" tilewidth="114" tileheight="16" tilecount="1" columns="0">
+ <tileset firstgid="27" name="Misc" tilewidth="126" tileheight="28" tilecount="1" columns="0">
+  <grid orientation="orthogonal" width="114" height="16"/>
   <tile id="0">
-   <image width="114" height="16" source="../../../../SourceImages/Game/Paddle.png"/>
+   <image width="126" height="28" source="../../../../SourceImages/Game/Paddle.png"/>
   </tile>
  </tileset>
- <layer name="Bricks" width="14" height="38">
+ <layer name="Bricks" width="14" height="42">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -185,11 +186,19 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer name="Powerups" width="14" height="38">
+ <layer name="Powerups" width="14" height="42">
   <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,

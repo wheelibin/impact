@@ -33,6 +33,9 @@ namespace Impact.Game.Factories
                 case ProjectileType.Rocket:
                     projectile = new Rocket(position);
                     break;
+                case ProjectileType.Grenade:
+                    projectile = new Grenade(position);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

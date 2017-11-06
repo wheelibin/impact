@@ -10,8 +10,10 @@ namespace Impact.Game.Config
         public const string SpriteImagePaddle = "Paddle.png";
         public const string SpriteImagePaddleGun = "PaddleBullet.png";
         public const string SpriteImagePaddleRocketLauncher = "PaddleRocket.png";
+        public const string SpriteImagePaddleGrenadeLauncher = "PaddleGrenade.png";
         public const string SpriteImageBullet = "Bullet.png";
         public const string SpriteImageRocket = "Rocket.png";
+        public const string SpriteImageGrenade = "Grenade.png";
         public const string TitleScreenSpriteSheet = "Spritesheets/TitleScreen.plist";
         public const string TitleScreenSpriteSheetImage = "Spritesheets/TitleScreen.png";
         public const string GameEntitiesSpriteSheet = "Spritesheets/GameEntities.plist";
@@ -28,6 +30,8 @@ namespace Impact.Game.Config
         public const string BrickHitButNotDestroyedSound = "massive-timpanaphone/D5-Filtered.wav";
         public const string ScoreUpSound = "ScoreUp.wav";
         public const string BulletSound = "Bullet.wav";
+        public const string GrenadeSound = "bomb.wav";
+        public const string SwitchHitSound = "switch.wav";
 
         //Colours
         public static CCColor4B BackgroundColour = new CCColor4B(0, 32, 40); //new CCColor4B(45, 61, 0); //new CCColor4B(49, 0, 34); 
@@ -51,18 +55,19 @@ namespace Impact.Game.Config
         //Ball
         public const float BallMaxVelocityX = 500;
         public const float BallInitialVelocityY = 750;
-        public static CCPoint BallInitialPosition => new CCPoint(WorldWidth/2f, 300);
+        public static CCPoint BallInitialPosition => new CCPoint((WorldWidth/2f), 224);
         public const int BallZOrder = 20;
         public const float BallGravityCoefficient = 1200;
         public const float GravityLevelBallSpeedBrickDampeningCoefficient = 0.80f; // 1= no dampening
         
         //Paddle
-        public static CCPoint PaddleInitialPosition => new CCPoint(320, 200);
+        public static CCPoint PaddleInitialPosition => new CCPoint(WorldWidth / 2f, 200);
         public const float PaddleScaleX = 1.2f;
         public const float PaddleScaleY = 1;
         public const float PaddleGravityBounceVelocityY = 1000;
         public const float BulletVelocity = 750;
         public const float RocketVelocity = 400;
+        public const float GrenadeVelocity = 350;
 
         //Powerups
         public const float PowerupVelocityY = -300;

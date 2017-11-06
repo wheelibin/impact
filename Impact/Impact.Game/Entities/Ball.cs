@@ -35,7 +35,7 @@ namespace Impact.Game.Entities
             CCSpriteFrame frame = GameStateManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == GameConstants.SpriteImageBall);
             _ballSprite = new CCSprite(frame)
             {
-                AnchorPoint = CCPoint.AnchorLowerLeft
+                AnchorPoint = CCPoint.AnchorMiddle
             };
             _originalBallColour = _ballSprite.Color;
             AddChild(_ballSprite);

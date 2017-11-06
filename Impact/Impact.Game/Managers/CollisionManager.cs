@@ -24,13 +24,15 @@ namespace Impact.Game.Managers
         public event Action<Ball> MissedBall;
         public event Action<Wormhole> WormholeInUse;
         public event Action BallIsOutsideWormholes;
+        public event Action<SwitchableElement> SwitchableElementToggle;
+        public event Action SwitchHit;
 
-        public void HandleCollisions(CCLayer layer, List<Paddle> paddles, List<Ball> balls, List<Brick> bricks, List<Powerup> powerups, List<Wormhole> wormholes, List<ScoreUp> scoreUps, List<Projectile> projectiles)
+        public void HandleCollisions(CCLayer layer, List<Paddle> paddles, List<Ball> balls, List<Brick> bricks, List<Powerup> powerups, List<Wormhole> wormholes, List<ScoreUp> scoreUps, List<Projectile> projectiles, List<Switch> switches, List<SwitchableElement> switchableElements)
         {
-            
+
             HandleProjectileCollisions(bricks, projectiles);
 
-            HandleBallCollisions(layer, paddles, balls, bricks, wormholes);
+            HandleBallCollisions(layer, paddles, balls, bricks, wormholes, switches, switchableElements);
 
             HandlePowerupCollisions(powerups, paddles);
 
@@ -38,7 +40,7 @@ namespace Impact.Game.Managers
 
         }
 
-        private bool HandleBallCollisions(CCLayer layer, List<Paddle> paddles, IReadOnlyList<Ball> balls, List<Brick> bricks, List<Wormhole> wormholes)
+        protected bool HandleBallCollisions(CCLayer layer, List<Paddle> paddles, IReadOnlyList<Ball> balls, List<Brick> bricks, List<Wormhole> wormholes, List<Switch> switches, List<SwitchableElement> switchableElements)
         {
             for (int ballIndex = balls.Count - 1; ballIndex >= 0; ballIndex--)
             {
@@ -66,7 +68,7 @@ namespace Impact.Game.Managers
                         break;
                     }
                 }
-                
+
 
                 if (paddleHit != null && isMovingDownward)
                 {
@@ -138,22 +140,10 @@ namespace Impact.Game.Managers
                 {
                     CCRect groupedBrick = bricksHitByBall.GetGroupedBrickBounds();
 
-                    CCVector2 separatingVector = GetSeparatingVector(ballBoundingBox, groupedBrick, layer);
-
                     if (!ball.IsFireball)
                     {
                         //Bounce off the brick
-                        ball.PositionX += separatingVector.X;
-                        ball.PositionY += separatingVector.Y;
-
-                        if (separatingVector.X < 0 || separatingVector.X > 0)
-                        {
-                            ball.VelocityX *= -1;
-                        }
-                        if (separatingVector.Y < 0 || separatingVector.Y > 0)
-                        {
-                            ball.VelocityY *= -1;
-                        }
+                        BounceBallOffEntity(ball, ballBoundingBox, groupedBrick, layer);
                     }
                 }
 
@@ -244,7 +234,7 @@ namespace Impact.Game.Managers
                                 ball.VelocityY = 0;
                                 break;
                             case WormholeExitDirection.W:
-                                ball.VelocityX = Math.Abs(exitVelocityX) *-1;
+                                ball.VelocityX = Math.Abs(exitVelocityX) * -1;
                                 ball.VelocityY = 0;
                                 break;
                             case WormholeExitDirection.NW:
@@ -274,8 +264,57 @@ namespace Impact.Game.Managers
                 {
                     BallIsOutsideWormholes?.Invoke();
                 }
+
+
+                foreach (Switch swtch in switches)
+                {
+                    CCRect switchBoundingBox = swtch.BoundingBoxTransformedToWorld;
+                    bool hitSwitch = ballBoundingBox.IntersectsRect(switchBoundingBox);
+
+                    if (hitSwitch)
+                    {
+                        BounceBallOffEntity(ball, ballBoundingBox, switchBoundingBox, layer);
+
+                        SwitchHit?.Invoke();
+
+                        //Find any switchable elements that use this switch
+                        IEnumerable<SwitchableElement> switchableElementsForSwitch = switchableElements.Where(se => se.TogglwSwitchName == swtch.ObjectName);
+                        foreach (var se in switchableElementsForSwitch)
+                        {
+                            SwitchableElementToggle?.Invoke(se);
+                        }
+                    }
+                }
+
+                foreach (var se in switchableElements.Where(se => se.ElementVisible))
+                {
+                    CCRect seBoundingBox = se.BoundingBoxTransformedToWorld;
+                    bool hitSe = ballBoundingBox.IntersectsRect(seBoundingBox);
+                    if (hitSe)
+                    {
+                        BounceBallOffEntity(ball, ballBoundingBox, seBoundingBox, layer);
+                    }
+                }
             }
             return false;
+        }
+
+        private void BounceBallOffEntity(Ball ball, CCRect ballBoundingBox, CCRect entityBoundingBox, CCLayer layer)
+        {
+            CCVector2 separatingVector = GetSeparatingVector(ballBoundingBox, entityBoundingBox, layer);
+
+            //Bounce off the entity
+            ball.PositionX += separatingVector.X;
+            ball.PositionY += separatingVector.Y;
+
+            if (separatingVector.X < 0 || separatingVector.X > 0)
+            {
+                ball.VelocityX *= -1;
+            }
+            if (separatingVector.Y < 0 || separatingVector.Y > 0)
+            {
+                ball.VelocityY *= -1;
+            }
         }
 
         private void HandleScoreupCollisions(List<ScoreUp> scoreUps, List<Paddle> paddles)
@@ -300,7 +339,7 @@ namespace Impact.Game.Managers
                         ScoreUpCollected?.Invoke(scoreUp);
                     }
                 }
-                
+
             }
         }
 
@@ -337,8 +376,14 @@ namespace Impact.Game.Managers
                 Projectile projectile = projectiles[b];
 
                 // Destroy if gone off screen
-                if (projectile.PositionY > GameConstants.WorldTop) {
+                if (projectile.PositionY > GameConstants.WorldTop)
+                {
                     ProjectileFactory.Instance.DestroyProjectile(projectile);
+                    continue;
+                }
+
+                if (!projectile.DestroysBricksOnCollision)
+                {
                     continue;
                 }
 

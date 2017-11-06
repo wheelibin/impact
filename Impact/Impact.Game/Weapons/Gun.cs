@@ -10,5 +10,6 @@ namespace Impact.Game.Weapons
         public int YOffset => 35;
         public string FireSound => GameConstants.BulletSound;
         public string PaddleImage => GameConstants.SpriteImagePaddleGun;
+        public string InfoText => "Tap to fire!";
     }
 }

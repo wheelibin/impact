@@ -288,6 +288,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">SourceImages/Game/Grenade.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>8,8,15,15</rect>
+                <key>scale9Paddings</key>
+                <rect>8,8,15,15</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">SourceImages/Game/LifeUp.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -340,8 +353,22 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">SourceImages/Game/PaddleGrenade.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>32,14,63,28</rect>
+                <key>scale9Paddings</key>
+                <rect>32,14,63,28</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">SourceImages/Game/PowerupBullets.png</key>
             <key type="filename">SourceImages/Game/PowerupFireball.png</key>
+            <key type="filename">SourceImages/Game/PowerupGrenades.png</key>
             <key type="filename">SourceImages/Game/PowerupLargerPaddle.png</key>
             <key type="filename">SourceImages/Game/PowerupMultiBall.png</key>
             <key type="filename">SourceImages/Game/PowerupRockets.png</key>
@@ -450,6 +477,9 @@
             <filename>SourceImages/Game/Rocket.png</filename>
             <filename>SourceImages/Game/PaddleRocket.png</filename>
             <filename>SourceImages/Game/Ball.png</filename>
+            <filename>SourceImages/Game/PaddleGrenade.png</filename>
+            <filename>SourceImages/Game/Grenade.png</filename>
+            <filename>SourceImages/Game/PowerupGrenades.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

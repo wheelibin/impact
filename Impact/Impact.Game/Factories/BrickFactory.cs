@@ -26,5 +26,6 @@ namespace Impact.Game.Factories
         {
             BrickDestroyed?.Invoke(brick);
         }
+
     }
 }

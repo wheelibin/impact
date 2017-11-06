@@ -57,7 +57,7 @@ namespace Impact.Game
 
         public static void GoToScene(CCScene scene)
         {
-            GameView.Director.ReplaceScene(new CCTransitionFade(1,scene));
+            GameView.Director.ReplaceScene(new CCTransitionProgressInOut(1,scene));
         }
 
         private static void GameStateManager_SfxVolumeChanged(int volume)

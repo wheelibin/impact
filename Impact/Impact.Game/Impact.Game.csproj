@@ -85,6 +85,13 @@
     <Compile Include="Scenes\LevelSelectScene.cs" />
     <Compile Include="Scenes\TitleScene.cs" />
     <Compile Include="Factories\PowerUpFactory.cs" />
+    <Compile Include="Weapons\GrenadeLauncher.cs" />
+    <Compile Include="Entities\Grenade.cs" />
+    <Compile Include="Entities\Powerups\GrenadeLauncherPowerup.cs" />
+    <Compile Include="Factories\SwitchFactory.cs" />
+    <Compile Include="Entities\Switch.cs" />
+    <Compile Include="Factories\SwitchableElementFactory.cs" />
+    <Compile Include="Entities\SwitchableElement.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="box2d, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">

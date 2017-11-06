@@ -1,4 +1,5 @@
-﻿using CocosSharp;
+﻿using System.Collections.Generic;
+using CocosSharp;
 using Impact.Game.Managers;
 
 namespace Impact.Game.Entities
@@ -9,7 +10,24 @@ namespace Impact.Game.Entities
     public abstract class Projectile : CCNode
     {
         public float VelocityY { get; set; }
+
+        // Is the projectile destroyed when it hits a brick
         public abstract bool IsDestroyedByBrickCollision { get; set; }
+
+        // Is a brick destroyed when the projectile hits it
+        public abstract bool DestroysBricksOnCollision { get; set; }
+
+        // Does the projectile get activated (fired/triggered) manually, i.e. with a tap
+        public abstract bool IsManuallyActivated { get; set; }
+
+        public virtual string ActivationSound { get; }
+
+        public virtual void Activate(CCLayer gameLayer, List<Brick> bricks) {
+            //activate the projectile, e.g. explode a grenade
+            //virtual rather than abstract because it's optional
+            //game layer passed in to add effects if needed
+        }
+
 
         protected Projectile(string spriteImageFilename, CCPoint position, float velocityY)
         {

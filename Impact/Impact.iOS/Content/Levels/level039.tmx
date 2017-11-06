@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="left-up" width="14" height="42" tilewidth="57" tileheight="19" backgroundcolor="#002028" nextobjectid="15">
+ <properties>
+  <property name="FinalBallSpeedPercentageIncrease" type="int" value="25"/>
+ </properties>
+ <tileset firstgid="1" name="Bricks" tilewidth="114" tileheight="38" tilecount="18" columns="0">
+  <tile id="0">
+   <properties>
+    <property name="HitsToDestroy" type="int" value="1"/>
+   </properties>
+   <image width="114" height="38" source="../../../../SourceImages/Game/Brick-A1.png"/>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="HitsToDestroy" type="int" value="2"/>
+   </properties>
+   <image width="114" height="38" source="../../../../SourceImages/Game/Brick-A2.png"/>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="HitsToDestroy" type="int" value="1"/>
+   </properties>
+   <image width="114" height="38" source="../../../../SourceImages/Game/Brick-B1.png"/>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="HitsToDestroy" type="int" value="2"/>
+   </properties>
+   <image width="114" height="38" source="../../../../SourceImages/Game/Brick-B2.png"/>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="HitsToDestroy" type="int" value="1"/>
+   </properties>
+   <image width="114" height="38" source="../../../../SourceImages/Game/Brick-C1.png"/>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="HitsToDestroy" type="int" value="2"/>
+   </properties>
+   <image width="114" height="38" source="../../../../SourceImages/Game/Brick-C2.png"/>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="HitsToDestroy" type="int" value="1"/>
+   </properties>
+   <image width="114" height="38" source="../../../../SourceImages/Game/Brick-D1.png"/>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="HitsToDestroy" type="int" value="2"/>
+   </properties>
+   <image width="114" height="38" source="../../../../SourceImages/Game/Brick-D2.png"/>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="HitsToDestroy" type="int" value="-1"/>
+   </properties>
+   <image width="114" height="38" source="../../../../SourceImages/Game/Brick-E1.png"/>
+  </tile>
+  <tile id="9">
+   <properties>
+    <property name="HitsToDestroy" type="int" value="1"/>
+   </properties>
+   <image width="57" height="19" source="../../../../SourceImages/Game/SmallBrick-A1.png"/>
+  </tile>
+  <tile id="10">
+   <properties>
+    <property name="HitsToDestroy" type="int" value="2"/>
+   </properties>
+   <image width="57" height="19" source="../../../../SourceImages/Game/SmallBrick-A2.png"/>
+  </tile>
+  <tile id="11">
+   <properties>
+    <property name="HitsToDestroy" type="int" value="1"/>
+   </properties>
+   <image width="57" height="19" source="../../../../SourceImages/Game/SmallBrick-B1.png"/>
+  </tile>
+  <tile id="12">
+   <properties>
+    <property name="HitsToDestroy" type="int" value="2"/>
+   </properties>
+   <image width="57" height="19" source="../../../../SourceImages/Game/SmallBrick-B2.png"/>
+  </tile>
+  <tile id="14">
+   <properties>
+    <property name="HitsToDestroy" type="int" value="1"/>
+   </properties>
+   <image width="57" height="19" source="../../../../SourceImages/Game/SmallBrick-C1.png"/>
+  </tile>
+  <tile id="15">
+   <properties>
+    <property name="HitsToDestroy" type="int" value="2"/>
+   </properties>
+   <image width="57" height="19" source="../../../../SourceImages/Game/SmallBrick-C2.png"/>
+  </tile>
+  <tile id="16">
+   <properties>
+    <property name="HitsToDestroy" type="int" value="1"/>
+   </properties>
+   <image width="57" height="19" source="../../../../SourceImages/Game/SmallBrick-D1.png"/>
+  </tile>
+  <tile id="17">
+   <properties>
+    <property name="HitsToDestroy" type="int" value="2"/>
+   </properties>
+   <image width="57" height="19" source="../../../../SourceImages/Game/SmallBrick-D2.png"/>
+  </tile>
+  <tile id="18">
+   <properties>
+    <property name="HitsToDestroy" type="int" value="-1"/>
+   </properties>
+   <image width="57" height="19" source="../../../../SourceImages/Game/SmallBrick-E1.png"/>
+  </tile>
+ </tileset>
+ <tileset firstgid="20" name="Powerups" tilewidth="57" tileheight="57" tilecount="6" columns="0">
+  <tile id="0">
+   <properties>
+    <property name="PowerupType" type="int" value="3"/>
+   </properties>
+   <image width="57" height="57" source="../../../../SourceImages/Game/PowerupFireball.png"/>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="PowerupType" type="int" value="1"/>
+   </properties>
+   <image width="57" height="57" source="../../../../SourceImages/Game/PowerupLargerPaddle.png"/>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="PowerupType" type="int" value="2"/>
+   </properties>
+   <image width="57" height="57" source="../../../../SourceImages/Game/PowerupMultiBall.png"/>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="PowerupType" type="int" value="4"/>
+   </properties>
+   <image width="57" height="57" source="../../../../SourceImages/Game/PowerupBullets.png"/>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="PowerupType" type="int" value="5"/>
+   </properties>
+   <image width="57" height="57" source="../../../../SourceImages/Game/PowerupRockets.png"/>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="PowerupType" type="int" value="6"/>
+   </properties>
+   <image width="38" height="38" source="../../../../SourceImages/Game/LifeUp.png"/>
+  </tile>
+ </tileset>
+ <tileset firstgid="26" name="Wormholes" tilewidth="57" tileheight="57" tilecount="2" columns="0">
+  <tile id="2">
+   <image width="57" height="57" source="../../../../SourceImages/Game/WormholeIn.png"/>
+  </tile>
+  <tile id="3">
+   <image width="57" height="57" source="../../../../SourceImages/Game/WormholeOut.png"/>
+  </tile>
+ </tileset>
+ <layer name="Bricks" width="14" height="42">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+4,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+4,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+4,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+4,0,0,0,4,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+8,0,0,0,4,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+8,0,0,0,4,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+8,0,0,0,8,0,0,0,4,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+8,0,0,0,8,0,0,0,4,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+8,0,0,0,8,0,0,0,8,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+8,0,0,0,8,0,0,0,8,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+6,0,0,0,8,0,0,0,8,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+6,0,0,0,6,0,0,0,8,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+6,0,0,0,6,0,0,0,6,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+6,0,0,0,6,0,0,0,6,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+6,0,0,0,6,0,0,0,6,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+6,0,0,0,6,0,0,0,6,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+6,0,0,0,6,0,0,0,6,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+6,0,0,0,6,0,0,0,6,0,0,0,0,0,
+19,19,19,19,19,19,19,19,19,19,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="Powerups" width="14" height="42">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,25,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,21,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+21,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,22,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup name="Wormholes"/>
+</map>

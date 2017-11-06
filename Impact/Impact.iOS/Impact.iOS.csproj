@@ -99,6 +99,10 @@
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Developer: Jon Wheeler (E377NE4KJ9)</CodesignKey>
     <CodesignProvision>Impact Dev</CodesignProvision>
+    <MtouchUseLlvm>true</MtouchUseLlvm>
+    <MtouchFloat32>true</MtouchFloat32>
+    <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
+    <MtouchLink>Full</MtouchLink>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Content\Fonts\MarkerFelt-22.xnb" />
@@ -123,6 +127,15 @@
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
     <None Include="packages.config" />
+    <BundleResource Include="Content\Levels\level037.tmx" />
+    <BundleResource Include="Content\Levels\level042.tmx" />
+    <BundleResource Include="Content\Levels\level041.tmx" />
+    <BundleResource Include="Content\Levels\level040.tmx" />
+    <BundleResource Include="Content\Levels\level039.tmx" />
+    <BundleResource Include="Content\Levels\level038.tmx" />
+    <BundleResource Include="Content\Sounds\bomb.wav" />
+    <BundleResource Include="Content\Levels\level043.tmx" />
+    <BundleResource Include="Content\Sounds\switch.wav" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Content\Images\Ld\GameBackground.png" />

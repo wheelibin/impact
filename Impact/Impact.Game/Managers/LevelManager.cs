@@ -44,6 +44,11 @@ namespace Impact.Game.Managers
         private const string WormholeTileset = "Wormholes";
         private const string PaddlesLayer = "Paddles";
         private const string PaddlesObjectGroup = "Paddles";
+        private const string SwitchesObjectGroup = "Switches";
+        private const string SwitchesTileset = "Switches";
+        private const string SwitchableElementsObjectGroup = "SwitchableElements";
+        private const string SwitchableElementsTileset = "SwitchableElements";
+
 
         private const string BaseLevelFolder = "Content/Levels/";
         private const string LevelFilenameFormatString = "{0}/level{1}.tmx";
@@ -164,12 +169,9 @@ namespace Impact.Game.Managers
                     TmxTilesetTile wormholeTilesetTile = wormholeTileset.Tiles.Single(tile => tile.Id == wormhole.Tile.Gid - wormholeTileset.FirstGid);
                     string wormholeImageFilename = Path.GetFileName(wormholeTilesetTile.Image.Source);
 
-                    //Because we draw the bricks manually, with a gap, the coordinates for objects on the map need adjusting to our level coordinates.
-                    //The coordinates will be out by the number of brick gaps between the point and 0,0
-                    float xAdjustment = (int)(wormhole.X / tileMap.TileWidth) * GameConstants.BrickGap;
-                    float yAdjustment = (int)(wormhole.Y / tileMap.TileHeight) * GameConstants.BrickGap;
+                    CCPoint adjustment = GetAdjustedObjectCoords(wormhole.X, wormhole.Y, tileMap);
 
-                    CCPoint position = new CCPoint((float)wormhole.X + xAdjustment, (startY + tileHeight) - ((float)wormhole.Y + yAdjustment));
+                    CCPoint position = new CCPoint((float)wormhole.X + adjustment.X, (startY + tileHeight) - ((float)wormhole.Y + adjustment.Y));
                     WormholeType wormholeType = wormhole.Properties.GetPropertyValue(WormholeTypePropertyName, s => (WormholeType)Enum.Parse(typeof(WormholeType), s));
                     string exitName = wormhole.Properties.GetPropertyValue(WormholeExitNamePropertyName, s => s.ToString());
                     WormholeExitDirection exitDirection = wormhole.Properties.GetPropertyValue(WormholeExitDirectionPropertyName, s => (WormholeExitDirection)Enum.Parse(typeof(WormholeExitDirection), s));
@@ -184,18 +186,65 @@ namespace Impact.Game.Managers
 
                 foreach (TmxObject extraPaddle in paddles.Objects)
                 {
-                    //Because we draw the bricks manually, with a gap, the coordinates for objects on the map need adjusting to our level coordinates.
-                    //The coordinates will be out by the number of brick gaps between the point and 0,0
-                    float xAdjustment = (int)(extraPaddle.X / tileMap.TileWidth) * GameConstants.BrickGap;
-                    float yAdjustment = (int)(extraPaddle.Y / tileMap.TileHeight) * GameConstants.BrickGap;
-
-                    CCPoint position = new CCPoint((float)extraPaddle.X + xAdjustment, (startY + tileHeight) - ((float)extraPaddle.Y + yAdjustment));
+                    CCPoint adjustment = GetAdjustedObjectCoords(extraPaddle.X, extraPaddle.Y, tileMap);
+                    CCPoint position = new CCPoint((float)extraPaddle.X + adjustment.X, (startY + tileHeight) - ((float)extraPaddle.Y + adjustment.Y));
                     PaddleFactory.Instance.CreateNew(position);
+                }
+            }
+
+            if (tileMap.ObjectGroups.Contains(SwitchesObjectGroup))
+            {
+                TmxTileset switchTileset = tileMap.Tilesets[SwitchesTileset];
+                TmxObjectGroup switches = tileMap.ObjectGroups[SwitchesObjectGroup];
+
+                foreach (TmxObject swtch in switches.Objects)
+                {
+                    TmxTilesetTile switchTilesetTile = switchTileset.Tiles.Single(tile => tile.Id == swtch.Tile.Gid - switchTileset.FirstGid);
+                    string switchImageFilename = Path.GetFileName(switchTilesetTile.Image.Source);
+
+                    CCPoint adjustment = GetAdjustedObjectCoords(swtch.X, swtch.Y, tileMap);
+
+                    CCPoint position = new CCPoint((float)swtch.X + adjustment.X, (startY + tileHeight) - ((float)swtch.Y + adjustment.Y));
+                    SwitchFactory.Instance.CreateNew(switchImageFilename, position, swtch.Name);
+                }
+            }
+
+            if (tileMap.ObjectGroups.Contains(SwitchableElementsObjectGroup))
+            {
+                TmxTileset switchableElementsTileset = tileMap.Tilesets[SwitchableElementsTileset];
+                TmxObjectGroup switchableElements = tileMap.ObjectGroups[SwitchableElementsObjectGroup];
+
+                foreach (TmxObject se in switchableElements.Objects)
+                {
+                    TmxTilesetTile switchTilesetTile = switchableElementsTileset.Tiles.Single(tile => tile.Id == se.Tile.Gid - switchableElementsTileset.FirstGid);
+                    string switchImageFilename = Path.GetFileName(switchTilesetTile.Image.Source);
+
+                    CCPoint adjustment = GetAdjustedObjectCoords(se.X, se.Y, tileMap);
+                    CCPoint position = new CCPoint((float)se.X + adjustment.X, (startY + tileHeight) - ((float)se.Y + adjustment.Y));
+
+                    CCPoint sizeAdjustment = GetAdjustedObjectCoords(se.Width, se.Height, tileMap);
+                    CCSize size = new CCSize((float)se.Width + sizeAdjustment.X, (float)se.Height + sizeAdjustment.Y);
+
+                    string toggleSwitchName = se.Properties.GetPropertyValue("ToggleSwitchName", s => s.ToString());
+
+                    SwitchableElementFactory.Instance.CreateNew(switchImageFilename, position, size, toggleSwitchName, se.Name);
                 }
             }
 
             return bricks;
 
+        }
+
+        /// <summary>
+        /// Because we draw the bricks manually, with a gap, the coordinates for objects on the map need adjusting to our level coordinates.
+        /// The coordinates will be out by the number of brick gaps between the point and 0,0
+        /// </summary>
+        /// <returns>The object position adjustment.</returns>
+        private CCPoint GetAdjustedObjectCoords(double originalX, double originalY, TmxMap tileMap)
+        {
+            float xAdjustment = (int)(originalX / tileMap.TileWidth) * GameConstants.BrickGap;
+            float yAdjustment = (int)(originalY / tileMap.TileHeight) * GameConstants.BrickGap;
+            return new CCPoint(xAdjustment, yAdjustment);
         }
 
         private void DetermineAvailableLevels()

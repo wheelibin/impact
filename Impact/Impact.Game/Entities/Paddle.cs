@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CocosSharp;
 using Impact.Game.Config;
 using Impact.Game.Factories;
@@ -12,6 +13,11 @@ namespace Impact.Game.Entities
     /// </summary>
     public sealed class Paddle : CCNode
     {
+        private readonly CCSprite _sprite;
+        private IWeapon _weapon;
+
+        public event Action WeaponRemoved;
+
         public IWeapon Weapon
         {
             get { return _weapon; }
@@ -23,16 +29,13 @@ namespace Impact.Game.Entities
                 if (_weapon != null)
                 {
                     paddleImageTexture = _weapon.PaddleImage;
+                    WeaponRemoved?.Invoke();
                 }
 
                 CCSpriteFrame frame = GameStateManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == paddleImageTexture);
                 _sprite.SpriteFrame = frame;
             }
         }
-
-        private readonly CCSprite _sprite;
-        private IWeapon _weapon;
-
         public Paddle(CCPoint position)
         {
             CCSpriteFrame frame = GameStateManager.Instance.GameEntitiesSpriteSheet.Frames.Find(item => item.TextureFilename == GameConstants.SpriteImagePaddle);

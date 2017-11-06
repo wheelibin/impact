@@ -28,7 +28,7 @@ namespace Impact.Game.Factories
             //Multiple of ten between 10 and 100
             int randomScore = rnd.Next(1, 10)*10;
 
-            ScoreUp newScoreUp = new ScoreUp(new CCPoint(randomX, GameConstants.WorldHeight), randomScore);
+            ScoreUp newScoreUp = new ScoreUp(new CCPoint(randomX, GameConstants.WorldTop), randomScore);
             ScoreUpCreated?.Invoke(newScoreUp);
             return newScoreUp;
         }

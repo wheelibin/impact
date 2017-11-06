@@ -8,6 +8,7 @@
         FireBall = 3,
         Bullets = 4,
         Rockets = 5,
-        ExtraLife = 6
+        ExtraLife = 6,
+        Grenades = 7
     }
 }

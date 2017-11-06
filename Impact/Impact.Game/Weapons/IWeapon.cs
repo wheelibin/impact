@@ -14,5 +14,10 @@ namespace Impact.Game.Weapons
 
         string FireSound { get; }
         string PaddleImage { get; }
+
+        /// <summary>
+        /// Text to display in the HUD when weapon is active
+        /// </summary>
+        string InfoText { get; }
     }
 }

@@ -46,6 +46,9 @@ namespace Impact.Game.Factories
                 case PowerupType.ExtraLife:
                     powerup = new ExtraLifePowerup(imageFilename, initialPosition);
                     break;
+                case PowerupType.Grenades:
+                    powerup = new GrenadeLauncherPowerup(imageFilename, initialPosition, paddle);
+                    break;
             }
 
             return powerup;

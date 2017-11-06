@@ -27,11 +27,12 @@ namespace Impact.Game.Entities
 
             AddChild(sprite);
 
-            CCLabel label = new CCLabel(score.ToString(), "visitor1.ttf", 24, CCLabelFormat.SystemFont)
+            CCLabel label = new CCLabel(score.ToString(), "visitor1.ttf", 28, CCLabelFormat.SystemFont)
             {
                 HorizontalAlignment = CCTextAlignment.Center,
                 PositionY = sprite.PositionY,
-                Color = CCColor3B.Black
+                Color = CCColor3B.Black,
+                ContentSize = sprite.ContentSize
             };
 
             AddChild(label);
